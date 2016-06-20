@@ -72,6 +72,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Art\BillboardObject.cs" />
+    <Compile Include="Assets\Scripts\Legacy\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Legacy\V2 Scripts\BibbitsMananger.cs" />
+    <Compile Include="Assets\Scripts\Legacy\V2 Scripts\SecretHoleBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Legacy\V3 Scripts\BibbitLine.cs" />
+    <Compile Include="Assets\Scripts\Legacy\V3 Scripts\Cleaning_Bibbit.cs" />
+    <Compile Include="Assets\Scripts\Legacy\V3 Scripts\DirtEvent.cs" />
+    <Compile Include="Assets\Scripts\Legacy\V3 Scripts\GroundCollider.cs" />
+    <Compile Include="Assets\Scripts\Legacy\V3 Scripts\LineFlag.cs" />
+    <Compile Include="Assets\Scripts\Legacy\V3 Scripts\TeleportToObject.cs" />
+    <Compile Include="Assets\Scripts\Legacy\V3 Scripts\TeleporterBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Legacy\V3 Scripts\VinePuller.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_GazeTracker.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_LaserPointer.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_Teleporter.cs" />
