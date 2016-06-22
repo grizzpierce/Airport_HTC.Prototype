@@ -6,9 +6,13 @@ ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: chair_seat
     400000: //RootNode
+    400002: chair_seat
     2300000: //RootNode
+    2300002: chair_seat
     3300000: //RootNode
+    3300002: chair_seat
     4300000: chair_seat
   materials:
     importMaterials: 1
@@ -17,7 +21,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleRotations: 1
+    resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 

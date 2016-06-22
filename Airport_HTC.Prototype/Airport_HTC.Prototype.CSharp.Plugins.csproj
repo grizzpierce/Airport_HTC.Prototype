@@ -94,6 +94,16 @@
     <None Include="Assets\SteamVR\readme.txt" />
     <None Include="Assets\SteamVR_Unity_Toolkit\Scripts\Shaders\Unlit_TransparentColor.shader" />
     <None Include="Assets\SteamVR_Unity_Toolkit\Version.txt" />
+    <None Include="Assets\TheLabRenderer\Resources\vr_cast_shadows.shader" />
+    <None Include="Assets\TheLabRenderer\Resources\vr_quality_vis.shader" />
+    <None Include="Assets\TheLabRenderer\Resources\vr_shadow_vis.shader" />
+    <None Include="Assets\TheLabRenderer\Shaders\vr_fog.cginc" />
+    <None Include="Assets\TheLabRenderer\Shaders\vr_lighting.cginc" />
+    <None Include="Assets\TheLabRenderer\Shaders\vr_matrix_palette_skinning.cginc" />
+    <None Include="Assets\TheLabRenderer\Shaders\vr_photogrammetry.shader" />
+    <None Include="Assets\TheLabRenderer\Shaders\vr_skybox.shader" />
+    <None Include="Assets\TheLabRenderer\Shaders\vr_standard.shader" />
+    <None Include="Assets\TheLabRenderer\Shaders\vr_utils.cginc" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
