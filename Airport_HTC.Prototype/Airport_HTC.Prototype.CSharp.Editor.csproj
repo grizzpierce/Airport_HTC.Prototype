@@ -118,7 +118,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\LIFE\Exporter\Editor\ExporterWindow.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\About\Editor\pb_AboutWindow.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Actions\pb_ExportObj.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\Editor\MenuItems\Actions\pb_GenerateUV2.cs" />
@@ -176,6 +175,7 @@
     <None Include="Assets\SteamVR\Resources\SteamVR_Overlay.shader" />
     <None Include="Assets\SteamVR\Resources\SteamVR_SphericalProjection.shader" />
     <None Include="Assets\SteamVR\readme.txt" />
+    <None Include="Assets\SteamVR_Unity_Toolkit\Scripts\Shaders\Unlit_TransparentColor.shader" />
     <None Include="Assets\TheLabRenderer\Resources\vr_cast_shadows.shader" />
     <None Include="Assets\TheLabRenderer\Resources\vr_quality_vis.shader" />
     <None Include="Assets\TheLabRenderer\Resources\vr_shadow_vis.shader" />

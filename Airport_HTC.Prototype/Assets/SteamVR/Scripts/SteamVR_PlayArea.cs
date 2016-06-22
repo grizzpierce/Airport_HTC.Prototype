@@ -168,11 +168,11 @@ public class SteamVR_PlayArea : MonoBehaviour
 
 		var renderer = GetComponent<MeshRenderer>();
 #if UNITY_EDITOR && !(UNITY_5_3 || UNITY_5_2 || UNITY_5_1 || UNITY_5_0)
-		renderer.material = UnityEditor.AssetDatabase.GetBuiltinExtraResource<Material>("Sprites-Default.mat");
+        renderer.material = Resources.GetBuiltinResource<Material>("Sprites-Default.mat");
 #else
 		renderer.material = Resources.GetBuiltinResource<Material>("Sprites-Default.mat");
 #endif
-		renderer.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
+        renderer.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
 		renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 		renderer.receiveShadows = false;
 #if !(UNITY_5_3 || UNITY_5_2 || UNITY_5_1 || UNITY_5_0)
