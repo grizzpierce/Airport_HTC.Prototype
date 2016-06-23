@@ -39,7 +39,7 @@ public class LightsOn : MonoBehaviour {
                 }
 
                 // EDIT THIS WHEN NEW MODEL IS IN
-                other.transform.parent.transform.parent.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
 
             }
