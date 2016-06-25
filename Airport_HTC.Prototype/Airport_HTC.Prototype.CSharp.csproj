@@ -85,8 +85,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Art\BillboardObject.cs" />
+    <Compile Include="Assets\CoverGrab.cs" />
     <Compile Include="Assets\FuseboxBehaviour.cs" />
     <Compile Include="Assets\LightSwitchBehaviour.cs" />
+    <Compile Include="Assets\LockBehaviour.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\CameraControls.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\IcoBumpin.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Misc\HueCube.cs" />
