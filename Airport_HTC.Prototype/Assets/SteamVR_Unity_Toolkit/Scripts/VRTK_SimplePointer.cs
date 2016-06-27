@@ -27,6 +27,9 @@ public class VRTK_SimplePointer : VRTK_WorldPointer
     private GameObject pointerTip;
     private Vector3 pointerTipScale = new Vector3(0.05f, 0.05f, 0.05f);
 
+    private GameObject hitObject;
+    public GameObject getHitObject() { return hitObject; }
+
     // Use this for initialization
     protected override void Start () {
         base.Start();
@@ -137,6 +140,8 @@ public class VRTK_SimplePointer : VRTK_WorldPointer
             destinationPosition = pointerTip.transform.position;
 
             UpdatePointerMaterial(pointerHitColor);
+
+            hitObject = collidedWith.collider.gameObject;
 
             base.PointerIn();
         }

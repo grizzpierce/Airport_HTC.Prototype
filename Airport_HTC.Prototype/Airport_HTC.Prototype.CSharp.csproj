@@ -171,6 +171,8 @@
     <Compile Include="Assets\SteamVR_Unity_Toolkit\Scripts\VRTK_PlayerPresence.cs" />
     <Compile Include="Assets\SteamVR_Unity_Toolkit\Scripts\VRTK_SimplePointer.cs" />
     <Compile Include="Assets\SteamVR_Unity_Toolkit\Scripts\VRTK_TouchpadWalking.cs" />
+    <Compile Include="Assets\TeleportToObject.cs" />
+    <Compile Include="Assets\TeleporterBehaviour.cs" />
     <Compile Include="Assets\TheLabRenderer\Scripts\ValveCamera.cs" />
     <Compile Include="Assets\TheLabRenderer\Scripts\ValveFog.cs" />
     <Compile Include="Assets\TheLabRenderer\Scripts\ValveOverrideLightmap.cs" />
