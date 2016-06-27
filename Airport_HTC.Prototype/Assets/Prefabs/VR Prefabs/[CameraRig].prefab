@@ -542,6 +542,7 @@ GameObject:
   - 114: {fileID: 114000010049852632}
   - 114: {fileID: 114000012061599976}
   - 114: {fileID: 114000013350232178}
+  - 114: {fileID: 114000013155236870}
   m_Layer: 2
   m_Name: Controller (left)
   m_TagString: Untagged
@@ -697,6 +698,7 @@ GameObject:
   - 23: {fileID: 23000013819015346}
   - 33: {fileID: 33000010155882716}
   - 114: {fileID: 114000011679021040}
+  - 114: {fileID: 114000013665567816}
   m_Layer: 0
   m_Name: '[CameraRig]'
   m_TagString: Untagged
@@ -830,6 +832,7 @@ GameObject:
   - 114: {fileID: 114000013747913444}
   - 114: {fileID: 114000011078924802}
   - 114: {fileID: 114000011103075224}
+  - 114: {fileID: 114000014286328336}
   m_Layer: 2
   m_Name: Controller (right)
   m_TagString: Untagged
@@ -1732,7 +1735,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013699069758}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1.165}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000012488273742}
@@ -2127,6 +2130,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5be45115742b07478e21c85fcc233ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114000013155236870
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012802564202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 408a45c3d6ea5804fa3bcaaaf8251ab5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointerHitColor: {r: 0, g: 0.5, b: 0, a: 1}
+  pointerMissColor: {r: 0.8, g: 0, b: 0, a: 1}
+  showPlayAreaCursor: 0
+  playAreaCursorDimensions: {x: 0, y: 0}
+  handlePlayAreaCursorCollisions: 0
+  enableTeleport: 1
+  beamAlwaysOn: 0
+  activateDelay: 0
+  pointerThickness: 0.002
+  pointerLength: 100
+  showPointerTip: 1
 --- !u!114 &114000013330893206
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2155,6 +2180,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d45c8d32f1d960d4498790bb3961fc52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114000013665567816
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013699069758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e45945314edde564ba97438ff996dc9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LeftVive: {fileID: 1000012802564202}
+  m_RightVive: {fileID: 1000014100219378}
+  m_CurrentTeleportPoint: {fileID: 0}
 --- !u!114 &114000013695756686
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2263,6 +2302,28 @@ MonoBehaviour:
   _ears: {fileID: 4000012124258522}
   wireframe: 0
   flip: {fileID: 114000013153372658}
+--- !u!114 &114000014286328336
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000014100219378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 408a45c3d6ea5804fa3bcaaaf8251ab5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointerHitColor: {r: 0, g: 0.5, b: 0, a: 1}
+  pointerMissColor: {r: 0.8, g: 0, b: 0, a: 1}
+  showPlayAreaCursor: 0
+  playAreaCursorDimensions: {x: 0, y: 0}
+  handlePlayAreaCursorCollisions: 0
+  enableTeleport: 1
+  beamAlwaysOn: 0
+  activateDelay: 0
+  pointerThickness: 0.002
+  pointerLength: 100
+  showPointerTip: 1
 --- !u!124 &124000013949340512
 Behaviour:
   m_ObjectHideFlags: 1

@@ -16,6 +16,9 @@ public class LightSwitchBehaviour : MonoBehaviour {
     {
         m_SwitchObj = gameObject.GetComponent<VRTK_InteractableObject>();
         m_Anim = gameObject.GetComponent<Animation>();
+
+        m_Anim.clip = m_OffAnim;
+        m_Anim.Play();
     }
 
 

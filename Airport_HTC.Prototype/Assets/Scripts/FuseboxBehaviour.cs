@@ -8,13 +8,12 @@ public class FuseboxBehaviour : MonoBehaviour {
     bool m_LightsOn = false;
 
 
-    // Use this for initialization
     void Start () {
         m_FuseSwitches = GameObject.FindGameObjectsWithTag("Light Switch");
         m_OffLights = GameObject.FindGameObjectsWithTag("Off Light");
     }
 	
-	// Update is called once per frame
+
 	void Update () {
 
         if (m_LightsOn == false)
@@ -40,6 +39,7 @@ public class FuseboxBehaviour : MonoBehaviour {
         {
             for (int i = 0; i < m_OffLights.Length; ++i)
             {
+                Debug.Log("Lights Turning On!");
                 m_OffLights[i].GetComponent<Light>().enabled = true;
             }
         }
