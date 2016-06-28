@@ -38,8 +38,6 @@ public class LockBehaviour : MonoBehaviour {
 
             m_Anim.clip = m_UnlockAnim;
             m_Anim.Play();
-            
-
         }
     }
 }
