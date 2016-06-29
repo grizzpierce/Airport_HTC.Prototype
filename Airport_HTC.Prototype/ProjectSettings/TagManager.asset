@@ -8,6 +8,7 @@ TagManager:
   - Off Light
   - Bibbit
   - Teleport Point
+  - Flag Point
   layers:
   - Default
   - TransparentFX

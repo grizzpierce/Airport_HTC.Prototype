@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TeleportToObject : MonoBehaviour
 {
-
+    // CONTROLLER 
     public GameObject m_LeftVive;
     VRTK_SimplePointer m_LeftPointer;
     VRTK_ControllerEvents m_LeftController;
@@ -18,7 +18,10 @@ public class TeleportToObject : MonoBehaviour
     public GameObject m_CurrentTeleportPoint;
     GameObject m_PrevTeleportPoint;
 
-    // Use this for initialization
+    private GameObject m_LeftPointed;
+    private GameObject m_RightPointed;
+
+
     void Start()
     {
         m_LeftPointer = m_LeftVive.GetComponent<VRTK_SimplePointer>();
@@ -37,8 +40,12 @@ public class TeleportToObject : MonoBehaviour
         {
             if (m_LeftPointer.getHitObject().tag == "Teleport Point")
             {
-                if (m_LeftController.gripPressed && m_LeftController.grabPressed && m_LeftTeleported == false)
+                m_LeftPointed = m_LeftPointer.getHitObject();
+                m_LeftPointed.GetComponent<TeleporterBehaviour>().Highlight(true);
+
+                if (/*m_LeftController.gripPressed &&*/ m_LeftController.grabPressed && m_LeftTeleported == false)
                 {
+
                     Debug.Log("Left Pointer hit: " + m_LeftPointer.getHitObject().name);
                     if (m_CurrentTeleportPoint != null) { m_CurrentTeleportPoint.GetComponent<TeleporterBehaviour>().TurnOn(); }
 
@@ -52,13 +59,25 @@ public class TeleportToObject : MonoBehaviour
                     Debug.Log("TELEPORT!!!");
                 }
             }
+
+            else
+            {
+                if (m_LeftPointed != null)
+                {
+                    m_LeftPointed.GetComponent<TeleporterBehaviour>().Highlight(false);
+                    m_LeftPointed = null;
+                }
+            }
         }
 
         if (m_RightPointer.getHitObject() != null)
         {
             if (m_RightPointer.getHitObject().tag == "Teleport Point")
             {
-                if (m_RightController.gripPressed && m_RightController.grabPressed && m_RightTeleported == false)
+                m_RightPointed = m_RightPointer.getHitObject();
+                m_RightPointed.GetComponent<TeleporterBehaviour>().Highlight(true);
+
+                if (/*m_RightController.gripPressed &&*/ m_RightController.grabPressed && m_RightTeleported == false)
                 {
                     Debug.Log("Right Pointer hit: " + m_RightPointer.getHitObject().name);
                     if (m_CurrentTeleportPoint != null) { m_CurrentTeleportPoint.GetComponent<TeleporterBehaviour>().TurnOn(); }
@@ -73,14 +92,23 @@ public class TeleportToObject : MonoBehaviour
                     Debug.Log("TELEPORT!!!");
                 }
             }
+
+            else
+            {
+                if (m_RightPointed != null)
+                {
+                    m_RightPointed.GetComponent<TeleporterBehaviour>().Highlight(false);
+                    m_RightPointed = null;
+                }
+            }
         }
 
-        if (m_LeftController.gripPressed != true && m_LeftController.grabPressed != true && m_LeftTeleported == true)
+        if (/*m_LeftController.gripPressed != true &&*/ m_LeftController.grabPressed != true && m_LeftTeleported == true)
         {
             m_LeftTeleported = false;
         }
 
-        if (m_RightController.gripPressed != true && m_RightController.grabPressed != true && m_RightTeleported == true)
+        if (/*m_RightController.gripPressed != true && */ m_RightController.grabPressed != true && m_RightTeleported == true)
         {
             m_RightTeleported = false;
         }
