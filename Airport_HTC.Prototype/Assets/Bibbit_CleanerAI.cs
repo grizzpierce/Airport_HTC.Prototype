@@ -9,10 +9,31 @@ public class Bibbit_CleanerAI : MonoBehaviour {
 
     private bool m_NewColAdded = false;
     private bool m_Reversed = false;
+    private bool m_Done = false;
+
+
+    // LERP VALUES
+    private GameObject m_CurrentFlag;
+    private GameObject m_NextFlag;
+
+    public float m_MovementSpeed;
+    private float m_JourneyLength;
+    private float m_StartTime;
+    private bool m_IsDoneMoving = false;
 
     void Start()
     {
+        GameObject temp = new GameObject();
+        temp.transform.position = gameObject.transform.position;
+        m_hitFlags.Add(temp);
+
+        m_StartTime = Time.time;
         Look();
+    }
+
+    void Update()
+    {
+
     }
 
     // FUNCTION: void Look()
@@ -56,18 +77,33 @@ public class Bibbit_CleanerAI : MonoBehaviour {
             // IF THERE WAS ONLY ONE
             if(currentFlags.Count == 1)                             
             {
+                m_CurrentFlag = m_hitFlags[m_hitFlags.Count - 1];
                 m_hitFlags.Add(currentFlags[0].gameObject);
-                transform.position = m_hitFlags[m_hitFlags.Count-1].transform.position;
-                Debug.Log(transform.position);
+                m_NextFlag = m_hitFlags[m_hitFlags.Count - 1];
+
+                //TRAVEL
+                //Travel(m_CurrentFlag.transform, m_NextFlag.transform);
+
+
+
+
+                //Debug.Log(transform.position);
+                Debug.Log(m_hitFlags[m_hitFlags.Count-1]);
                 Look();
             }
 
             // IF THERE WERE MULTIPLE
             else if(currentFlags.Count > 1)                         
             {
+                m_CurrentFlag = m_hitFlags[m_hitFlags.Count - 1];
                 m_hitFlags.Add(CompareFlags(currentFlags));
-                transform.position = m_hitFlags[m_hitFlags.Count - 1].transform.position;
-                Debug.Log(transform.position);
+                m_NextFlag = m_hitFlags[m_hitFlags.Count - 1];
+
+                //TRAVEL
+                //Travel(m_CurrentFlag.transform, m_NextFlag.transform);
+
+                //Debug.Log(transform.position);
+                Debug.Log(m_hitFlags[m_hitFlags.Count - 1]);
                 Look();
             }
         }
@@ -77,7 +113,7 @@ public class Bibbit_CleanerAI : MonoBehaviour {
         {
             m_Reversed = true;
             Debug.Log("Reversed");
-            Reverse();
+            //Reverse();
         }
     }
 
@@ -137,6 +173,7 @@ public class Bibbit_CleanerAI : MonoBehaviour {
         m_hitFlags.Clear();
         m_hitFlags.Add(currentPoint);
         Look();
+        m_Done = true;
     }
 
 
@@ -150,8 +187,15 @@ public class Bibbit_CleanerAI : MonoBehaviour {
                 
    -------------------------------------------------------------------------------------*/
 
+    private void Travel(Transform _start, Transform _end)
+    {
 
 
+    }
+
+
+
+    // DISPLAYS THE SIZE OF THE LOOKING SPHERE
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
