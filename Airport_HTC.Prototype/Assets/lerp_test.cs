@@ -11,7 +11,7 @@ public class lerp_test : MonoBehaviour
     private float startTime;
     private float journeyLength;
 
-    private bool currentLerpDone = true;
+    private bool currentLerpOn = false;
 
 
     void Start()
@@ -23,16 +23,34 @@ public class lerp_test : MonoBehaviour
 
     void Update()
     {
-        float distCovered = (Time.time - startTime) * speed;
-        float fracJourney = distCovered / journeyLength;
-        transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fracJourney);
+        if (currentLerpOn == true)
+        {
+            Lerp(startMarker, endMarker);
+        }
+
+        else
+        {
+            Transform temp = startMarker.transform;
+            startMarker = endMarker;
+            endMarker = temp;
+            currentLerpOn = true;
+
+            startTime = Time.time;
+            journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
+        }
     }
 
 
     void Lerp(Transform _start, Transform _end)
     {
+        float distCovered = (Time.time - startTime) * speed;
+        float fracJourney = distCovered / journeyLength;
+        Debug.Log(fracJourney);
+        transform.position = Vector3.Lerp(_start.position, _end.position, fracJourney);
 
+        if (gameObject.transform.position == _end.position)
+        {
+            currentLerpOn = false;
+        }
     }
-
-
 }
