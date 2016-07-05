@@ -6,7 +6,9 @@ public class Bibbit_Movement : MonoBehaviour {
 
     public GameObject m_PathfinderObject;
     private Bibbit_Pathfinder m_Pathfinder;
-    private List<GameObject> m_PathNodes;
+    private List<GameObject> m_PathNodes = new List<GameObject>();
+    private List<GameObject> m_RevPathNodes = new List<GameObject>();
+    private bool m_IsReversed = false;
 
     // LERP VARIABLES
     public float m_MovementSpeed = 1f;
@@ -15,14 +17,38 @@ public class Bibbit_Movement : MonoBehaviour {
     private float m_StartTime;
     private float m_JourneyLength;
 
-	void Start ()
+    // GETTERS & SETTERS
+    public void SetPathFinder(GameObject _obj)
     {
+        m_PathfinderObject = _obj;
         m_Pathfinder = m_PathfinderObject.GetComponent<Bibbit_Pathfinder>();
         m_PathNodes = m_Pathfinder.GetCurrentPath();
         m_StartTime = Time.time;
+        ReverseStoredPath();
     }
 	
 	void Update ()
+    {
+        if (m_PathfinderObject != null)
+        {
+            Movement();
+        }
+    }
+
+    void Movement()
+    {
+        if (m_IsReversed != true)
+        {
+            Forward();
+        }
+
+        else
+        {
+            Backward();
+        }
+    }
+
+    void Forward()
     {
         if (m_FlagCount < m_PathNodes.Count - 1)
         {
@@ -45,6 +71,59 @@ public class Bibbit_Movement : MonoBehaviour {
                 }
             }
         }
+
+        else if (m_FlagCount >= m_PathNodes.Count - 1)
+        {
+            if (m_FlagCount < 1)
+            {
+                Debug.LogError("Not enough flags");
+            }
+
+            else
+            {
+                m_IsReversed = true;
+                m_FlagCount = 0;
+            }
+        }
+    }
+
+    void Backward()
+    {
+        if (m_FlagCount < m_RevPathNodes.Count - 1)
+        {
+            if (m_CurrentLerpOn == true)
+            {
+                Travel((m_RevPathNodes[m_FlagCount]).transform, m_RevPathNodes[m_FlagCount + 1].transform);
+            }
+
+            else
+            {
+                m_CurrentLerpOn = true;
+                ++m_FlagCount;
+                m_StartTime = Time.time;
+                m_JourneyLength = Vector3.Distance(m_RevPathNodes[m_FlagCount].transform.position, m_RevPathNodes[m_FlagCount + 1].transform.position);
+
+                if (m_FlagCount > m_RevPathNodes.Count + 1)
+                {
+
+                    m_CurrentLerpOn = false;
+                }
+            }
+        }
+
+        else if (m_FlagCount >= m_RevPathNodes.Count - 1)
+        {
+            if (m_FlagCount < 1)
+            {
+                Debug.LogError("Not enough flags");
+            }
+
+            else
+            {
+                m_IsReversed = false;
+                m_FlagCount = 0;
+            }
+        }
     }
 
     // FUNCTION: void Travel()
@@ -60,12 +139,20 @@ public class Bibbit_Movement : MonoBehaviour {
     {
         float distCovered = (Time.time - m_StartTime) * m_MovementSpeed;
         float fracJourney = distCovered / m_JourneyLength;
-        Debug.Log(fracJourney);
         transform.position = Vector3.Lerp(_start.position, _end.position, fracJourney);
 
         if (gameObject.transform.position == _end.position)
         {
             m_CurrentLerpOn = false;
+        }
+    }
+
+    // STORES THE REVERSED PATH OF BIBBIT
+    private void ReverseStoredPath()
+    {
+        for (int i = m_PathNodes.Count; i > 0; --i)
+        {
+            m_RevPathNodes.Add(m_PathNodes[i - 1]);
         }
     }
 }

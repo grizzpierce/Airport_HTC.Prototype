@@ -4,37 +4,25 @@ using System.Collections.Generic;
 
 public class Bibbit_Pathfinder : MonoBehaviour {
 
-    public float m_CastRadius = 1f;
-    public List<GameObject> m_hitFlags;
+    private float m_CastRadius = 5f;
+    public List<GameObject> m_hitFlags = new List<GameObject>();
 
     private bool m_NewColAdded = false;
     private bool m_Reversed = false;
     private bool m_Done = false;
 
-
     // LERP VALUES
     private GameObject m_CurrentFlag;
     private GameObject m_NextFlag;
 
-    public float m_MovementSpeed;
-    private float m_JourneyLength;
-    private float m_StartTime;
-    private bool m_CurrentLerpOn = false;
-    private int m_FlagCount = 0;
+    // GETTERS & SETTERS
+    public List<GameObject> GetCurrentPath() { return m_hitFlags; }
+    public void SetCastRadius(float _radius) { m_CastRadius = _radius; }
+    public void SetFlag(GameObject _obj)     { m_hitFlags.Add(_obj); }
 
     void Start()
     {
-        GameObject temp = new GameObject();
-        temp.transform.position = gameObject.transform.position;
-        m_hitFlags.Add(temp);
-
-        m_StartTime = Time.time;
-        Look();
-    }
-
-    public List<GameObject> GetCurrentPath()
-    {
-        return m_hitFlags;
+        
     }
 
     // FUNCTION: void Look()
@@ -84,8 +72,6 @@ public class Bibbit_Pathfinder : MonoBehaviour {
 
                 gameObject.transform.position = m_hitFlags[m_hitFlags.Count - 1].transform.position;
 
-                //Debug.Log(transform.position);
-                Debug.Log(m_hitFlags[m_hitFlags.Count-1]);
                 Look();
             }
 
@@ -98,22 +84,20 @@ public class Bibbit_Pathfinder : MonoBehaviour {
 
                 gameObject.transform.position = m_hitFlags[m_hitFlags.Count - 1].transform.position;
 
-
-                //Debug.Log(transform.position);
-                Debug.Log(m_hitFlags[m_hitFlags.Count - 1]);
                 Look();
             }
         }
 
         // THE CHECK IF NO FLAGS WERE FOUND
-        if (m_NewColAdded == false && m_Reversed == false)
+        else if (m_NewColAdded == false )
         {
-            m_Reversed = true;
-            Debug.Log("Reversed");
-            //m_FlagCount = 0;
-            //Reverse();
-            
+            Debug.Log("Nothing!");
         }
+    }
+
+    public void Clear()
+    {
+        m_hitFlags.Clear();
     }
 
     // MANY FLAGS COME IN, ONLY ONE REMAINS

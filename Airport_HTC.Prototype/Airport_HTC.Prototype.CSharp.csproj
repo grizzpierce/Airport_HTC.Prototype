@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Art\BillboardObject.cs" />
+    <Compile Include="Assets\Bibbit_LineSpawner.cs" />
     <Compile Include="Assets\Bibbit_Movement.cs" />
     <Compile Include="Assets\Bibbit_Pathfinder.cs" />
     <Compile Include="Assets\OBJExport\OBJExporter.cs" />

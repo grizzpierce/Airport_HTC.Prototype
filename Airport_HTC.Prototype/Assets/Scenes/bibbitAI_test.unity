@@ -101,11 +101,10 @@ GameObject:
   - 33: {fileID: 131302003}
   - 135: {fileID: 131302002}
   - 23: {fileID: 131302001}
-  - 114: {fileID: 131302005}
-  - 114: {fileID: 131302006}
+  - 114: {fileID: 131302007}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Flag Point
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -171,7 +170,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &131302005
+--- !u!114 &131302007
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -179,26 +178,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 131302000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d1d61cbee144f946a84bb128a06cf1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 2c512cc5f38810049b572f619514636f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CastRadius: 10
-  m_hitFlags: []
-  m_MovementSpeed: 1
---- !u!114 &131302006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 131302000}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9069fd2e53ca8ec45a2cba5903137462, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startMarker: {fileID: 900060803}
-  endMarker: {fileID: 1454828135}
-  speed: 1
+  m_Bibbit: {fileID: 1462477599}
 --- !u!1 &190396800
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,7 +909,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1454828131}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.54, y: 4.18, z: 2.17}
+  m_LocalPosition: {x: -1.54, y: 0.69, z: 2.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -962,7 +945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927259813049d4240b64f591e8087a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PathfinderObject: {fileID: 131302000}
+  m_PathfinderObject: {fileID: 0}
   m_MovementSpeed: 1
 --- !u!23 &1462477601
 MeshRenderer:
@@ -1020,7 +1003,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1462477599}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.3631904, y: 2.0625331, z: 1.9451047}
+  m_LocalPosition: {x: -3.3631904, y: 30.43, z: 12.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
