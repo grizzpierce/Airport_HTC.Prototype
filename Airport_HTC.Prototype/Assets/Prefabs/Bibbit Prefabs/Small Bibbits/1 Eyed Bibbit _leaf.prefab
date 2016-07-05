@@ -177,6 +177,7 @@ GameObject:
   - 114: {fileID: 11481366}
   - 114: {fileID: 11489768}
   - 82: {fileID: 8227554}
+  - 82: {fileID: 82000012322752796}
   m_Layer: 0
   m_Name: 1 Eyed Bibbit _leaf
   m_TagString: Bibbit
@@ -4374,3 +4375,102 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 169650}
   m_IsPrefabParent: 1
+--- !u!82 &82000012322752796
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 169650}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 98f8c1a0ee0b34c89a962d2a0bece9fc, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 0.01
+  MaxDistance: 2
+  Pan2D: 0
+  rolloffMode: 2
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0.044871002
+      value: 0.80110496
+      inSlope: -3.83575
+      outSlope: -3.83575
+      tangentMode: 0
+    - time: 0.09642415
+      value: 0.6011177
+      inSlope: -1.443793
+      outSlope: -1.443793
+      tangentMode: 0
+    - time: 0.17385966
+      value: 0.41064268
+      inSlope: -1.2270436
+      outSlope: -1.2270436
+      tangentMode: 0
+    - time: 0.2832714
+      value: 0.23035945
+      inSlope: -0.8434714
+      outSlope: -0.8434714
+      tangentMode: 0
+    - time: 0.41011864
+      value: 0.0994952
+      inSlope: -0.83535284
+      outSlope: -0.83535284
+      tangentMode: 0
+    - time: 0.7522272
+      value: 0.029032258
+      inSlope: -0.16633181
+      outSlope: -0.16633181
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: -0.37556615
+      outSlope: -0.37556615
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
