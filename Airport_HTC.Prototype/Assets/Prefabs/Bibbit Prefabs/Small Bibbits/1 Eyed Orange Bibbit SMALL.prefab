@@ -43,6 +43,7 @@ GameObject:
   - 114: {fileID: 11414826}
   - 114: {fileID: 11467326}
   - 82: {fileID: 8276018}
+  - 82: {fileID: 82000012124149230}
   m_Layer: 0
   m_Name: 1 Eyed Orange Bibbit SMALL
   m_TagString: Bibbit
@@ -215,8 +216,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106626}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.296, y: 0.048, z: -0.4528045}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.17199993, y: 0.10599995, z: -29.255775}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 473534}
@@ -477,9 +478,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 0.01
-  MaxDistance: 2
+  MaxDistance: 1.38
   Pan2D: 0
-  rolloffMode: 2
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -4183,7 +4184,7 @@ ParticleSystemRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedWireframeHidden: 0
+  m_SelectedWireframeHidden: 1
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -4260,3 +4261,102 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 106626}
   m_IsPrefabParent: 1
+--- !u!82 &82000012124149230
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106626}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 98f8c1a0ee0b34c89a962d2a0bece9fc, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 0.01
+  MaxDistance: 2
+  Pan2D: 0
+  rolloffMode: 2
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0.044871002
+      value: 0.80110496
+      inSlope: -3.83575
+      outSlope: -3.83575
+      tangentMode: 0
+    - time: 0.09642415
+      value: 0.6011177
+      inSlope: -1.443793
+      outSlope: -1.443793
+      tangentMode: 0
+    - time: 0.17385966
+      value: 0.41064268
+      inSlope: -1.2270436
+      outSlope: -1.2270436
+      tangentMode: 0
+    - time: 0.2832714
+      value: 0.23035945
+      inSlope: -0.8434714
+      outSlope: -0.8434714
+      tangentMode: 0
+    - time: 0.41011864
+      value: 0.0994952
+      inSlope: -0.83535284
+      outSlope: -0.83535284
+      tangentMode: 0
+    - time: 0.7522272
+      value: 0.029032258
+      inSlope: -0.16633181
+      outSlope: -0.16633181
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: -0.37556615
+      outSlope: -0.37556615
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
