@@ -8,11 +8,13 @@ public class Bibbit_Movement : MonoBehaviour {
     private Bibbit_Pathfinder m_Pathfinder;
     private List<GameObject> m_PathNodes = new List<GameObject>();
     private List<GameObject> m_RevPathNodes = new List<GameObject>();
+    private bool m_IsPlaying = true;
     private bool m_IsReversed = false;
+
 
     // LERP VARIABLES
     public float m_MovementSpeed = 1f;
-    private int m_FlagCount = 0;
+    private int m_FlagCount = -1;
     private bool m_CurrentLerpOn = false;
     private float m_StartTime;
     private float m_JourneyLength;
@@ -26,28 +28,41 @@ public class Bibbit_Movement : MonoBehaviour {
         m_StartTime = Time.time;
         ReverseStoredPath();
     }
+
+    public void SetPathNodes(List<GameObject> _nodes)
+    {
+        m_IsPlaying = false;
+        m_PathNodes.Clear();
+
+        for (int i = 0; i < _nodes.Count; ++i)
+        {
+            m_PathNodes.Add(_nodes[i]);
+        }
+
+        ReverseStoredPath();
+        m_IsPlaying = true;
+    }
 	
 	void Update ()
     {
-        if (m_PathfinderObject != null)
+        if (m_PathfinderObject != null || m_PathNodes.Count != 0)
         {
-            Movement();
+            if (m_IsPlaying)
+                Movement();
         }
     }
 
     void Movement()
     {
-        if (m_IsReversed != true)
-        {
-            Forward();
-        }
+            if (m_IsReversed != true)
+                Forward();
 
-        else
-        {
-            Backward();
-        }
+            else
+                Backward();
+
     }
 
+    // CONTROLS FORWARD MOVEMENT
     void Forward()
     {
         if (m_FlagCount < m_PathNodes.Count - 1)
@@ -62,13 +77,14 @@ public class Bibbit_Movement : MonoBehaviour {
                 m_CurrentLerpOn = true;
                 ++m_FlagCount;
                 m_StartTime = Time.time;
-                m_JourneyLength = Vector3.Distance(m_PathNodes[m_FlagCount].transform.position, m_PathNodes[m_FlagCount + 1].transform.position);
+
+                
+                if (m_FlagCount != m_PathNodes.Count - 1)
+                    m_JourneyLength = Vector3.Distance(m_PathNodes[m_FlagCount].transform.position, m_PathNodes[m_FlagCount + 1].transform.position);
 
                 if (m_FlagCount > m_PathNodes.Count + 1)
-                {
-
                     m_CurrentLerpOn = false;
-                }
+
             }
         }
 
@@ -87,6 +103,7 @@ public class Bibbit_Movement : MonoBehaviour {
         }
     }
 
+    // CONTROLS BACKWARD MOVEMENT
     void Backward()
     {
         if (m_FlagCount < m_RevPathNodes.Count - 1)
@@ -101,13 +118,12 @@ public class Bibbit_Movement : MonoBehaviour {
                 m_CurrentLerpOn = true;
                 ++m_FlagCount;
                 m_StartTime = Time.time;
-                m_JourneyLength = Vector3.Distance(m_RevPathNodes[m_FlagCount].transform.position, m_RevPathNodes[m_FlagCount + 1].transform.position);
+
+                if (m_FlagCount != m_RevPathNodes.Count - 1)
+                    m_JourneyLength = Vector3.Distance(m_RevPathNodes[m_FlagCount].transform.position, m_RevPathNodes[m_FlagCount + 1].transform.position);
 
                 if (m_FlagCount > m_RevPathNodes.Count + 1)
-                {
-
                     m_CurrentLerpOn = false;
-                }
             }
         }
 

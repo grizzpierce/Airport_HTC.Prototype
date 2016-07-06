@@ -25,6 +25,17 @@ public class Bibbit_Pathfinder : MonoBehaviour {
         
     }
 
+    void Update()
+    {
+        for (int i = 0; i < m_hitFlags.Count; ++i)
+        {
+            if (m_hitFlags[i] == null)
+            {
+                m_hitFlags.Remove(m_hitFlags[i]);
+            }
+        }
+    }
+
     // FUNCTION: void Look()
     /*-------------------------------------------------------------------------------------
     
@@ -91,7 +102,7 @@ public class Bibbit_Pathfinder : MonoBehaviour {
         // THE CHECK IF NO FLAGS WERE FOUND
         else if (m_NewColAdded == false )
         {
-            Debug.Log("Nothing!");
+            //Debug.Log("Nothing!");
         }
     }
 
@@ -110,6 +121,9 @@ public class Bibbit_Pathfinder : MonoBehaviour {
             float firstDist = Hypotenuse(_currentflags[0].transform.position.x, _currentflags[0].transform.position.z);
             float secondDist = Hypotenuse(_currentflags[1].transform.position.x, _currentflags[1].transform.position.z);
 
+            // Debug.Log(_currentflags[0].name + "Distance : " + firstDist);
+            // Debug.Log(_currentflags[0].name + "Distance : " + secondDist);
+
             if(firstDist < secondDist)
                 _currentflags.Remove(_currentflags[1]);
             else
@@ -125,7 +139,11 @@ public class Bibbit_Pathfinder : MonoBehaviour {
     private float Hypotenuse(float _x, float _z)
     {
         float length = Mathf.Abs((gameObject.transform.position.x) - _x);
-        float width = Mathf.Abs((gameObject.transform.position.y) - _z);
+        float width = Mathf.Abs((gameObject.transform.position.z) - _z);
+
+
+
+        //Debug.Log(" gameObject.y: " + gameObject.transform.position.z + " Flag.y: " + _z);
 
         if (length == 0)
             length = .01f;
@@ -135,7 +153,6 @@ public class Bibbit_Pathfinder : MonoBehaviour {
 
         return Mathf.Sqrt((Mathf.Pow(length, 2)) + (Mathf.Pow(width, 2)));
     }
-
 
     // FUNCTION: void Reverse()
     /*-------------------------------------------------------------------------------------

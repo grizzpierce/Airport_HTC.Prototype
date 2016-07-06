@@ -22,7 +22,6 @@ public class LockBehaviour : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
     {
-        Debug.Log("test");
         if (other.gameObject.tag == "Bibbit")
         {
             Debug.Log("Unlock!");

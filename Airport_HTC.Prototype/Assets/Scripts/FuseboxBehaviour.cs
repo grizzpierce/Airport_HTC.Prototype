@@ -24,7 +24,7 @@ public class FuseboxBehaviour : MonoBehaviour {
             {
                 if(m_FuseSwitches[i].GetComponent<LightSwitchBehaviour>().GetIfSwitchOn() == false)
                 {
-                    Debug.Log("A light is off");
+                    //Debug.Log("A light is off");
                     allLightsOn = false;
                 }    
             }
@@ -39,7 +39,7 @@ public class FuseboxBehaviour : MonoBehaviour {
         {
             for (int i = 0; i < m_OffLights.Length; ++i)
             {
-                Debug.Log("Lights Turning On!");
+                //Debug.Log("Lights Turning On!");
                 m_OffLights[i].GetComponent<Light>().enabled = true;
             }
         }
