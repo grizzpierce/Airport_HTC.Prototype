@@ -1,19 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class FuseboxBehaviour : MonoBehaviour {
 
     GameObject[] m_FuseSwitches;
-    GameObject[] m_OffLights;
+    public List<GameObject> m_Teleporters = new List<GameObject>();
     bool m_LightsOn = false;
+    bool m_TurnedOnce = false;
 
-
-    void Start () {
+    void Start ()
+    {
         m_FuseSwitches = GameObject.FindGameObjectsWithTag("Light Switch");
-        m_OffLights = GameObject.FindGameObjectsWithTag("Off Light");
+        GameObject[] teleporters = GameObject.FindGameObjectsWithTag("Teleport Point");
+
+        for (int i = 0; i < teleporters.Length; ++i)
+        {
+            if(teleporters[i].GetComponent<TeleportShellBehaviour>().IsOffOnStart)
+            {
+                m_Teleporters.Add(teleporters[i]);
+            }
+        }
+
+
     }
 	
-
 	void Update () {
 
         if (m_LightsOn == false)
@@ -37,11 +48,16 @@ public class FuseboxBehaviour : MonoBehaviour {
 
         else
         {
-            for (int i = 0; i < m_OffLights.Length; ++i)
+            if (!m_TurnedOnce)
             {
-                //Debug.Log("Lights Turning On!");
-                m_OffLights[i].GetComponent<Light>().enabled = true;
+                for (int i = 0; i < m_Teleporters.Count; ++i)
+                {
+                    //Debug.Log("Lights Turning On!");
+                    m_Teleporters[i].GetComponent<TeleportShellBehaviour>().IsActive(true);
+                }
+                m_TurnedOnce = true;
             }
+
         }
 	
 	}

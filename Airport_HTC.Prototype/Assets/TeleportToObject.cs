@@ -30,10 +30,9 @@ public class TeleportToObject : MonoBehaviour
         m_RightPointer = m_RightVive.GetComponent<VRTK_SimplePointer>();
         m_RightController = m_RightVive.GetComponent<VRTK_ControllerEvents>();
 
-        m_CurrentTeleportPoint.GetComponent<TeleporterBehaviour>().TurnOff();
+        m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().IsActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (m_LeftPointer.getHitObject() != null)
@@ -41,22 +40,19 @@ public class TeleportToObject : MonoBehaviour
             if (m_LeftPointer.getHitObject().tag == "Teleport Point")
             {
                 m_LeftPointed = m_LeftPointer.getHitObject();
-                m_LeftPointed.GetComponent<TeleporterBehaviour>().Highlight(true);
+                m_LeftPointed.GetComponent<TeleportShellBehaviour>().Highlight(true);
 
-                if (/*m_LeftController.gripPressed &&*/ m_LeftController.grabPressed && m_LeftTeleported == false)
+                if (m_LeftController.grabPressed && m_LeftTeleported == false)
                 {
 
                     Debug.Log("Left Pointer hit: " + m_LeftPointer.getHitObject().name);
-                    if (m_CurrentTeleportPoint != null) { m_CurrentTeleportPoint.GetComponent<TeleporterBehaviour>().TurnOn(); }
+                    if (m_CurrentTeleportPoint != null) { m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().IsActive(true); }
 
                     m_LeftTeleported = true;
-                    //Debug.Log(transform.parent.gameObject.name);
-                    transform.position = new Vector3(m_LeftPointer.getHitObject().transform.position.x, m_LeftPointer.getHitObject().GetComponent<TeleporterBehaviour>().GetFloorY(), m_LeftPointer.getHitObject().transform.position.z);
+                    transform.position = m_LeftPointed.GetComponent<TeleportShellBehaviour>().GetTelePoint();
 
                     m_CurrentTeleportPoint = m_LeftPointer.getHitObject();
-                    m_CurrentTeleportPoint.GetComponent<TeleporterBehaviour>().TurnOff();
-
-                    Debug.Log("TELEPORT!!!");
+                    m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().IsActive(false);
                 }
             }
 
@@ -64,9 +60,17 @@ public class TeleportToObject : MonoBehaviour
             {
                 if (m_LeftPointed != null)
                 {
-                    m_LeftPointed.GetComponent<TeleporterBehaviour>().Highlight(false);
+                    m_LeftPointed.GetComponent<TeleportShellBehaviour>().Highlight(false);
                     m_LeftPointed = null;
                 }
+            }
+        }
+        else
+        {
+            if (m_LeftPointed != null)
+            {
+                m_LeftPointed.GetComponent<TeleportShellBehaviour>().Highlight(false);
+                m_LeftPointed = null;
             }
         }
 
@@ -75,21 +79,18 @@ public class TeleportToObject : MonoBehaviour
             if (m_RightPointer.getHitObject().tag == "Teleport Point")
             {
                 m_RightPointed = m_RightPointer.getHitObject();
-                m_RightPointed.GetComponent<TeleporterBehaviour>().Highlight(true);
+                m_RightPointed.GetComponent<TeleportShellBehaviour>().Highlight(true);
 
-                if (/*m_RightController.gripPressed &&*/ m_RightController.grabPressed && m_RightTeleported == false)
+                if (m_RightController.grabPressed && m_RightTeleported == false)
                 {
                     Debug.Log("Right Pointer hit: " + m_RightPointer.getHitObject().name);
-                    if (m_CurrentTeleportPoint != null) { m_CurrentTeleportPoint.GetComponent<TeleporterBehaviour>().TurnOn(); }
+                    if (m_CurrentTeleportPoint != null) { m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().IsActive(true); }
 
                     m_RightTeleported = true;
-                    //Debug.Log(transform.parent.gameObject.name);
-                    transform.position = new Vector3(m_RightPointer.getHitObject().transform.position.x, m_RightPointer.getHitObject().GetComponent<TeleporterBehaviour>().GetFloorY(), m_RightPointer.getHitObject().transform.position.z);
+                    transform.position = m_RightPointed.GetComponent<TeleportShellBehaviour>().GetTelePoint();
 
                     m_CurrentTeleportPoint = m_RightPointer.getHitObject();
-                    m_CurrentTeleportPoint.GetComponent<TeleporterBehaviour>().TurnOff();
-
-                    Debug.Log("TELEPORT!!!");
+                    m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().IsActive(false);
                 }
             }
 
@@ -97,18 +98,27 @@ public class TeleportToObject : MonoBehaviour
             {
                 if (m_RightPointed != null)
                 {
-                    m_RightPointed.GetComponent<TeleporterBehaviour>().Highlight(false);
+                    m_RightPointed.GetComponent<TeleportShellBehaviour>().Highlight(false);
                     m_RightPointed = null;
                 }
             }
         }
 
-        if (/*m_LeftController.gripPressed != true &&*/ m_LeftController.grabPressed != true && m_LeftTeleported == true)
+        else
+        {
+            if (m_RightPointed != null)
+            {
+                m_RightPointed.GetComponent<TeleportShellBehaviour>().Highlight(false);
+                m_RightPointed = null;
+            }
+        }
+
+        if (m_LeftController.grabPressed != true && m_LeftTeleported == true)
         {
             m_LeftTeleported = false;
         }
 
-        if (/*m_RightController.gripPressed != true && */ m_RightController.grabPressed != true && m_RightTeleported == true)
+        if (m_RightController.grabPressed != true && m_RightTeleported == true)
         {
             m_RightTeleported = false;
         }

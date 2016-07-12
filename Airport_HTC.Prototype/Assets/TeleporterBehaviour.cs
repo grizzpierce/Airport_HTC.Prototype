@@ -3,17 +3,8 @@ using System.Collections;
 
 public class TeleporterBehaviour : MonoBehaviour
 {
-    public float FloorY;
-    public bool m_IsTeleportOn;
     public Material m_InactiveMat;
     public Material m_ActiveMat;
-
-
-
-
-
-
-    public float GetFloorY() { return FloorY; }
 
     public void Highlight(bool _isHighlighted)
     {
@@ -28,27 +19,19 @@ public class TeleporterBehaviour : MonoBehaviour
         }
     }
 
-    public void TurnOff()
+
+    public void IsActive(bool _active)
     {
-        gameObject.GetComponent<SphereCollider>().enabled = false;
-        gameObject.GetComponent<MeshRenderer>().enabled = false;
-    }
-
-    public void TurnOn()
-    {
-        gameObject.GetComponent<SphereCollider>().enabled = true;
-        gameObject.GetComponent<MeshRenderer>().enabled = true;
-    }
-
-
-
-    void Start()
-    {
-        if(m_IsTeleportOn != true)
+        if (_active == true)
         {
-
+            gameObject.GetComponent<SphereCollider>().enabled = true;
+            gameObject.GetComponent<MeshRenderer>().enabled = true;
+        }
+        
+        else
+        {
+            gameObject.GetComponent<SphereCollider>().enabled = false;
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
     }
-
-
 }

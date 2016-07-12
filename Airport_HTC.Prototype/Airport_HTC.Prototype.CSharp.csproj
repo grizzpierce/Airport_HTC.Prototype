@@ -89,6 +89,7 @@
     <Compile Include="Assets\Bibbit_Movement.cs" />
     <Compile Include="Assets\Bibbit_Pathfinder.cs" />
     <Compile Include="Assets\OBJExport\OBJExporter.cs" />
+    <Compile Include="Assets\ObjectNotes\ObjectNote.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\CameraControls.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\IcoBumpin.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Misc\HueCube.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Assets\SteamVR_Unity_Toolkit\Scripts\VRTK_PlayerPresence.cs" />
     <Compile Include="Assets\SteamVR_Unity_Toolkit\Scripts\VRTK_SimplePointer.cs" />
     <Compile Include="Assets\SteamVR_Unity_Toolkit\Scripts\VRTK_TouchpadWalking.cs" />
+    <Compile Include="Assets\TeleportShellBehaviour.cs" />
     <Compile Include="Assets\TeleportToObject.cs" />
     <Compile Include="Assets\TeleporterBehaviour.cs" />
     <Compile Include="Assets\TheLabRenderer\Scripts\ValveCamera.cs" />
@@ -186,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Art\Stykized Vegetation Pack Free\Readme.txt" />
+    <None Include="Assets\ObjectNotes\readme.txt" />
     <None Include="Assets\ProCore\ProBuilder\Shader\pb_StandardVertexColor.shader" />
     <None Include="Assets\SteamVR\Resources\SteamVR_AlphaOut.shader" />
     <None Include="Assets\SteamVR\Resources\SteamVR_Blit.shader" />
