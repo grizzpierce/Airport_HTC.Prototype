@@ -28,7 +28,11 @@ public class VRTK_SimplePointer : VRTK_WorldPointer
     private Vector3 pointerTipScale = new Vector3(0.05f, 0.05f, 0.05f);
 
     private GameObject hitObject;
+
     public GameObject getHitObject() { return hitObject; }
+
+    private bool m_RayHit = false;
+    public bool getRayhit() { return m_RayHit; }
 
     // Use this for initialization
     protected override void Start () {
@@ -130,6 +134,8 @@ public class VRTK_SimplePointer : VRTK_WorldPointer
             destinationPosition = Vector3.zero;
 
             UpdatePointerMaterial(pointerMissColor);
+            m_RayHit = false;
+            hitObject = null;
         }
 
         //check if beam has hit a new target
@@ -144,6 +150,7 @@ public class VRTK_SimplePointer : VRTK_WorldPointer
             hitObject = collidedWith.collider.gameObject;
 
             base.PointerIn();
+            m_RayHit = true;
         }
 
         //adjust beam length if something is blocking it

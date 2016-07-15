@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TeleportToObject : MonoBehaviour
 {
@@ -21,6 +22,27 @@ public class TeleportToObject : MonoBehaviour
     private GameObject m_LeftPointed;
     private GameObject m_RightPointed;
 
+    public List<TeleportShellBehaviour> m_AllTeleporters = new List<TeleportShellBehaviour>();
+    bool m_AllUnhighlighted = false;
+
+    void Awake()
+    {
+        GameObject[] teleporters = GameObject.FindGameObjectsWithTag("Teleport Point");
+
+        for (int i = 0; i < teleporters.Length; ++i)
+        {
+            m_AllTeleporters.Add(teleporters[i].transform.parent.gameObject.GetComponent<TeleportShellBehaviour>());
+        }
+    }
+
+
+    void UnhighlightAll()
+    {
+        for (int i = 0; i < m_AllTeleporters.Count; ++i)
+        {
+            m_AllTeleporters[i].Highlight(false);
+        }
+    }
 
     void Start()
     {
@@ -60,7 +82,7 @@ public class TeleportToObject : MonoBehaviour
 
             else
             {
-                if (m_LeftPointed != null)
+                if (m_LeftPointed != null || m_LeftPointer.getRayhit() != true)
                 {
                     m_LeftPointed.GetComponent<TeleportShellBehaviour>().Highlight(false);
                     m_LeftPointed = null;
@@ -69,12 +91,9 @@ public class TeleportToObject : MonoBehaviour
         }
         else
         {
-            if (m_LeftPointed != null)
-            {
-                m_LeftPointed.GetComponent<TeleportShellBehaviour>().Highlight(false);
-                m_LeftPointed = null;
-            }
+            UnhighlightAll();
         }
+
 
         if (m_RightPointer.getHitObject() != null)
         {
@@ -98,7 +117,7 @@ public class TeleportToObject : MonoBehaviour
 
             else
             {
-                if (m_RightPointed != null)
+                if (m_RightPointed != null || m_RightPointer.getRayhit() != true)
                 {
                     m_RightPointed.GetComponent<TeleportShellBehaviour>().Highlight(false);
                     m_RightPointed = null;
@@ -108,7 +127,7 @@ public class TeleportToObject : MonoBehaviour
 
         else
         {
-            if (m_RightPointed != null)
+            if (m_RightPointed != null || m_RightPointer.getRayhit() != true)
             {
                 m_RightPointed.GetComponent<TeleportShellBehaviour>().Highlight(false);
                 m_RightPointed = null;
@@ -124,6 +143,8 @@ public class TeleportToObject : MonoBehaviour
         {
             m_RightTeleported = false;
         }
+
+        
 
     }
 }
