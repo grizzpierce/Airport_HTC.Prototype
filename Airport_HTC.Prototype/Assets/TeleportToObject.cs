@@ -30,6 +30,8 @@ public class TeleportToObject : MonoBehaviour
         m_RightPointer = m_RightVive.GetComponent<VRTK_SimplePointer>();
         m_RightController = m_RightVive.GetComponent<VRTK_ControllerEvents>();
 
+        Debug.Log(m_CurrentTeleportPoint.name);
+
         m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().IsActive(false);
     }
 
@@ -39,7 +41,7 @@ public class TeleportToObject : MonoBehaviour
         {
             if (m_LeftPointer.getHitObject().tag == "Teleport Point")
             {
-                m_LeftPointed = m_LeftPointer.getHitObject();
+                m_LeftPointed = m_LeftPointer.getHitObject().transform.parent.gameObject;
                 m_LeftPointed.GetComponent<TeleportShellBehaviour>().Highlight(true);
 
                 if (m_LeftController.grabPressed && m_LeftTeleported == false)
@@ -51,7 +53,7 @@ public class TeleportToObject : MonoBehaviour
                     m_LeftTeleported = true;
                     transform.position = m_LeftPointed.GetComponent<TeleportShellBehaviour>().GetTelePoint();
 
-                    m_CurrentTeleportPoint = m_LeftPointer.getHitObject();
+                    m_CurrentTeleportPoint = m_LeftPointer.getHitObject().transform.parent.gameObject;
                     m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().IsActive(false);
                 }
             }
@@ -78,7 +80,7 @@ public class TeleportToObject : MonoBehaviour
         {
             if (m_RightPointer.getHitObject().tag == "Teleport Point")
             {
-                m_RightPointed = m_RightPointer.getHitObject();
+                m_RightPointed = m_RightPointer.getHitObject().transform.parent.gameObject;
                 m_RightPointed.GetComponent<TeleportShellBehaviour>().Highlight(true);
 
                 if (m_RightController.grabPressed && m_RightTeleported == false)
@@ -89,7 +91,7 @@ public class TeleportToObject : MonoBehaviour
                     m_RightTeleported = true;
                     transform.position = m_RightPointed.GetComponent<TeleportShellBehaviour>().GetTelePoint();
 
-                    m_CurrentTeleportPoint = m_RightPointer.getHitObject();
+                    m_CurrentTeleportPoint = m_RightPointer.getHitObject().transform.parent.gameObject;
                     m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().IsActive(false);
                 }
             }

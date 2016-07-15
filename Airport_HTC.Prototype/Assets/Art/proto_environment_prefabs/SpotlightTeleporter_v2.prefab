@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011330442080}
+  - 114: {fileID: 114000012265591106}
   m_Layer: 0
   m_Name: SpotlightTeleporter_v2
   m_TagString: Untagged
@@ -87,6 +88,7 @@ GameObject:
   - 4: {fileID: 4000010656062370}
   - 33: {fileID: 33000014148115622}
   - 23: {fileID: 23000013031317022}
+  - 64: {fileID: 64000013918328888}
   m_Layer: 0
   m_Name: prop_lightshaft
   m_TagString: Untagged
@@ -127,6 +129,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1000013828558390
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000014124695224}
+  - 65: {fileID: 65000014111373530}
+  m_Layer: 0
+  m_Name: teleportshaft
+  m_TagString: Teleport Point
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &4000010656062370
 Transform:
   m_ObjectHideFlags: 1
@@ -151,6 +169,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000010656062370}
+  - {fileID: 4000014124695224}
   - {fileID: 4000013394940646}
   - {fileID: 4000012736423042}
   - {fileID: 4000014059619936}
@@ -170,7 +189,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000011330442080}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4000011524722220
 Transform:
@@ -183,7 +202,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000011330442080}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4000012736423042
 Transform:
@@ -196,7 +215,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000011330442080}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &4000013394940646
 Transform:
@@ -209,7 +228,7 @@ Transform:
   m_LocalScale: {x: 0.72521293, y: 0.7252131, z: 0.7252131}
   m_Children: []
   m_Father: {fileID: 4000011330442080}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4000014059619936
 Transform:
@@ -222,7 +241,20 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000011330442080}
-  m_RootOrder: 3
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4000014124695224
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013828558390}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -9.751, z: 0}
+  m_LocalScale: {x: 3.65, y: 3.2125008, z: 3.65}
+  m_Children: []
+  m_Father: {fileID: 4000011330442080}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23000011637136588
 MeshRenderer:
@@ -334,6 +366,30 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011705739982}
   m_Mesh: {fileID: 4300000, guid: bfe06b3ee2d3f9f4eb50482ed2983364, type: 3}
+--- !u!64 &64000013918328888
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011705739982}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 1
+  m_Mesh: {fileID: 4300000, guid: bfe06b3ee2d3f9f4eb50482ed2983364, type: 3}
+--- !u!65 &65000014111373530
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013828558390}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!108 &108000013497360500
 Light:
   m_ObjectHideFlags: 1
@@ -367,6 +423,23 @@ Light:
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114000012265591106
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010479528546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a300f16931f7b5443a1c797d2d382523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsOffOnStart: 0
+  m_InactiveColor: {r: 0.96862745, g: 0.9647059, b: 0.8980392, a: 1}
+  m_ActiveColor: {r: 0.8862745, g: 0.8352941, b: 0.56078434, a: 1}
+  m_InactiveMat: {fileID: 2100000, guid: 0fe8066d2c5035e44acd9303da4f2d19, type: 2}
+  m_ActiveMat: {fileID: 2100000, guid: f3aac2f930d962e4dab20b220aae3031, type: 2}
+  TeleportPoint: {x: 1.27, y: 10, z: -64.313}
 --- !u!198 &198000011694332796
 ParticleSystem:
   m_ObjectHideFlags: 1

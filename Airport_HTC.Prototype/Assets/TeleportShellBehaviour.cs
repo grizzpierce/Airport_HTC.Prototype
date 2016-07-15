@@ -1,10 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TeleportShellBehaviour : MonoBehaviour {
-
+public class TeleportShellBehaviour : MonoBehaviour
+{
     public bool IsOffOnStart = false;
-    private GameObject Teleporter;
+    GameObject m_LightShaft;
+    GameObject m_TeleportShaft;
+
+    private Light m_Light;
+    private ParticleSystem[] m_Particles = new ParticleSystem[2];
+
+    public Color m_InactiveColor;
+    public Color m_ActiveColor;
 
     public Material m_InactiveMat;
     public Material m_ActiveMat;
@@ -13,14 +20,29 @@ public class TeleportShellBehaviour : MonoBehaviour {
 
     public Vector3 GetTelePoint() { return TeleportPoint; }
 
+    void Awake()
+    {
+        m_LightShaft = transform.FindChild("prop_lightshaft").gameObject;
+        m_TeleportShaft = transform.FindChild("teleportshaft").gameObject;
+        m_Light = transform.FindChild("Spotlight").GetComponent<Light>();
+
+        m_Particles[0] = transform.FindChild("volumetric").GetComponent<ParticleSystem>();
+        m_Particles[1] = transform.FindChild("volumetric (1)").GetComponent<ParticleSystem>();
+    }
+
     void Start()
     {
-        //Teleporter = transform.GetChild(0).gameObject;
-
         if (IsOffOnStart)
         {
-            gameObject.GetComponent<MeshCollider>().enabled = false;
-            gameObject.GetComponent<MeshRenderer>().enabled = false;
+            m_TeleportShaft.GetComponent<BoxCollider>().enabled = false;
+            m_LightShaft.GetComponent<MeshRenderer>().enabled = false;
+            m_LightShaft.GetComponent<MeshCollider>().enabled = false;
+            m_Light.enabled = false;
+
+            for (int i = 0; i < m_Particles.Length; ++i)
+            {
+                m_Particles[i].Stop();
+            }
         }
     }
 
@@ -28,32 +50,50 @@ public class TeleportShellBehaviour : MonoBehaviour {
     {
         if (_active == true)
         {
-            gameObject.GetComponent<MeshCollider>().enabled = true;
-            gameObject.gameObject.GetComponent<MeshRenderer>().enabled = true;
-            //Teleporter.GetComponent<TeleporterBehaviour>().IsActive(true);
+            m_TeleportShaft.GetComponent<BoxCollider>().enabled = true;
+            m_LightShaft.GetComponent<MeshRenderer>().enabled = true;
+            m_LightShaft.GetComponent<MeshCollider>().enabled = true;
+            m_Light.enabled = true;
+
+            for (int i = 0; i < m_Particles.Length; ++i)
+            {
+                m_Particles[i].Stop();
+            }
         }
 
         else
         {
-            gameObject.GetComponent<MeshCollider>().enabled = false;
-            gameObject.GetComponent<MeshRenderer>().enabled = false;
-            //Teleporter.GetComponent<TeleporterBehaviour>().IsActive(false);
+            m_TeleportShaft.GetComponent<BoxCollider>().enabled = false;
+            m_LightShaft.GetComponent<MeshRenderer>().enabled = false;
+            m_LightShaft.GetComponent<MeshCollider>().enabled = false;
+            m_Light.enabled = false;
+
+            for (int i = 0; i < m_Particles.Length; ++i)
+            {
+                m_Particles[i].Play();
+            }
         }
     }
-
-
 
     public void Highlight(bool _isHighlighted)
     {
         if (_isHighlighted == true)
         {
-            gameObject.GetComponent<Renderer>().material = m_ActiveMat;
+            m_LightShaft.GetComponent<MeshRenderer>().material = m_ActiveMat;
+            m_Light.color = m_ActiveColor;
         }
 
         else
         {
-            gameObject.GetComponent<Renderer>().material = m_InactiveMat;
+            m_LightShaft.GetComponent<MeshRenderer>().material = m_InactiveMat;
+            m_Light.color = m_InactiveColor;
         }
     }
 
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(GetTelePoint(), new Vector3(2.5f,1f,2f));
+    }
 }

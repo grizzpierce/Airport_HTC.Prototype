@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Bibbit_LineSpawner : MonoBehaviour {
 
-    public GameObject m_Bibbit;
+    public GameObject[] m_Bibbit;
     
     public bool m_IsPathStatic = false;
     public float m_PathfinderRate = 5;
@@ -26,6 +26,7 @@ public class Bibbit_LineSpawner : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        Debug.Log(m_Bibbit.Length);
         m_PathTime = Time.time;
         m_BibbTime = Time.time;
 
@@ -66,7 +67,7 @@ public class Bibbit_LineSpawner : MonoBehaviour {
             { 
                 //Debug.Log("Current Bibbit Count: " + (m_SpawnedBibbits.Count + 1));
                 m_BibbTime = Time.time;
-                GameObject newBib = (GameObject)Instantiate(m_Bibbit, transform.position, Quaternion.identity);
+                GameObject newBib = (GameObject)Instantiate(m_Bibbit[(int)Random.Range(0, m_Bibbit.Length)], transform.position, Quaternion.identity);
                 newBib.GetComponent<Bibbit_Movement>().SetPathNodes(m_StoredPath);
                 m_SpawnedBibbits.Add(newBib);
             }

@@ -16,9 +16,9 @@ public class FuseboxBehaviour : MonoBehaviour {
 
         for (int i = 0; i < teleporters.Length; ++i)
         {
-            if(teleporters[i].GetComponent<TeleportShellBehaviour>().IsOffOnStart)
+            if(teleporters[i].transform.parent.GetComponent<TeleportShellBehaviour>().IsOffOnStart)
             {
-                m_Teleporters.Add(teleporters[i]);
+                m_Teleporters.Add(teleporters[i].transform.parent.gameObject);
             }
         }
 
