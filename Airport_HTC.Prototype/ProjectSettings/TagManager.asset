@@ -9,6 +9,8 @@ TagManager:
   - Bibbit
   - Teleport Point
   - Flag Point
+  - Controller
+  - Spawner
   layers:
   - Default
   - TransparentFX

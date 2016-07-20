@@ -16,17 +16,32 @@ public class Bibbit_LineSpawner : MonoBehaviour {
     public List<GameObject> m_StoredPath = new List<GameObject>();
     public List<GameObject> m_PrevStoredPath = new List<GameObject>();
 
+
     private List<GameObject> m_SpawnedBibbits = new List<GameObject>();
+    private bool m_SpawningActive = true;
+    private bool m_FullGrowth = false;
+
 
     private float m_PathElapsedTime = 0;
     private float m_BibbElapsedTime = 0;
     private float m_PathTime;
     private float m_BibbTime;
 
+    public void RemoveBibbit(GameObject _bibbit)
+    {
+        m_SpawnedBibbits.Remove(_bibbit);
+    }
+
+    public void AddBibbit(GameObject _bibbit)
+    {
+        m_SpawnedBibbits.Add(_bibbit);
+        _bibbit.GetComponent<Bibbit_Movement>().SetPathNodes(m_StoredPath);
+        _bibbit.GetComponent<Bibbit_Movement>().SetSpawner(gameObject);
+    }
+
     // Use this for initialization
     void Start ()
     {
-        Debug.Log(m_Bibbit.Length);
         m_PathTime = Time.time;
         m_BibbTime = Time.time;
 
@@ -54,25 +69,48 @@ public class Bibbit_LineSpawner : MonoBehaviour {
             if (m_PathElapsedTime >= m_PathfinderRate)
             {
                 m_PathTime = Time.time;
-                //Debug.Log("TEN SECONDS");
                 CheckPath();
             }
         }
 
-        if (m_SpawnedBibbits.Count < m_MaxBibbits)
+        // Ability to spawn bibbits
+        if (m_SpawningActive)
         {
-            m_BibbElapsedTime = Time.time - m_BibbTime;
+            // Fills the bibbit spawner with max number of bibbits once
+            if (m_SpawnedBibbits.Count < m_MaxBibbits && m_FullGrowth != true)
+            {
 
-            if (m_BibbElapsedTime >= m_BibbitRate)
-            { 
-                //Debug.Log("Current Bibbit Count: " + (m_SpawnedBibbits.Count + 1));
-                m_BibbTime = Time.time;
-                GameObject newBib = (GameObject)Instantiate(m_Bibbit[(int)Random.Range(0, m_Bibbit.Length)], transform.position, Quaternion.identity);
-                newBib.GetComponent<Bibbit_Movement>().SetPathNodes(m_StoredPath);
-                m_SpawnedBibbits.Add(newBib);
+                SpawnBibbit();
+
+                if (m_SpawnedBibbits.Count == m_MaxBibbits)
+                {
+                    m_FullGrowth = true;
+                }
+            }
+
+            // Adds bibbits if the bibbit count is low
+            else if (m_SpawnedBibbits.Count < m_MaxBibbits/2)
+            {
+                Debug.Log("Adding additional bibbit...");
+                SpawnBibbit();
             }
         }
+
 	}
+
+    private void SpawnBibbit()
+    {
+        m_BibbElapsedTime = Time.time - m_BibbTime;
+
+        if (m_BibbElapsedTime >= m_BibbitRate)
+        {
+            m_BibbTime = Time.time;
+            GameObject newBib = (GameObject)Instantiate(m_Bibbit[(int)Random.Range(0, m_Bibbit.Length)], transform.position, Quaternion.identity);
+            newBib.GetComponent<Bibbit_Movement>().SetPathNodes(m_StoredPath);
+            newBib.GetComponent<Bibbit_Movement>().SetSpawner(gameObject);
+           m_SpawnedBibbits.Add(newBib);
+        }
+    }
 
     private void CheckPath()
     {

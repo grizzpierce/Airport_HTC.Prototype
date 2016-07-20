@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class Bibbit_Movement : MonoBehaviour {
 
+    public GameObject m_Spawner;
     public GameObject m_PathfinderObject;
     private Bibbit_Pathfinder m_Pathfinder;
     private List<GameObject> m_PathNodes = new List<GameObject>();
@@ -11,6 +12,7 @@ public class Bibbit_Movement : MonoBehaviour {
     private bool m_IsPlaying = true;
     private bool m_IsReversed = false;
 
+    public AnimationClip m_Orbit;
 
     // LERP VARIABLES
     public float m_MovementSpeed = 1f;
@@ -29,6 +31,10 @@ public class Bibbit_Movement : MonoBehaviour {
         ReverseStoredPath();
     }
 
+    public void SetSpawner(GameObject _spawner)
+    {
+        m_Spawner = _spawner;
+    }
     public void SetPathNodes(List<GameObject> _nodes)
     {
         m_IsPlaying = false;
@@ -43,8 +49,13 @@ public class Bibbit_Movement : MonoBehaviour {
         m_IsPlaying = true;
     }
 	
+
+
 	void Update ()
     {
+        if(transform.rotation.eulerAngles != new Vector3(0,0,0))
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+
         if (m_PathfinderObject != null || m_PathNodes.Count != 0)
         {
             if (m_IsPlaying)
@@ -169,6 +180,23 @@ public class Bibbit_Movement : MonoBehaviour {
         for (int i = m_PathNodes.Count; i > 0; --i)
         {
             m_RevPathNodes.Add(m_PathNodes[i - 1]);
+        }
+    }
+
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.tag == "Controller")
+        {
+            // CHECK IF ENOUGH SPACE IN CONTAINER
+            if (collider.GetComponent<Bibbit_ControllerContainer>().RoomForMoreBibbits())
+            {
+                collider.GetComponent<Bibbit_ControllerContainer>().AddBibbit(gameObject);
+                m_Spawner.GetComponent<Bibbit_LineSpawner>().RemoveBibbit(gameObject);
+
+                gameObject.AddComponent<Bibbit_Stick>();
+                gameObject.GetComponent<Bibbit_Stick>().SetStuckObject(collider.gameObject);
+                gameObject.GetComponent<Bibbit_Stick>().PassAnimation(m_Orbit);
+            }
         }
     }
 }
