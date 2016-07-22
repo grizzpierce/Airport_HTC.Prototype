@@ -1,0 +1,172 @@
+fileFormatVersion: 2
+guid: b6500f0e4f38bbc45a9e640c93d6ad82
+timeCreated: 1469215934
+licenseType: Free
+SketchUpImporter:
+  generateBackFace: 0
+  mergeCoplanarFaces: 0
+  selectedNodes: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f00000020000000210000002200000023000000
+  assetHash:
+    serializedVersion: 2
+    Hash: 70c8fed77787c67cfcabb179347ed893
+  longitude: -105.283
+  latitude: 40.017
+  northCorrection: -0
+  fileUnit: 0
+  sketchUpImportData:
+    defaultCamera:
+      position: {x: -19.63838, y: 10.554018, z: -14.773482}
+      lookAt: {x: 14.427702, y: 2.2102082, z: -1.4316475}
+      up: {x: 0.2070413, y: 0.9749661, z: 0.08108684}
+      fov: 30
+      aspectRatio: 0
+      orthoSize: 1
+      isPerspective: 1
+    scenes: []
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Component#2
+    100004: Component#2 1
+    100006: Component#2 2
+    100008: engine
+    100010: engine 1
+    100012: Group 2
+    100014: Group 4
+    100016: tail
+    100018: tail 1
+    100020: wheel
+    100022: wheel 1
+    100024: wheel 2
+    100026: wheel 3
+    100028: wheel#2
+    100030: wheel#2 1
+    100032: wing
+    100034: wing 1
+    400000: //RootNode
+    400002: Component#2
+    400004: Component#2 1
+    400006: Component#2 2
+    400008: engine
+    400010: engine 1
+    400012: Group 2
+    400014: Group 4
+    400016: tail
+    400018: tail 1
+    400020: wheel
+    400022: wheel 1
+    400024: wheel 2
+    400026: wheel 3
+    400028: wheel#2
+    400030: wheel#2 1
+    400032: wing
+    400034: wing 1
+    2300000: //RootNode
+    2300002: Component#2
+    2300004: Component#2 1
+    2300006: Component#2 2
+    2300008: engine
+    2300010: engine 1
+    2300012: Group 2
+    2300014: Group 4
+    2300016: tail
+    2300018: tail 1
+    2300020: wheel
+    2300022: wheel 1
+    2300024: wheel 2
+    2300026: wheel 3
+    2300028: wheel#2
+    2300030: wheel#2 1
+    2300032: wing
+    2300034: wing 1
+    3300000: //RootNode
+    3300002: Component#2
+    3300004: Component#2 1
+    3300006: Component#2 2
+    3300008: engine
+    3300010: engine 1
+    3300012: Group 2
+    3300014: Group 4
+    3300016: tail
+    3300018: tail 1
+    3300020: wheel
+    3300022: wheel 1
+    3300024: wheel 2
+    3300026: wheel 3
+    3300028: wheel#2
+    3300030: wheel#2 1
+    3300032: wing
+    3300034: wing 1
+    4300000: Mesh Air_Airliner_Commercial
+    4300002: Mesh Group 2
+    4300004: Mesh Group 4
+    4300006: Mesh wing
+    4300008: Mesh tail
+    4300010: Mesh wheel
+    4300012: Mesh engine
+    4300014: Mesh Component#2
+    4300016: Mesh wheel#2
+  materials:
+    importMaterials: 1
+    materialName: 2
+    materialSearch: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.0254
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
