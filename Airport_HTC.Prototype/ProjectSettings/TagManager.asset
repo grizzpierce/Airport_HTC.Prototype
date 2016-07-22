@@ -11,6 +11,7 @@ TagManager:
   - Flag Point
   - Controller
   - Spawner
+  - Fusebox
   layers:
   - Default
   - TransparentFX

@@ -52,7 +52,8 @@ public class Bibbit_Stick : MonoBehaviour {
 
         if (m_Controller.gripPressed == true)
         {
-            // Drop that shit
+            m_Controller.GetComponent<Bibbit_ControllerContainer>().RemoveBibbit(gameObject);
+
             gameObject.AddComponent<Rigidbody>();
             m_Anim.Stop();
             gameObject.GetComponent<SphereCollider>().isTrigger = false;

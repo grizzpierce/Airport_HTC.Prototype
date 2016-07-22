@@ -23,7 +23,7 @@ GameObject:
   - 135: {fileID: 135000010580366756}
   m_Layer: 0
   m_Name: Bibbit Spawner
-  m_TagString: Untagged
+  m_TagString: Spawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,8 +34,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014020541874}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.08, y: 10.5, z: -82}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.4400005, y: 0, z: -1.423996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -52,13 +52,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c512cc5f38810049b572f619514636f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Bibbit: {fileID: 0}
+  m_BibbitTypes:
+  - {fileID: 1000010517563078, guid: 757a9da012821514ba98fe69b7036b76, type: 2}
+  - {fileID: 1000013216021554, guid: 25818b263f8cbab4c976470957a1c2f0, type: 2}
+  - {fileID: 1000011487682290, guid: 3c4accd1be2db7e42a9206c0200a0f46, type: 2}
+  - {fileID: 1000014060470822, guid: e16347c2452e8804792f34d584bbfc5d, type: 2}
   m_IsPathStatic: 1
   m_PathfinderRate: 5
+  m_SpawningActive: 1
   m_BibbitRate: 1
   m_MaxBibbits: 10
-  m_StoredPath: []
-  m_PrevStoredPath: []
+  m_Priority: 3
 --- !u!135 &135000010580366756
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -69,5 +73,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_Center: {x: 0, y: 0, z: 0}

@@ -8,7 +8,7 @@ public class Bibbit_Search : MonoBehaviour {
     public GameObject m_ClosestSpawner;
 
     public bool m_IsSpawnerClose = false;
-    public float m_MaxDistance = 3f;
+    public float m_MaxDistance = 5f;
 
     private bool m_TimerDone = false;
     private float m_ElapsedTime;
@@ -44,7 +44,7 @@ public class Bibbit_Search : MonoBehaviour {
 
         if (m_AllSpawners.Count > 1)
         {
-
+            // COMPARE ALL THE SPAWNERS FOUND
         }
 
         else if(m_AllSpawners.Count == 1)
@@ -60,16 +60,28 @@ public class Bibbit_Search : MonoBehaviour {
         }
     }
 
+    /*    How to do Bibbit Search:
 
-	// Update is called once per frame
-	void Update ()
+            1. Check OverlapSphere
+            2. Store all flags and spawners
+            3. Compare all flags, spawners with bibbit position
+                a. If a flag is closest:
+                    i. Move the bibbit to that flag
+                    ii. Set the path to the closest spawner that contains that flag
+                b. If a spawner is closest:
+                    i. Move the bibbit to the spawner and set it on the path
+                c. If nothing available or open:
+                    i. Bibbit flees and disappears forever     
+    */
+
+    // Update is called once per frame
+    void Update ()
     {
         m_ElapsedTime = Time.time - m_StartTime;
         //Debug.Log(m_ElapsedTime);
 
-        if (m_ElapsedTime >= 5f && m_TimerDone == false)
+        if (m_ElapsedTime >= 1f && m_TimerDone == false)
         {
-            Debug.Log("Sup?");
             m_TimerDone = true;
             CheckSpawners();
 

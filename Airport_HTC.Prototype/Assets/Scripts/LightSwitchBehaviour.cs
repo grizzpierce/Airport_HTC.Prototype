@@ -9,8 +9,16 @@ public class LightSwitchBehaviour : MonoBehaviour {
     private Animation m_Anim;
     private bool m_AlreadyTouched = false;
     private bool m_LightOn = false;
+    private bool m_IsLocked = false;
+
+
 
     public bool GetIfSwitchOn() { return m_LightOn; }
+
+    public void SetIfLocked(bool _locked)
+    {
+        m_IsLocked = _locked;
+    }
 
     void Start()
     {
@@ -24,33 +32,33 @@ public class LightSwitchBehaviour : MonoBehaviour {
 
     void Update()
     {
+        Debug.Log(gameObject.transform.parent.name + " is Locked: " + m_IsLocked);
 
-        if (m_SwitchObj.IsTouched() && m_AlreadyTouched != true)
+        if (!m_IsLocked)
         {
-            m_AlreadyTouched = true;
-
-            Debug.Log("Switch Hit!");
-
-            if (m_LightOn == false)
+            if (m_SwitchObj.IsTouched() && m_AlreadyTouched != true)
             {
-                m_Anim.clip = m_OnAnim;
-                m_Anim.Play();
-                m_LightOn = true;
+                m_AlreadyTouched = true;
+
+                if (m_LightOn == false)
+                {
+                    m_Anim.clip = m_OnAnim;
+                    m_Anim.Play();
+                    m_LightOn = true;
+                }
+
+                else
+                {
+                    m_Anim.clip = m_OffAnim;
+                    m_Anim.Play();
+                    m_LightOn = false;
+                }
             }
 
-            else
+            else if (m_SwitchObj.IsTouched() != true)
             {
-                m_Anim.clip = m_OffAnim;
-                m_Anim.Play();
-                m_LightOn = false;
+                m_AlreadyTouched = false;
             }
-        }
-
-        else if (m_SwitchObj.IsTouched() != true)
-        {
-            m_AlreadyTouched = false;
         }
     }
-
-
 }

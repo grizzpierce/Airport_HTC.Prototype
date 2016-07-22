@@ -140,7 +140,7 @@ public class TeleportToObject : MonoBehaviour
             {
                 if (m_RightPointed != null || m_RightPointer.getRayhit() != true)
                 {
-                    m_RightPointed.GetComponent<TeleportShellBehaviour>().Highlight(false);
+                    //m_RightPointed.GetComponent<TeleportShellBehaviour>().Highlight(false);
                     m_RightPointed = null;
                 }
             }
