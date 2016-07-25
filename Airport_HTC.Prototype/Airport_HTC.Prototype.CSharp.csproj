@@ -93,6 +93,7 @@
     <Compile Include="Assets\Bibbit_Stick.cs" />
     <Compile Include="Assets\Dirt_Blocking.cs" />
     <Compile Include="Assets\Flag_Data.cs" />
+    <Compile Include="Assets\Ignore_Physics.cs" />
     <Compile Include="Assets\OBJExport\OBJExporter.cs" />
     <Compile Include="Assets\ObjectNotes\ObjectNote.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\CameraControls.cs" />
