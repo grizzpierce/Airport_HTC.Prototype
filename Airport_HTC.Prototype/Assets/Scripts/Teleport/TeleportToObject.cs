@@ -26,6 +26,10 @@ public class TeleportToObject : MonoBehaviour
 
     public List<TeleportShellBehaviour> m_AllTeleporters = new List<TeleportShellBehaviour>();
     bool m_AllUnhighlighted = false;
+
+    private bool m_LHoverPlayed = false;
+    private bool m_RHoverPlayed = false;
+    public AudioClip m_TeleporterHover;
     public AudioClip m_TeleporterSelected;
 
     void Awake()
@@ -59,7 +63,7 @@ public class TeleportToObject : MonoBehaviour
         m_RightController = m_RightVive.GetComponent<VRTK_ControllerEvents>();
         m_RightAudio = m_RightVive.GetComponent<AudioSource>();
         m_RightAudio.playOnAwake = false;
-        m_RightAudio.clip = m_TeleporterSelected;
+        m_RightAudio.clip = m_TeleporterHover;
 
         m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().IsActive(false);
     }
@@ -75,15 +79,15 @@ public class TeleportToObject : MonoBehaviour
                     m_LeftPointed = m_LeftPointer.getHitObject().transform.parent.gameObject;
                     m_LeftPointed.GetComponent<TeleportShellBehaviour>().Highlight(true);
 
-                    if (!m_LeftAudio.isPlaying)
+                    if (!m_LHoverPlayed)
+                    {
+                        m_LeftAudio.clip = m_TeleporterHover;
                         m_LeftAudio.Play();
-
-                    else
-                        m_LeftAudio.Stop();
+                        m_LHoverPlayed = true;
+                    }
 
                     if (m_LeftController.grabPressed && m_LeftTeleported == false)
                     {
-
                         Debug.Log("Left Pointer hit: " + m_LeftPointer.getHitObject().name);
                         if (m_CurrentTeleportPoint != null) { m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().IsActive(true); }
 
@@ -92,6 +96,13 @@ public class TeleportToObject : MonoBehaviour
 
                         m_CurrentTeleportPoint = m_LeftPointer.getHitObject().transform.parent.gameObject;
                         m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().IsActive(false);
+
+                        if (m_LeftAudio.isPlaying)
+                            m_LeftAudio.Stop();
+
+                        m_LeftAudio.clip = m_TeleporterSelected;
+                        m_LeftAudio.Play();
+                        m_LHoverPlayed = false;
                     }
                 }
 
@@ -101,12 +112,14 @@ public class TeleportToObject : MonoBehaviour
                     {
                         m_LeftPointed.GetComponent<TeleportShellBehaviour>().Highlight(false);
                         m_LeftPointed = null;
+                        m_LHoverPlayed = false;
                     }
                 }
             }
             else
             {
                 UnhighlightAll();
+                m_LHoverPlayed = false;
             }
 
 
@@ -126,11 +139,12 @@ public class TeleportToObject : MonoBehaviour
                     m_RightPointed = m_RightPointer.getHitObject().transform.parent.gameObject;
                     m_RightPointed.GetComponent<TeleportShellBehaviour>().Highlight(true);
 
-                    if (!m_RightAudio.isPlaying)
+                    if (!m_RHoverPlayed)
+                    {
+                        m_RightAudio.clip = m_TeleporterHover;
                         m_RightAudio.Play();
-
-                    else
-                        m_RightAudio.Stop();
+                        m_RHoverPlayed = true;
+                    }
 
                     if (m_RightController.grabPressed && m_RightTeleported == false)
                     {
@@ -142,6 +156,13 @@ public class TeleportToObject : MonoBehaviour
 
                         m_CurrentTeleportPoint = m_RightPointer.getHitObject().transform.parent.gameObject;
                         m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().IsActive(false);
+
+                        if (m_RightAudio.isPlaying)
+                            m_RightAudio.Stop();
+
+                        m_RightAudio.clip = m_TeleporterSelected;
+                        m_RightAudio.Play();
+                        m_RHoverPlayed = false;
                     }
                 }
 
@@ -151,17 +172,15 @@ public class TeleportToObject : MonoBehaviour
                     {
                         m_RightPointed.GetComponent<TeleportShellBehaviour>().Highlight(false);
                         m_RightPointed = null;
+                        m_RHoverPlayed = false;
                     }
                 }
             }
 
             else
             {
-                if (m_RightPointed != null || m_RightPointer.getRayhit() != true)
-                {
-                    //m_RightPointed.GetComponent<TeleportShellBehaviour>().Highlight(false);
-                    m_RightPointed = null;
-                }
+                UnhighlightAll();
+                m_RHoverPlayed = false;
             }
 
             if (m_RightController.grabPressed != true && m_RightTeleported == true)
