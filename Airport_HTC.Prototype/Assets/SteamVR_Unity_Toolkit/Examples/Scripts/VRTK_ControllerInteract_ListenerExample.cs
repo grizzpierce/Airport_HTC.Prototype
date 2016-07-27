@@ -21,7 +21,7 @@ public class VRTK_ControllerInteract_ListenerExample : MonoBehaviour {
 
     void DebugLogger(uint index, string action, GameObject target)
     {
-        Debug.Log("Controller on index '" + index + "' is " + action + " an object named " + target.name);
+        //Debug.Log("Controller on index '" + index + "' is " + action + " an object named " + target.name);
     }
 
     void DoInteractTouch(object sender, ObjectInteractEventArgs e)
