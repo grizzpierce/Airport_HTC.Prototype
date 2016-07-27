@@ -193,6 +193,7 @@
     <Compile Include="Assets\TheLabRenderer\Scripts\ValvePhotogrammetryGlobalSettings.cs" />
     <Compile Include="Assets\TheLabRenderer\Scripts\ValveRealtimeLight.cs" />
     <Compile Include="Assets\TheLabRenderer\Scripts\openvr_api.cs" />
+    <Compile Include="Assets\Vending_Behaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Art\Stykized Vegetation Pack Free\Readme.txt" />

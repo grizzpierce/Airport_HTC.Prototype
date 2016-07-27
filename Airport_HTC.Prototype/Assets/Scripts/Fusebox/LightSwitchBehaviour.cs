@@ -11,7 +11,7 @@ public class LightSwitchBehaviour : MonoBehaviour {
     private bool m_LightOn = false;
     private bool m_IsLocked = false;
 
-
+    private AudioSource m_Audio;
 
     public bool GetIfSwitchOn() { return m_LightOn; }
 
@@ -24,16 +24,14 @@ public class LightSwitchBehaviour : MonoBehaviour {
     {
         m_SwitchObj = gameObject.GetComponent<VRTK_InteractableObject>();
         m_Anim = gameObject.GetComponent<Animation>();
+        m_Audio = gameObject.GetComponent<AudioSource>();
 
         m_Anim.clip = m_OffAnim;
         m_Anim.Play();
     }
 
-
     void Update()
     {
-        Debug.Log(gameObject.transform.parent.name + " is Locked: " + m_IsLocked);
-
         if (!m_IsLocked)
         {
             if (m_SwitchObj.IsTouched() && m_AlreadyTouched != true)
@@ -44,6 +42,7 @@ public class LightSwitchBehaviour : MonoBehaviour {
                 {
                     m_Anim.clip = m_OnAnim;
                     m_Anim.Play();
+                    m_Audio.Play();
                     m_LightOn = true;
                 }
 
@@ -51,6 +50,7 @@ public class LightSwitchBehaviour : MonoBehaviour {
                 {
                     m_Anim.clip = m_OffAnim;
                     m_Anim.Play();
+                    m_Audio.Play();
                     m_LightOn = false;
                 }
             }

@@ -4,7 +4,10 @@ using System.Collections.Generic;
 
 public class FuseboxBehaviour : MonoBehaviour {
 
-    GameObject[] m_FuseSwitches;
+    GameObject[] m_AllFuseSwitches;
+    public bool m_AllLocked = true;
+    public GameObject[] m_LockedSwitches;
+
     public List<GameObject> m_Teleporters = new List<GameObject>();
     bool m_LightsOn = false;
     bool m_TurnedOnce = false;
@@ -14,20 +17,31 @@ public class FuseboxBehaviour : MonoBehaviour {
     public void SetActive(bool _isActive)
     {
         m_Active = _isActive;
-        Debug.Log("FuseBox is active: " + _isActive);
-        if (m_FuseSwitches != null)
+        // Debug.Log("FuseBox is active: " + _isActive);
+        if (m_AllFuseSwitches != null)
         {
-            for (int i = 0; i < m_FuseSwitches.Length; ++i)
+            if (m_AllLocked)
             {
-                m_FuseSwitches[i].GetComponent<LightSwitchBehaviour>().SetIfLocked(!_isActive);
+                for (int i = 0; i < m_AllFuseSwitches.Length; ++i)
+                {
+                    m_AllFuseSwitches[i].GetComponent<LightSwitchBehaviour>().SetIfLocked(!_isActive);
+                }
             }
+            else
+            {
+                for (int i = 0; i < m_LockedSwitches.Length; ++i)
+                {
+                    m_LockedSwitches[i].GetComponent<LightSwitchBehaviour>().SetIfLocked(!_isActive);
+                }
+            }
+
         }
     }
 
     void Awake ()
     {
         // Stores all fuse switches and teleporters
-        m_FuseSwitches = GameObject.FindGameObjectsWithTag("Light Switch");
+        m_AllFuseSwitches = GameObject.FindGameObjectsWithTag("Light Switch");
         GameObject[] teleporters = GameObject.FindGameObjectsWithTag("Teleport Point");
 
         // Checks if any stored teleporters are off
@@ -51,10 +65,10 @@ public class FuseboxBehaviour : MonoBehaviour {
                 bool allLightsOn = true;
 
                 // Checks if all lights are switched up
-                for (int i = 0; i < m_FuseSwitches.Length; ++i)
+                for (int i = 0; i < m_AllFuseSwitches.Length; ++i)
                 {
                     // If any aren't, then lights are still off
-                    if (m_FuseSwitches[i].GetComponent<LightSwitchBehaviour>().GetIfSwitchOn() == false)
+                    if (m_AllFuseSwitches[i].GetComponent<LightSwitchBehaviour>().GetIfSwitchOn() == false)
                     {
                         allLightsOn = false;
                     }

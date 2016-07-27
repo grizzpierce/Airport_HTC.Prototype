@@ -8,10 +8,12 @@ public class TeleportToObject : MonoBehaviour
     public GameObject m_LeftVive;
     VRTK_SimplePointer m_LeftPointer;
     VRTK_ControllerEvents m_LeftController;
+    AudioSource m_LeftAudio;
 
     public GameObject m_RightVive;
     VRTK_SimplePointer m_RightPointer;
     VRTK_ControllerEvents m_RightController;
+    AudioSource m_RightAudio;
 
     bool m_LeftTeleported = false;
     bool m_RightTeleported = false;
@@ -24,6 +26,7 @@ public class TeleportToObject : MonoBehaviour
 
     public List<TeleportShellBehaviour> m_AllTeleporters = new List<TeleportShellBehaviour>();
     bool m_AllUnhighlighted = false;
+    public AudioClip m_TeleporterSelected;
 
     void Awake()
     {
@@ -48,11 +51,15 @@ public class TeleportToObject : MonoBehaviour
     {
         m_LeftPointer = m_LeftVive.GetComponent<VRTK_SimplePointer>();
         m_LeftController = m_LeftVive.GetComponent<VRTK_ControllerEvents>();
+        m_LeftAudio = m_LeftVive.GetComponent<AudioSource>();
+        m_LeftAudio.playOnAwake = false;
+        m_LeftAudio.clip = m_TeleporterSelected;
 
         m_RightPointer = m_RightVive.GetComponent<VRTK_SimplePointer>();
         m_RightController = m_RightVive.GetComponent<VRTK_ControllerEvents>();
-
-        //Debug.Log(m_CurrentTeleportPoint.name);
+        m_RightAudio = m_RightVive.GetComponent<AudioSource>();
+        m_RightAudio.playOnAwake = false;
+        m_RightAudio.clip = m_TeleporterSelected;
 
         m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().IsActive(false);
     }
@@ -67,6 +74,12 @@ public class TeleportToObject : MonoBehaviour
                 {
                     m_LeftPointed = m_LeftPointer.getHitObject().transform.parent.gameObject;
                     m_LeftPointed.GetComponent<TeleportShellBehaviour>().Highlight(true);
+
+                    if (!m_LeftAudio.isPlaying)
+                        m_LeftAudio.Play();
+
+                    else
+                        m_LeftAudio.Stop();
 
                     if (m_LeftController.grabPressed && m_LeftTeleported == false)
                     {
@@ -112,6 +125,12 @@ public class TeleportToObject : MonoBehaviour
                 {
                     m_RightPointed = m_RightPointer.getHitObject().transform.parent.gameObject;
                     m_RightPointed.GetComponent<TeleportShellBehaviour>().Highlight(true);
+
+                    if (!m_RightAudio.isPlaying)
+                        m_RightAudio.Play();
+
+                    else
+                        m_RightAudio.Stop();
 
                     if (m_RightController.grabPressed && m_RightTeleported == false)
                     {
