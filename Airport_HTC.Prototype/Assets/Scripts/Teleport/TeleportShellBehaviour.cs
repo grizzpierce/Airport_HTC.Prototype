@@ -18,10 +18,44 @@ public class TeleportShellBehaviour : MonoBehaviour
 
     public Vector3 TeleportPoint;
 
+    private bool m_isAudioPrepping = false;
+    private AudioSource m_Audio;
+    private float m_Timer = 0;
+    private float m_Delay;
+
+
     public Vector3 GetTelePoint() { return TeleportPoint; }
+
+
+    public void PlaySound() { m_Audio.Play(); }
+
+    public void PlaySound(float _delay)
+    {
+        m_Delay = _delay;
+        m_isAudioPrepping = true;
+    }
+
+
+    void Update()
+    {
+        if (m_isAudioPrepping)
+        {
+            m_Timer += .1f;
+
+            if (m_Timer > m_Delay)
+                m_Audio.Play();
+        }
+
+        if (m_Audio.isPlaying)
+            m_isAudioPrepping = false;
+    }
+
+
+
 
     void Awake()
     {
+        m_Audio = GetComponent<AudioSource>();
         m_LightShaft = transform.FindChild("prop_lightshaft").gameObject;
         m_TeleportShaft = transform.FindChild("teleportshaft").gameObject;
         m_Light = transform.FindChild("Spotlight").GetComponent<Light>();
@@ -89,7 +123,6 @@ public class TeleportShellBehaviour : MonoBehaviour
             m_Light.color = m_InactiveColor;
         }
     }
-
 
     void OnDrawGizmos()
     {

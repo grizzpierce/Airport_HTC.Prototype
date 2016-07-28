@@ -13,6 +13,11 @@ public class FuseboxBehaviour : MonoBehaviour {
     bool m_TurnedOnce = false;
     bool m_Active = true;
 
+    public float m_Delay = .5f;
+    private int m_LightCount = 0;
+    private float m_Timer = 0;
+    public AudioClip m_SpotlightAudio;
+
     // SETS IF THE FUSEBOX CAN BE INTERACTED WITH AND SETS IF SWITCHES CAN BE INTERACTED
     public void SetActive(bool _isActive)
     {
@@ -87,11 +92,15 @@ public class FuseboxBehaviour : MonoBehaviour {
                 // And they haven't been turned on once
                 if (!m_TurnedOnce)
                 {
+                    AudioSource[] spotlightAudio = new AudioSource[m_Teleporters.Count];
+
                     // Then it turns on all lights
                     for (int i = 0; i < m_Teleporters.Count; ++i)
                     {
                         m_Teleporters[i].GetComponent<TeleportShellBehaviour>().IsActive(true);
+                        m_Teleporters[i].GetComponent<TeleportShellBehaviour>().PlaySound();
                     }
+
                     m_TurnedOnce = true;
                 }
 
