@@ -35,14 +35,18 @@ public class Vending_Behaviour : MonoBehaviour {
                 m_TimerStarted = true;
 
                 GameObject audio = (GameObject)Instantiate(new GameObject(), gameObject.transform.position, Quaternion.identity);
-                audio.AddComponent<AudioSource>();
-                audio.GetComponent<AudioSource>().clip = m_AudioClip;
+                m_Audio = audio.AddComponent<AudioSource>();
+                m_Audio.clip = m_AudioClip;
             }
 
             m_ElapsedTimer = Time.time - m_AnimTimer;
 
             if (!m_CanDropped)
             {
+                if (m_ElapsedTimer >= .1)
+                {
+                    m_Audio.Play();
+                }
                 if (m_ElapsedTimer >= 2.25)
                 {
                     Debug.Log("Can Dropped!");

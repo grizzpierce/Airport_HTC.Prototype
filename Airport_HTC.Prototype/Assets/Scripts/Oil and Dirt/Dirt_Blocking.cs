@@ -32,6 +32,8 @@ public class Dirt_Blocking : MonoBehaviour {
             {
                 m_BlockedItem.GetComponent<Bibbit_LineSpawner>().SetIfSpawningActive(true);
             }
+
+            Destroy(gameObject); // Animation has different tiers
         }
     }
 }
