@@ -5,9 +5,30 @@ public class OilDropBehaviour : MonoBehaviour
 {
     
     public GameObject m_SpillPrefab;
-    private GameObject newSpill;
+    public GameObject newSpill;
     ParticleSystem m_PS;
     bool m_HasCollided = false;
+
+    public bool GetIfOilSpilled()
+    {
+        if (newSpill != null || m_PS.isPlaying)
+            return true;
+
+        else
+            return false;
+    }
+
+    public GameObject GetOilSpill()
+    {
+        if (newSpill != null)
+            return newSpill;
+
+        else if (m_PS.isPlaying)
+            return null;
+
+        else
+            return null;
+    }
 
     void Start()
     {
@@ -17,9 +38,7 @@ public class OilDropBehaviour : MonoBehaviour
     void Update()
     {
         if(m_HasCollided == true)
-        {
             m_PS.Stop();
-        }
     }
 
     void OnParticleCollision(GameObject other)
