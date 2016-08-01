@@ -30,7 +30,7 @@ public class OilDropBehaviour : MonoBehaviour
             return null;
     }
 
-    void Start()
+    void Awake()
     {
         m_PS = GetComponent<ParticleSystem>();
     }
@@ -43,6 +43,8 @@ public class OilDropBehaviour : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
+        Debug.Log("Collision is hitting");
+
         if (m_HasCollided != true)
         {
             m_HasCollided = true;

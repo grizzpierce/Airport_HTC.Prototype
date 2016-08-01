@@ -1837,7 +1837,7 @@ ParticleSystem:
     maxCollisionShapes: 256
     quality: 2
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 0
     interiorCollisions: 1
   TriggerModule:
