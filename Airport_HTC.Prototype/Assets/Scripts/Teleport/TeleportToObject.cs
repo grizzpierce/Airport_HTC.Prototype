@@ -4,11 +4,16 @@ using System.Collections.Generic;
 
 public class TeleportToObject : MonoBehaviour
 {
+    // AIRPORT SPEAKERS
+    private AudioSource m_Speakers;
+
     // CONTROLLER 
     public GameObject m_LeftVive;
     VRTK_SimplePointer m_LeftPointer;
     VRTK_ControllerEvents m_LeftController;
     AudioSource m_LeftAudio;
+
+
 
     public GameObject m_RightVive;
     VRTK_SimplePointer m_RightPointer;
@@ -32,6 +37,12 @@ public class TeleportToObject : MonoBehaviour
     public AudioClip m_TeleporterHover;
     public AudioClip m_TeleporterSelected;
 
+    void ChangeVolume(float _volume)
+    {
+        m_Speakers.volume = _volume;
+    }
+
+
     void Awake()
     {
         GameObject[] teleporters = GameObject.FindGameObjectsWithTag("Teleport Point");
@@ -40,6 +51,8 @@ public class TeleportToObject : MonoBehaviour
         {
             m_AllTeleporters.Add(teleporters[i].transform.parent.gameObject.GetComponent<TeleportShellBehaviour>());
         }
+
+        m_Speakers = transform.FindChild("Airport Speakers").GetComponent<AudioSource>();
     }
 
 
@@ -100,6 +113,8 @@ public class TeleportToObject : MonoBehaviour
                         if (m_LeftAudio.isPlaying)
                             m_LeftAudio.Stop();
 
+                        ChangeVolume(m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().GetVolume());
+
                         m_LeftAudio.clip = m_TeleporterSelected;
                         m_LeftAudio.Play();
                         m_LHoverPlayed = false;
@@ -159,6 +174,8 @@ public class TeleportToObject : MonoBehaviour
 
                         if (m_RightAudio.isPlaying)
                             m_RightAudio.Stop();
+
+                        ChangeVolume(m_CurrentTeleportPoint.GetComponent<TeleportShellBehaviour>().GetVolume());
 
                         m_RightAudio.clip = m_TeleporterSelected;
                         m_RightAudio.Play();

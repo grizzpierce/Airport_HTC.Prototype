@@ -18,6 +18,7 @@ public class FuseboxBehaviour : MonoBehaviour {
     private float m_Timer = 0;
     public AudioClip m_SpotlightAudio;
 
+
     // SETS IF THE FUSEBOX CAN BE INTERACTED WITH AND SETS IF SWITCHES CAN BE INTERACTED
     public void SetActive(bool _isActive)
     {
