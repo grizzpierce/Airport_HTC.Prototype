@@ -23,6 +23,7 @@ public class TeleportShellBehaviour : MonoBehaviour
     private float m_Timer = 0;
     private float m_Delay;
 
+    public float m_SpeakerVolume;
 
     public Vector3 GetTelePoint() { return TeleportPoint; }
 
@@ -33,6 +34,11 @@ public class TeleportShellBehaviour : MonoBehaviour
     {
         m_Delay = _delay;
         m_isAudioPrepping = true;
+    }
+
+    public float GetVolume()
+    {
+        return m_SpeakerVolume;
     }
 
 
