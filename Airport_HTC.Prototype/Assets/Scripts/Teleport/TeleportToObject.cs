@@ -5,15 +5,13 @@ using System.Collections.Generic;
 public class TeleportToObject : MonoBehaviour
 {
     // AIRPORT SPEAKERS
-    private AudioSource m_Speakers;
+    private Airport_Speakers m_Speakers;
 
     // CONTROLLER 
     public GameObject m_LeftVive;
     VRTK_SimplePointer m_LeftPointer;
     VRTK_ControllerEvents m_LeftController;
     AudioSource m_LeftAudio;
-
-
 
     public GameObject m_RightVive;
     VRTK_SimplePointer m_RightPointer;
@@ -39,7 +37,7 @@ public class TeleportToObject : MonoBehaviour
 
     void ChangeVolume(float _volume)
     {
-        m_Speakers.volume = _volume;
+        m_Speakers.CheckVolume(_volume);
     }
 
 
@@ -52,7 +50,7 @@ public class TeleportToObject : MonoBehaviour
             m_AllTeleporters.Add(teleporters[i].transform.parent.gameObject.GetComponent<TeleportShellBehaviour>());
         }
 
-        m_Speakers = transform.FindChild("Airport Speakers").GetComponent<AudioSource>();
+        m_Speakers = transform.FindChild("Airport Speakers").GetComponent<Airport_Speakers>();
     }
 
 

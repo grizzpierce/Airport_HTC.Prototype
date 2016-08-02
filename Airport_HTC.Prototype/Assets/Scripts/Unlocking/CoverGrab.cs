@@ -57,6 +57,8 @@ public class CoverGrab : MonoBehaviour {
 
                         m_Audio.clip = m_SwingOpen;
                         m_Audio.Play();
+
+                        Destroy(gameObject);
                     }
                 }
             }

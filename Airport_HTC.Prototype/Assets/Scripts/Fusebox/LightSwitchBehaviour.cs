@@ -5,11 +5,11 @@ public class LightSwitchBehaviour : MonoBehaviour {
 
     public AnimationClip m_OnAnim;
     public AnimationClip m_OffAnim;
-    private VRTK_InteractableObject m_SwitchObj;
     private Animation m_Anim;
-    private bool m_AlreadyTouched = false;
-    private bool m_LightOn = false;
-    private bool m_IsLocked = false;
+    public bool m_AlreadyTouched = false;
+    public bool m_LightOn = false;
+    public bool m_IsLocked = false;
+    public bool m_ControllerCollided = false;
 
     private AudioSource m_Audio;
 
@@ -22,7 +22,6 @@ public class LightSwitchBehaviour : MonoBehaviour {
 
     void Start()
     {
-        m_SwitchObj = gameObject.GetComponent<VRTK_InteractableObject>();
         m_Anim = gameObject.GetComponent<Animation>();
         m_Audio = gameObject.GetComponent<AudioSource>();
 
@@ -34,7 +33,8 @@ public class LightSwitchBehaviour : MonoBehaviour {
     {
         if (!m_IsLocked)
         {
-            if (m_SwitchObj.IsTouched() && m_AlreadyTouched != true)
+
+            if (m_ControllerCollided && m_AlreadyTouched != true)
             {
                 m_AlreadyTouched = true;
 
@@ -55,10 +55,30 @@ public class LightSwitchBehaviour : MonoBehaviour {
                 }
             }
 
-            else if (m_SwitchObj.IsTouched() != true)
+            /* FUNCTIONALITY TO TURN SWITCH BACK OFF
+
+            else if (m_ControllerCollided != true)
             {
                 m_AlreadyTouched = false;
             }
+            */
+        }
+    }
+
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Controller")
+        {
+            m_ControllerCollided = true;
+        }
+    }
+
+    void OnTriggerExit(Collider col)
+    {
+        if(col.tag == "Controller")
+        {
+            m_ControllerCollided = false;
         }
     }
 }

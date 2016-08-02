@@ -43,7 +43,7 @@ public class OilDropBehaviour : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
-        Debug.Log("Collision is hitting");
+        //Debug.Log("Collision is hitting");
 
         if (m_HasCollided != true)
         {
@@ -51,6 +51,7 @@ public class OilDropBehaviour : MonoBehaviour
 
             float newY = other.transform.position.y + (other.transform.localScale.y/2);
             newSpill = (GameObject)Instantiate(m_SpillPrefab, new Vector3(transform.position.x, newY, transform.position.z), Quaternion.identity);
+            newSpill.transform.parent = transform.parent;
         }
     }
 }
