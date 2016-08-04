@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BibbitCleaner_Search : MonoBehaviour {
+public class BibbitCleaner_CrowdSearch : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

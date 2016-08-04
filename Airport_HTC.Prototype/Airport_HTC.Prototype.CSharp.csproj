@@ -99,7 +99,8 @@
     <Compile Include="Assets\Scripts\Bibbit\Bibbit_Pathfinder.cs" />
     <Compile Include="Assets\Scripts\Bibbit\Bibbit_Search.cs" />
     <Compile Include="Assets\Scripts\Bibbit\Bibbit_Stick.cs" />
-    <Compile Include="Assets\Scripts\Bibbit\CLEANERS\BibbitCleaner_Crowd.cs" />
+    <Compile Include="Assets\Scripts\Bibbit\CLEANERS\BibbitCleaner_CrowdData.cs" />
+    <Compile Include="Assets\Scripts\Bibbit\CLEANERS\BibbitCleaner_CrowdSearch.cs" />
     <Compile Include="Assets\Scripts\Bibbit\CLEANERS\BibbitCleaner_Idle.cs" />
     <Compile Include="Assets\Scripts\Bibbit\CLEANERS\BibbitCleaner_Search.cs" />
     <Compile Include="Assets\Scripts\Bibbit\CLEANERS\BibbitCleaner_Spawner.cs" />

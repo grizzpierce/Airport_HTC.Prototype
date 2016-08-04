@@ -33,10 +33,8 @@ public class BibbitCleaner_InitMove : MonoBehaviour {
 
         if (transform.position == endMarker)
         {
-            Debug.Log("True");
             transform.parent = m_Parent.transform;
             gameObject.AddComponent<BibbitCleaner_Idle>();
-            Destroy(GetComponent<BibbitCleaner_InitMove>());
         }
     }
 }

@@ -12,6 +12,7 @@ TagManager:
   - Controller
   - Spawner
   - Fusebox
+  - Oil
   layers:
   - Default
   - TransparentFX

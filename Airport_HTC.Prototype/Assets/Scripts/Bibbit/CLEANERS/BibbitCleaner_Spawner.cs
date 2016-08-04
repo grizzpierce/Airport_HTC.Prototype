@@ -8,7 +8,7 @@ public class BibbitCleaner_Spawner : MonoBehaviour {
     public Vector3 m_IdleSpot;
 
     private GameObject m_BibbitCrowd;
-    private BibbitCleaner_Crowd m_CurrentCrowd;
+    private BibbitCleaner_CrowdData m_CrowdData;
 
     bool testCondition = false;
     public int m_MaximumBibbits = 10;
@@ -18,8 +18,7 @@ public class BibbitCleaner_Spawner : MonoBehaviour {
 
 	void Start ()
     {
-        m_BibbitCrowd = new GameObject("Bibbit Crowd");
-        m_BibbitCrowd.transform.position = m_IdleSpot;
+        CreateCrowd();
 
         for (int i = 0; i < m_MaximumBibbits; ++i)
         {
@@ -29,17 +28,25 @@ public class BibbitCleaner_Spawner : MonoBehaviour {
 	}
 	
 
+    private void CreateCrowd()
+    {
+        m_BibbitCrowd = new GameObject("Bibbit Crowd");
+        m_CrowdData = m_BibbitCrowd.AddComponent<BibbitCleaner_CrowdData>();
+        m_BibbitCrowd.transform.position = m_IdleSpot;
+    }
+
+
 	void Update ()
     {
         if (!testCondition)
         {
-            test();
+            SpawnBibbits();
             testCondition = true;
         }
 
 	}
 
-    void test()
+    void SpawnBibbits()
     {
         for(int i = 0; i < m_MaximumBibbits; ++i)
         {
@@ -51,5 +58,7 @@ public class BibbitCleaner_Spawner : MonoBehaviour {
             m_SpawnedBibbits[i].GetComponent<BibbitCleaner_InitMove>().m_Parent = m_BibbitCrowd;
             m_SpawnedBibbits[i].GetComponent<BibbitCleaner_InitMove>().m_LerpOn = true;
         }
+
+        m_CrowdData.m_AddBibbit(m_SpawnedBibbits);
     }
 }
