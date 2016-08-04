@@ -164,6 +164,7 @@ public class BibbitCleaner_CrowdData : MonoBehaviour {
         {
             m_Moving = false;
             Destroy(m_CurrentSpill);
+            m_CurrentSpill = null;
             m_Waiting = true;
             journeyLength = 0;
         }

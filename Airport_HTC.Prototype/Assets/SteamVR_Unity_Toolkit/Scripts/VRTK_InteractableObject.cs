@@ -132,6 +132,11 @@ public class VRTK_InteractableObject : MonoBehaviour
         return (grabbingObject != null);
     }
 
+    public GameObject GetGrabbingObject()
+    {
+        return grabbingObject;
+    }
+
     public bool IsUsing()
     {
         return isUsing;
