@@ -22,6 +22,12 @@ public class BibbitCleaner_Idle : MonoBehaviour {
 
         if (GetComponent<BibbitCleaner_Grabbed>() != null)
             Destroy(GetComponent<BibbitCleaner_Grabbed>());
+
+        if (GetComponent<BibbitCleaner_Follow>() != null)
+            Destroy(GetComponent<BibbitCleaner_Follow>());
+
+        if (GetComponent<Collider>().isTrigger == false)
+            GetComponent<Collider>().isTrigger = true;
     }
 	
 	// Update is called once per frame

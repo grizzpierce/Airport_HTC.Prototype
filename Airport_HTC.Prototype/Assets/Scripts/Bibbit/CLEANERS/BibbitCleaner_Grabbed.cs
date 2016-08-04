@@ -8,9 +8,13 @@ public class BibbitCleaner_Grabbed : MonoBehaviour {
     public GameObject m_GrabbingController;
     public bool m_StartGrabbed = false;
 
+    public GameObject m_PrevCrowd;
+    public GameObject m_NewCrowd;
+
     private float m_DroppedTimer;
     public float m_DropDelay = 1f;
 
+    
 
 	// Update is called once per frame
 	void Update ()
@@ -23,7 +27,11 @@ public class BibbitCleaner_Grabbed : MonoBehaviour {
                 {
                     Destroy(GetComponent<BibbitCleaner_Idle>());
                     m_Anim.Stop();
-                    transform.parent = null;
+
+                    m_PrevCrowd = transform.parent.gameObject;
+                    m_PrevCrowd.GetComponent<BibbitCleaner_CrowdData>().m_BibbitGrabbed(gameObject);
+
+
                     transform.GetChild(0).transform.position = transform.position;
                     gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 }
@@ -43,11 +51,11 @@ public class BibbitCleaner_Grabbed : MonoBehaviour {
 
                 if (elapsed > m_DropDelay)
                 {
-                    GameObject crowd = new GameObject("Bibbit Crowd");
-                    crowd.transform.position = gameObject.transform.position;
-                    crowd.AddComponent<BibbitCleaner_CrowdData>();
-                    crowd.GetComponent<BibbitCleaner_CrowdData>().m_AddBibbit(gameObject);
-                    transform.parent = crowd.transform;
+                    m_NewCrowd = new GameObject("Bibbit Crowd");
+                    m_NewCrowd.transform.position = gameObject.transform.position;
+                    m_NewCrowd.AddComponent<BibbitCleaner_CrowdData>();
+                    m_NewCrowd.GetComponent<BibbitCleaner_CrowdData>().m_AddBibbit(gameObject);
+                    transform.parent = m_NewCrowd.transform;
 
                     m_Anim.Play();
 

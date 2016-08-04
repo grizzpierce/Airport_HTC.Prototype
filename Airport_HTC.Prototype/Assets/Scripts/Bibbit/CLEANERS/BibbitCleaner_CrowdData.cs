@@ -6,8 +6,10 @@ public class BibbitCleaner_CrowdData : MonoBehaviour {
 
     // OVERALL DATA
     public List<GameObject> m_CrowdBibbits = new List<GameObject>();
+    public int m_StartAmount;
     public GameObject m_CurrentSpill;
     bool m_Started = false;
+    public int m_FollowerAmount = 3;
 
     // WAITING STATE
     bool m_Waiting = false;
@@ -49,14 +51,31 @@ public class BibbitCleaner_CrowdData : MonoBehaviour {
             m_CrowdBibbits.Remove(_bibs[i]);
     }
 
+    public void m_BibbitGrabbed(GameObject _bib)
+    {
+        m_CrowdBibbits.Remove(_bib);
+        _bib.transform.parent = null;
+
+        for (int i = 0; i < m_FollowerAmount; ++i)
+        {
+            m_CrowdBibbits[i].AddComponent<BibbitCleaner_Follow>();
+            m_CrowdBibbits[i].GetComponent<BibbitCleaner_Follow>().m_LeadBibbit = _bib;
+        }
+
+        // NUMBER OF BIBBITS ALSO GRABBED AND REMOVED
+        // ONCE DROPPED, THEY JOIN THE FIRST GRABBED'S CROWD
+
+    }
 
 
     void Update()
     {
-        if(m_CrowdBibbits.Count == transform.childCount)
+        if (m_CrowdBibbits.Count == transform.childCount)
         {
             if (!m_Started)
             {
+                SortBibbits();
+                IgnoreOtherBibbits();
                 m_Started = true;
                 m_Waiting = true;
             }
@@ -72,6 +91,27 @@ public class BibbitCleaner_CrowdData : MonoBehaviour {
             Movement();
     }
 
+    private void SortBibbits()
+    {
+        for (int i = 0; i < m_CrowdBibbits.Count; ++i)
+        {
+            m_CrowdBibbits[i].transform.parent = null;
+        }
+
+        for (int i = 0; i < m_CrowdBibbits.Count; ++i)
+        {
+            m_CrowdBibbits[i].transform.parent = gameObject.transform;
+        }
+    }
+
+    private void IgnoreOtherBibbits()
+    {
+        for (int i = 0; i < m_CrowdBibbits.Count; ++i)
+        {
+            m_CrowdBibbits[i].AddComponent<Ignore_Physics>();
+            m_CrowdBibbits[i].AddComponent<Ignore_Physics>().AddIgnore("Bibbit");
+        }
+    }
 
     private void Wait()
     {

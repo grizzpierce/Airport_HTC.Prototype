@@ -10,7 +10,7 @@ public class BibbitCleaner_Spawner : MonoBehaviour {
     private GameObject m_BibbitCrowd;
     private BibbitCleaner_CrowdData m_CrowdData;
 
-    bool testCondition = false;
+    bool m_HasSpawned = false;
     public int m_MaximumBibbits = 10;
     public float m_SquareDim = 1f; 
     private List<GameObject> m_SpawnedBibbits = new List<GameObject>();
@@ -38,10 +38,10 @@ public class BibbitCleaner_Spawner : MonoBehaviour {
 
 	void Update ()
     {
-        if (!testCondition)
+        if (!m_HasSpawned)
         {
             SpawnBibbits();
-            testCondition = true;
+            m_HasSpawned = true;
         }
 
 	}
