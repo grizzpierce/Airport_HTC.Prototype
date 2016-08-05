@@ -22,6 +22,7 @@ public class Dirt_Blocking : MonoBehaviour {
 	
     void OnTriggerEnter(Collider col)
     {
+        /*
         if (col.tag == "Bibbit")
         {
             if (m_BlockedItemType == "Fusebox")
@@ -34,6 +35,22 @@ public class Dirt_Blocking : MonoBehaviour {
             }
 
             Destroy(gameObject); // Animation has different tiers
+        }*/
+
+    }
+
+    public void Unlock()
+    {
+        if (m_BlockedItemType == "Fusebox")
+        {
+            m_BlockedItem.GetComponent<FuseboxBehaviour>().SetActive(true);
+        }
+        if (m_BlockedItemType == "Spawner")
+        {
+            m_BlockedItem.GetComponent<Bibbit_LineSpawner>().SetIfSpawningActive(true);
         }
     }
+
+
+
 }

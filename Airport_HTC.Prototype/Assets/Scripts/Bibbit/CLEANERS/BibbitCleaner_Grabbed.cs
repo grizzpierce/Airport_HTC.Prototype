@@ -14,7 +14,13 @@ public class BibbitCleaner_Grabbed : MonoBehaviour {
     private float m_DroppedTimer;
     public float m_DropDelay = 1f;
 
-    
+    AudioSource m_AudioSource;
+
+    void Start()
+    {
+        m_AudioSource = gameObject.AddComponent<AudioSource>();
+        m_AudioSource.clip = Resources.Load("cartoon_telephone_voice_garble_gibberish_high_pitched_nagging") as AudioClip;
+    }
 
 	// Update is called once per frame
 	void Update ()
@@ -56,6 +62,8 @@ public class BibbitCleaner_Grabbed : MonoBehaviour {
                     m_NewCrowd.AddComponent<BibbitCleaner_CrowdData>();
                     m_NewCrowd.GetComponent<BibbitCleaner_CrowdData>().m_AddBibbit(gameObject);
                     transform.parent = m_NewCrowd.transform;
+
+                    Destroy(gameObject.GetComponent<AudioSource>());
 
                     m_Anim.Play();
 

@@ -16,6 +16,8 @@ public class BibbitCleaner_Spawner : MonoBehaviour {
     private List<GameObject> m_SpawnedBibbits = new List<GameObject>();
     public List<Vector3> m_RandomLocation = new List<Vector3>();
 
+    public AudioClip m_BibbitAudio;
+
 	void Start ()
     {
         CreateCrowd();
@@ -60,5 +62,12 @@ public class BibbitCleaner_Spawner : MonoBehaviour {
         }
 
         m_CrowdData.m_AddBibbit(m_SpawnedBibbits);
+    }
+
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(m_IdleSpot, new Vector3(1 + m_SquareDim, 1, 1 + m_SquareDim));
     }
 }

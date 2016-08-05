@@ -1,10 +1,13 @@
 fileFormatVersion: 2
 guid: 44c022226c709274989872c79d5928aa
-timeCreated: 1470257036
+timeCreated: 1470358260
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_CurrentSpill: {instanceID: 0}
+  - m_AS: {instanceID: 0}
+  - m_BibbitCrowd: {fileID: 8300000, guid: 7d0b2980e47ac224581644dbafd21602, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

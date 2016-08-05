@@ -11,6 +11,9 @@ public class BibbitCleaner_CrowdData : MonoBehaviour {
     bool m_Started = false;
     public int m_FollowerAmount = 3;
 
+    public AudioSource m_AS;
+    public AudioClip m_BibbitSound;
+
     // WAITING STATE
     bool m_Waiting = false;
     bool m_WaitStarted = false;
@@ -58,15 +61,19 @@ public class BibbitCleaner_CrowdData : MonoBehaviour {
 
         for (int i = 0; i < m_FollowerAmount; ++i)
         {
-            m_CrowdBibbits[i].AddComponent<BibbitCleaner_Follow>();
-            m_CrowdBibbits[i].GetComponent<BibbitCleaner_Follow>().m_LeadBibbit = _bib;
+            m_CrowdBibbits[0].AddComponent<BibbitCleaner_Follow>();
+            m_CrowdBibbits[0].GetComponent<BibbitCleaner_Follow>().m_LeadBibbit = _bib;
+            m_CrowdBibbits.Remove(m_CrowdBibbits[i]);
         }
-
-        // NUMBER OF BIBBITS ALSO GRABBED AND REMOVED
-        // ONCE DROPPED, THEY JOIN THE FIRST GRABBED'S CROWD
-
     }
 
+    void Start()
+    {
+        m_AS = gameObject.AddComponent<AudioSource>();
+        m_AS.clip = Resources.Load("humming_loop") as AudioClip;
+        m_AS.volume = .5f;
+        m_AS.loop = true;
+    }
 
     void Update()
     {
@@ -78,6 +85,7 @@ public class BibbitCleaner_CrowdData : MonoBehaviour {
                 IgnoreOtherBibbits();
                 m_Started = true;
                 m_Waiting = true;
+                m_AS.Play();
             }
         }
 
@@ -202,11 +210,14 @@ public class BibbitCleaner_CrowdData : MonoBehaviour {
 
         if (transform.position == endMarker)
         {
-            m_Moving = false;
-            Destroy(m_CurrentSpill);
-            m_CurrentSpill = null;
-            m_Waiting = true;
-            journeyLength = 0;
+            m_CurrentSpill = m_CurrentSpill.GetComponent<OilSpilBehaviour>().Eaten();
+
+            if(m_CurrentSpill == null)
+            {
+                m_Moving = false;
+                m_Waiting = true;
+                journeyLength = 0;
+            }
         }
     }
 
