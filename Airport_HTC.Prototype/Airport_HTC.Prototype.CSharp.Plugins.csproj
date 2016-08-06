@@ -82,8 +82,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Art\Stykized Vegetation Pack Free\Readme.txt" />
-    <None Include="Assets\Easy Outline\Shaders\MobileBlur.shader" />
-    <None Include="Assets\Easy Outline\Shaders\ScreenSpaceOutlineShader.shader" />
     <None Include="Assets\ObjectNotes\readme.txt" />
     <None Include="Assets\ProCore\ProBuilder\Shader\pb_StandardVertexColor.shader" />
     <None Include="Assets\Shaders\Standard.shader" />

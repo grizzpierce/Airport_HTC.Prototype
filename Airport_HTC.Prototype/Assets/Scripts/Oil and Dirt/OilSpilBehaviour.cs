@@ -19,7 +19,7 @@ public class OilSpilBehaviour : MonoBehaviour {
     {
         if(!m_IsFuseboxOil)
         {
-            newBubbles = (GameObject)Instantiate(m_BubblePrefab, new Vector3(transform.position.x, transform.position.y + .1f, transform.position.z), Quaternion.Euler(new Vector3(-90, 0, 0)));
+            newBubbles = (GameObject)Instantiate(m_BubblePrefab, new Vector3(transform.position.x, transform.position.y + .05f, transform.position.z), Quaternion.Euler(new Vector3(90, 0, 0)));
             newBubbles.transform.parent = gameObject.transform;
         }
     }

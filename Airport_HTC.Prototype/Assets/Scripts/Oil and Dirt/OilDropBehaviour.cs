@@ -3,11 +3,12 @@ using System.Collections;
 
 public class OilDropBehaviour : MonoBehaviour
 {
-    
+    public Vector3 m_SpillLocation;
     public GameObject m_SpillPrefab;
     public GameObject newSpill;
     ParticleSystem m_PS;
     bool m_HasCollided = false;
+    public bool m_ContinueDrip = true;
 
     public bool GetIfOilSpilled()
     {
@@ -37,8 +38,11 @@ public class OilDropBehaviour : MonoBehaviour
 
     void Update()
     {
-        if(m_HasCollided == true)
-            m_PS.Stop();
+        if(!m_ContinueDrip)
+        {
+            if (m_HasCollided == true)
+                m_PS.Stop();
+        }
     }
 
     void OnParticleCollision(GameObject other)
@@ -50,8 +54,14 @@ public class OilDropBehaviour : MonoBehaviour
             m_HasCollided = true;
 
             float newY = other.transform.position.y + (other.transform.localScale.y/2);
-            newSpill = (GameObject)Instantiate(m_SpillPrefab, new Vector3(transform.position.x, newY, transform.position.z), Quaternion.identity);
+            newSpill = (GameObject)Instantiate(m_SpillPrefab, m_SpillLocation, Quaternion.identity);
             newSpill.transform.parent = transform.parent;
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawSphere(m_SpillLocation, .1f);
     }
 }
