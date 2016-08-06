@@ -112,6 +112,9 @@ public class TeleportShellBehaviour : MonoBehaviour
             {
                 m_Particles[i].Play();
             }
+
+            if (gameObject.GetComponent<TriggerOnTeleport>() != null)
+                gameObject.GetComponent<TriggerOnTeleport>().enabled = true;
         }
     }
 
