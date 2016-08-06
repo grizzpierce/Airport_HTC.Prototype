@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013412260234}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.9641585, y: 8.33918, z: 52.376347}
+  m_LocalPosition: {x: -19.316141, y: 9.996, z: -70.485535}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbcd7ca0ad19fce4a872eee47b7131dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_IsFuseboxOil: 0
   m_BubblePrefab: {fileID: 1000010349590728, guid: 06cd2194ee7a13c48bf21b8f72758387,
     type: 2}
   speed: 0
