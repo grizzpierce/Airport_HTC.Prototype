@@ -47,7 +47,6 @@ public class OilDropBehaviour : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
-        //Debug.Log("Collision is hitting");
 
         if (m_HasCollided != true)
         {

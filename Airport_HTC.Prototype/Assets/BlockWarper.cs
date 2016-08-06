@@ -20,6 +20,7 @@ public class BlockWarper : MonoBehaviour {
             m_CurrentController = m_IntObj.GetGrabbingObject().GetComponent<VRTK_SimplePointer>();
             m_CurrentController.enabled = false;
         }
+
         else
         {
             if(m_CurrentController != null)

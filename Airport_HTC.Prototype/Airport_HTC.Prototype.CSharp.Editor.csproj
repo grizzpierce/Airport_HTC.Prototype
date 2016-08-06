@@ -168,6 +168,7 @@
     <None Include="Assets\Art\Stykized Vegetation Pack Free\Readme.txt" />
     <None Include="Assets\ObjectNotes\readme.txt" />
     <None Include="Assets\ProCore\ProBuilder\Shader\pb_StandardVertexColor.shader" />
+    <None Include="Assets\Shaders\OutlineShader.shader" />
     <None Include="Assets\Shaders\Standard.shader" />
     <None Include="Assets\SteamVR\Resources\SteamVR_AlphaOut.shader" />
     <None Include="Assets\SteamVR\Resources\SteamVR_Blit.shader" />

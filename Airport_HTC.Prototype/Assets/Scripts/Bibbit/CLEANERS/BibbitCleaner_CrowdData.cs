@@ -71,7 +71,7 @@ public class BibbitCleaner_CrowdData : MonoBehaviour {
     {
         m_AS = gameObject.AddComponent<AudioSource>();
         m_AS.clip = Resources.Load("humming_loop") as AudioClip;
-        m_AS.volume = .5f;
+        m_AS.volume = .25f;
         m_AS.loop = true;
         m_AS.spatialBlend = 1;
     }

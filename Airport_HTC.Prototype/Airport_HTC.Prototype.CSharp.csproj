@@ -88,6 +88,7 @@
     <Compile Include="Assets\BibbitCleaner_InitMove.cs" />
     <Compile Include="Assets\Bibbit_SingleSpawn.cs" />
     <Compile Include="Assets\BlockWarper.cs" />
+    <Compile Include="Assets\Boarding_Slot.cs" />
     <Compile Include="Assets\OBJExport\OBJExporter.cs" />
     <Compile Include="Assets\ObjectNotes\ObjectNote.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\CameraControls.cs" />
@@ -216,6 +217,7 @@
     <None Include="Assets\Art\Stykized Vegetation Pack Free\Readme.txt" />
     <None Include="Assets\ObjectNotes\readme.txt" />
     <None Include="Assets\ProCore\ProBuilder\Shader\pb_StandardVertexColor.shader" />
+    <None Include="Assets\Shaders\OutlineShader.shader" />
     <None Include="Assets\Shaders\Standard.shader" />
     <None Include="Assets\SteamVR\Resources\SteamVR_AlphaOut.shader" />
     <None Include="Assets\SteamVR\Resources\SteamVR_Blit.shader" />

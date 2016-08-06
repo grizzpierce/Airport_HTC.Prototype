@@ -13,6 +13,8 @@ TagManager:
   - Spawner
   - Fusebox
   - Oil
+  - Suitcase
+  - Boarding Pass
   layers:
   - Default
   - TransparentFX
