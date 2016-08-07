@@ -7,6 +7,7 @@ public class LockBehaviour : MonoBehaviour
     private Animation m_Anim;
     private AudioSource m_Audio;
     private bool m_IsUnlocked = false;
+    public GameObject[] m_UnlockLayers;
 
     public AnimationClip m_UnlockAnim;
 
@@ -50,6 +51,9 @@ public class LockBehaviour : MonoBehaviour
 
             m_Anim.clip = m_UnlockAnim;
             m_Anim.Play();
+
+            for (int i = 0; i < m_UnlockLayers.Length; ++i)
+                m_UnlockLayers[i].layer = 0;
         }
     }
 }

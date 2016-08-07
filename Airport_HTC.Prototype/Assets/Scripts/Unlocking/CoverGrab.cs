@@ -6,6 +6,8 @@ public class CoverGrab : MonoBehaviour {
 
     public AnimationClip m_CoverAnim;
     public GameObject m_Lock;
+    public GameObject m_BibbitSticker;
+    public GameObject m_CoverTop;
 
     private bool m_AlreadyTouched = false;
     private VRTK_InteractableObject m_IntObj;
@@ -58,6 +60,8 @@ public class CoverGrab : MonoBehaviour {
                         m_Audio.clip = m_SwingOpen;
                         m_Audio.Play();
 
+                        m_CoverTop.layer = 0;
+                        Destroy(m_BibbitSticker);
                         Destroy(gameObject);
                     }
                 }

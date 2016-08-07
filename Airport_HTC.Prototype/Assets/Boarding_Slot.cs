@@ -3,17 +3,22 @@ using System.Collections;
 
 public class Boarding_Slot : MonoBehaviour {
 
+    public GameObject m_CameraRig;
+    public GameObject m_BoardingPass;
     private float m_GrabbedTimer;
     private bool m_Inserted = false;
     private bool m_TimerStarted = false;
     public float m_FadeDelay = 1f;
     public float m_FadeRate = 1f;
-	
+    private bool m_Fading = false;
+    
 	// Update is called once per frame
 	void Update ()
     {
         if (m_Inserted)
         {
+            m_BoardingPass.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+
             if (!m_TimerStarted)
             {
                 m_GrabbedTimer = Time.time;
@@ -22,9 +27,11 @@ public class Boarding_Slot : MonoBehaviour {
 
             float elapsed = Time.time - m_GrabbedTimer;
 
-            if (elapsed >= m_FadeDelay)
+            if (elapsed >= m_FadeDelay && !m_Fading)
             {
                 SteamVR_Fade.View(Color.black, m_FadeRate);
+                m_CameraRig.GetComponent<TeleportToObject>().enabled = false;
+                m_Fading = true;
             }
         }
     }
@@ -34,7 +41,11 @@ public class Boarding_Slot : MonoBehaviour {
         if(col.tag == "Boarding Pass")
         {
             if(!m_Inserted)
+            {
+                m_BoardingPass = col.gameObject;
                 m_Inserted = true;
+            }
+                
         }
     }
 }

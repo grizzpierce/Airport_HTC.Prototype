@@ -31,4 +31,14 @@ public class BlockWarper : MonoBehaviour {
         }
 
 	}
+
+    void OnDestroy()
+    {
+        if (m_CurrentController != null)
+        {
+            m_CurrentController.enabled = true;
+            m_CurrentController = null;
+        }
+    }
+
 }

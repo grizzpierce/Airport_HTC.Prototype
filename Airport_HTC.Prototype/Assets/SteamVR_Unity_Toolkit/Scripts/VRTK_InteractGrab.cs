@@ -282,7 +282,7 @@ public class VRTK_InteractGrab : MonoBehaviour
         }
     }
 
-    private void HideController()
+    public void HideController()
     {
         if(grabbedObject != null)
         {

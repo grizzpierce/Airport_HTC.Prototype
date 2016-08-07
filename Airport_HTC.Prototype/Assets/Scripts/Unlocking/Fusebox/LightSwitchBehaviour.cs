@@ -44,6 +44,7 @@ public class LightSwitchBehaviour : MonoBehaviour {
                     m_Anim.Play();
                     m_Audio.Play();
                     m_LightOn = true;
+                    gameObject.layer = 0;
                 }
 
                 else
