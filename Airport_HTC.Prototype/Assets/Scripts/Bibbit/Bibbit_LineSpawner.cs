@@ -10,6 +10,7 @@ public class Bibbit_LineSpawner : MonoBehaviour {
     public bool m_IsPathStatic = false;
     public float m_PathfinderRate = 5;
     public bool m_SpawningActive = true;
+    public GroupPathFollowing PathLogic;
 
     // CUSTOMIZABLE PARTS OF BIBBIT CREATION
     public float m_BibbitRate = 5;
@@ -27,11 +28,7 @@ public class Bibbit_LineSpawner : MonoBehaviour {
 
     // VARIABLES FOR BIBBIT CREATION SYSTEM
     private List<GameObject> m_SpawnedBibbits = new List<GameObject>();
-    private bool m_FullGrowth = false;
-    private float m_PathElapsedTime = 0;
-    private float m_BibbElapsedTime = 0;
-    private float m_PathTime;
-    private float m_BibbTime;
+    private WaitForSeconds m_BibbitsRateWait;
 
     // SETS IF SPAWNING IS ACTIVE
     public void SetIfSpawningActive(bool _isSpawning)
@@ -43,144 +40,53 @@ public class Bibbit_LineSpawner : MonoBehaviour {
     public void AddBibbit(GameObject _bibbit)
     {
         m_SpawnedBibbits.Add(_bibbit);
-        _bibbit.GetComponent<Bibbit_Movement>().SetPathNodes(m_StoredPath);
-        _bibbit.GetComponent<Bibbit_Movement>().SetSpawner(gameObject);
+        PathLogic.AddTransformToMove(_bibbit.transform);
     }
 
     // REMOVES BIBBIT TO CONTAINED BIBBITS LIST
     public void RemoveBibbit(GameObject _bibbit)
     {
         m_SpawnedBibbits.Remove(_bibbit);
-    }
-
-    // SETS UP SPAWNERS PATHFINDER
-    private void PathfinderSetup()
-    {
-        m_PathfinderObj = new GameObject(gameObject.name + "'s Pathfinder");
-        m_PathfinderObj.transform.position = transform.position;
-        m_Pathfinder = m_PathfinderObj.AddComponent<Bibbit_Pathfinder>();
-        m_PathfinderObj.AddComponent<SphereCollider>();
-        m_Pathfinder.SetCastRadius(10f);
-        m_Pathfinder.SetFlag(gameObject);
+        PathLogic.RemoveTransformToMove(_bibbit.transform);
     }
 
     // SPAWNS A SIGNLE BIBBIT AND SETS IT TO PATH
     private void SpawnBibbit()
     {
-        m_BibbElapsedTime = Time.time - m_BibbTime;
-
-        if (m_BibbElapsedTime >= m_BibbitRate)
-        {
-            m_BibbTime = Time.time;
-            GameObject newBib = (GameObject)Instantiate(m_BibbitTypes[(int)Random.Range(0, m_BibbitTypes.Length)], transform.position, Quaternion.identity);
-            newBib.GetComponent<Bibbit_Movement>().SetPathNodes(m_StoredPath);
-            newBib.GetComponent<Bibbit_Movement>().SetSpawner(gameObject);
-            m_SpawnedBibbits.Add(newBib);
-        }
+        GameObject newBib = (GameObject)Instantiate(m_BibbitTypes[(int)Random.Range(0, m_BibbitTypes.Length)], transform.position, Quaternion.identity);
+        PathLogic.AddTransformToMove(newBib.transform);
+        m_SpawnedBibbits.Add(newBib);
     }
 
-    // TELLS THE PATHFINDER TO LOOK THEN COMPARES PATHS
-    private void CheckPath()
+    void Awake()
     {
-        m_Pathfinder.Look();
-        CloneFlags();
-
-        if (m_PrevStoredPath.Count != 0)
-            ComparePaths();
+        m_BibbitsRateWait = new WaitForSeconds(m_BibbitRate);
     }
 
-    // ADDS PATHFINDERS PATH TO THE SPAWNER
-    private void CloneFlags()
+    IEnumerator Start ()
     {
-        // CHECKS IF THERE ARE FLAGS STORED YET
-        if (m_StoredPath.Count != 0)
-        {
-            m_PrevStoredPath.Clear();
-
-            // IF SO, STORE THEM NOW
-            for (int i = 0; i < m_StoredPath.Count; ++i)
-            {
-                m_PrevStoredPath.Add(m_StoredPath[i]);
-            }
-        }
-
-        // CLEARS THE STORED PATH AND ADDS THE NEW CURRENT PATH
-        m_StoredPath.Clear();
-        for (int i = 0; i < m_Pathfinder.GetCurrentPath().Count; ++i)
-        {
-            m_StoredPath.Add(m_Pathfinder.GetCurrentPath()[i]);
-        }
-    }
-
-    // !!!NOT DONE YET!!! //                        (NON-STATIC SPAWNER) COMPARES THE OLD AND NEW PATHS, AND FIXES BIBBITS
-    private void ComparePaths()
-    {
-        if (m_PrevStoredPath.Count != m_StoredPath.Count)
-        {
-            /*
-                Destroy Bibbits
-            
-            Destroy(newBib);
-            newBib = (GameObject)Instantiate(m_Bibbit, transform.position, Quaternion.identity);
-            newBib.GetComponent<Bibbit_Movement>().SetPathNodes(m_StoredPath);
-            */
-        }
-        else
-        {
-            //Debug.Log("Checking individual nodes");
-        }
-
-
-
-        // 1. Check if path is the same
-        // 2. Compare current bibbits
-        // 3. Delete + remove any bibbits with wrong path
-    }
-
-    void Start ()
-    {
-        m_PathTime = Time.time;
-        m_BibbTime = Time.time;
-
-        PathfinderSetup();
-        CheckPath();
-    }
-
-    void Update ()
-    {
-        // Ability to decide if it's a static path
-        if (!m_IsPathStatic)
-        {
-            m_PathElapsedTime = Time.time - m_PathTime;
-
-            if (m_PathElapsedTime >= m_PathfinderRate)
-            {
-                m_PathTime = Time.time;
-                CheckPath();
-            }
-        }
-
-        // Ability to spawn bibbits
         if (m_SpawningActive)
         {
-            // Fills the bibbit spawner with max number of bibbits once
-            if (m_SpawnedBibbits.Count < m_MaxBibbits && m_FullGrowth != true)
+            for (int bibbitsCount = 0; bibbitsCount < m_MaxBibbits; ++bibbitsCount)
             {
-
                 SpawnBibbit();
-
-                if (m_SpawnedBibbits.Count == m_MaxBibbits)
-                {
-                    m_FullGrowth = true;
-                }
+                yield return m_BibbitsRateWait;
             }
+        }
 
-            // Adds bibbits if the bibbit count is low
-            else if (m_SpawnedBibbits.Count < m_MaxBibbits/2)
+        StartCoroutine(MaintainMinimalBibbitsCount());
+    }
+
+    IEnumerator MaintainMinimalBibbitsCount()
+    {
+        while (true)
+        {
+            if (m_SpawnedBibbits.Count < m_MaxBibbits/2)
             {
                 Debug.Log("Adding additional bibbit...");
                 SpawnBibbit();
             }
+            yield return m_BibbitsRateWait;
         }
 
 	}
