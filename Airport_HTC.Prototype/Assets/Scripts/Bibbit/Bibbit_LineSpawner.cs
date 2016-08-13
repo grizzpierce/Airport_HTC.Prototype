@@ -2,9 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Bibbit_LineSpawner : MonoBehaviour {
-
-
+public class Bibbit_LineSpawner : MonoBehaviour
+{
     // CUSTOMIZABLE PARTS OF SPAWNER
     public GameObject[] m_BibbitTypes;
     public bool m_IsPathStatic = false;
@@ -19,6 +18,10 @@ public class Bibbit_LineSpawner : MonoBehaviour {
     [Range(0, 3)]
     public int m_Priority; // NOTE: FULLY IMPLEMENT PRIORITY BASED SYSTEMS
 
+    public delegate void OnBibbitSpawnedDelegate(Bibbit_LineSpawner spawner, Transform bibbit);
+    public delegate void OnBibbitUnspawnedDelegate(Bibbit_LineSpawner spawner, Transform bibbit);
+    public event OnBibbitSpawnedDelegate OnBibbitSpawned;
+    public event OnBibbitUnspawnedDelegate OnBibbitUnspawned;
 
     // VARIABLES FOR PATHFINDER SYSTEM
     private GameObject m_PathfinderObj;
@@ -54,8 +57,22 @@ public class Bibbit_LineSpawner : MonoBehaviour {
     private void SpawnBibbit()
     {
         GameObject newBib = (GameObject)Instantiate(m_BibbitTypes[(int)Random.Range(0, m_BibbitTypes.Length)], transform.position, Quaternion.identity);
-        PathLogic.AddTransformToMove(newBib.transform);
-        m_SpawnedBibbits.Add(newBib);
+        AddBibbit(newBib);
+
+        if (OnBibbitSpawned != null)
+        {
+            OnBibbitSpawned(this, newBib.transform);
+        }
+    }
+
+    private void UnspawnBibbit(GameObject bibbit)
+    {
+        RemoveBibbit(bibbit);
+
+        if (OnBibbitUnspawned != null)
+        {
+            OnBibbitUnspawned(this, bibbit.transform);
+        }
     }
 
     void Awake()
@@ -63,8 +80,10 @@ public class Bibbit_LineSpawner : MonoBehaviour {
         m_BibbitsRateWait = new WaitForSeconds(m_BibbitRate);
     }
 
-    IEnumerator Start ()
+    IEnumerator Start()
     {
+        GroupManager.Instance.RegisterSpawner(this);
+
         if (m_SpawningActive)
         {
             for (int bibbitsCount = 0; bibbitsCount < m_MaxBibbits; ++bibbitsCount)
@@ -81,7 +100,7 @@ public class Bibbit_LineSpawner : MonoBehaviour {
     {
         while (true)
         {
-            if (m_SpawnedBibbits.Count < m_MaxBibbits/2)
+            if (m_SpawnedBibbits.Count < m_MaxBibbits / 2)
             {
                 Debug.Log("Adding additional bibbit...");
                 SpawnBibbit();
@@ -89,6 +108,6 @@ public class Bibbit_LineSpawner : MonoBehaviour {
             yield return m_BibbitsRateWait;
         }
 
-	}
+    }
 
 }

@@ -115,9 +115,12 @@
     <Compile Include="Assets\Scripts\Bibbit\CLEANERS\BibbitCleaner_Search.cs" />
     <Compile Include="Assets\Scripts\Bibbit\CLEANERS\BibbitCleaner_Spawner.cs" />
     <Compile Include="Assets\Scripts\Bibbit\Flag_Data.cs" />
+    <Compile Include="Assets\Scripts\Bibbit\GroupManager.cs" />
     <Compile Include="Assets\Scripts\Bibbit\Movement\GroupPathFollowing.cs" />
     <Compile Include="Assets\Scripts\Bibbit\Movement\PathNode.cs" />
+    <Compile Include="Assets\Scripts\Helpers\Singleton.cs" />
     <Compile Include="Assets\Scripts\Ignore_Physics.cs" />
+    <Compile Include="Assets\Scripts\NoVR\NoVRGrabbing.cs" />
     <Compile Include="Assets\Scripts\Oil and Dirt\Dirt_Blocking.cs" />
     <Compile Include="Assets\Scripts\Oil and Dirt\OilAlternating.cs" />
     <Compile Include="Assets\Scripts\Oil and Dirt\OilData.cs" />
