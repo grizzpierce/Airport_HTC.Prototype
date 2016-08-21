@@ -6,7 +6,7 @@ public class Dirt_Blocking : MonoBehaviour {
     public GameObject m_BlockedItem;
     private string m_BlockedItemType;
 
-    public bool m_NotStartBlocked = false; 
+    public bool m_NotStartBlocked = false;
 
 
 	void Start ()
@@ -19,7 +19,7 @@ public class Dirt_Blocking : MonoBehaviour {
         if (m_BlockedItem.tag == "Spawner")
         {
             m_BlockedItemType = "Spawner";
-            m_BlockedItem.GetComponent<Bibbit_LineSpawner>().SetIfSpawningActive(m_NotStartBlocked);
+            //m_BlockedItem.GetComponent<Bibbit_Group>().SetIfSpawningActive(m_NotStartBlocked);
         }
 	}
 
@@ -31,7 +31,7 @@ public class Dirt_Blocking : MonoBehaviour {
         }
         if (m_BlockedItemType == "Spawner")
         {
-            m_BlockedItem.GetComponent<Bibbit_LineSpawner>().SetIfSpawningActive(true);
+            //m_BlockedItem.GetComponent<Bibbit_Group>().SetIfSpawningActive(true);
         }
     }
 

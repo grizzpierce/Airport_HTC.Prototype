@@ -4,16 +4,45 @@ using System.Collections.Generic;
 
 public class GroupManager : Singleton<GroupManager>
 {
-    private List<Bibbit_LineSpawner> m_Spawners = new List<Bibbit_LineSpawner>();
-    private Dictionary<Transform, Bibbit_LineSpawner> m_BibbitsToSpawners = new Dictionary<Transform, Bibbit_LineSpawner>();
+    private List<Bibbit_Group> m_Groups = new List<Bibbit_Group>();
 
-    private List<Transform> m_AdditionalGrabbedBibbits = new List<Transform>();
+    private Dictionary<Transform, Bibbit_Group> m_BibbitsToGroups = new Dictionary<Transform, Bibbit_Group>();
+
+    private Dictionary<Bibbit_LineSpawner, Bibbit_Group> m_SpawnersToGroup = new Dictionary<Bibbit_LineSpawner, Bibbit_Group>();
+
+    private List<Transform> m_GrabbedBibbits = new List<Transform>();
     private Coroutine m_WarpToHandAndParentCoroutine = null;
+
+    public void RegisterGroup(Bibbit_Group group)
+    {
+        Debug.Assert(!m_Groups.Contains(group));
+        m_Groups.Add(group);
+
+        if (group.Spawner != null)
+        {
+            Debug.Assert(!m_SpawnersToGroup.ContainsKey(group.Spawner));
+            Debug.Assert(!m_SpawnersToGroup.ContainsValue(group));
+
+            m_SpawnersToGroup.Add(group.Spawner, group);
+        }
+    }
+
+    public void UnregisterGroup(Bibbit_Group group)
+    {
+        Debug.Assert(m_Groups.Contains(group));
+        m_Groups.Remove(group);
+
+        if (group.Spawner != null)
+        {
+            Debug.Assert(m_SpawnersToGroup.ContainsKey(group.Spawner));
+            Debug.Assert(m_SpawnersToGroup[group.Spawner] == group);
+
+            m_SpawnersToGroup.Remove(group.Spawner);
+        }
+    }
 
     public void RegisterSpawner(Bibbit_LineSpawner spawner)
     {
-        Debug.Assert(!m_Spawners.Contains(spawner));
-        m_Spawners.Add(spawner);
         spawner.OnBibbitSpawned += OnBibbitSpawned;
         spawner.OnBibbitUnspawned += OnBibbitUnspawned;
     }
@@ -22,9 +51,6 @@ public class GroupManager : Singleton<GroupManager>
     {
         spawner.OnBibbitSpawned -= OnBibbitSpawned;
         spawner.OnBibbitUnspawned -= OnBibbitUnspawned;
-
-        Debug.Assert(m_Spawners.Contains(spawner));
-        m_Spawners.Remove(spawner);
     }
 
     void OnBibbitSpawned(Bibbit_LineSpawner spawner, Transform bibbit)
@@ -33,7 +59,13 @@ public class GroupManager : Singleton<GroupManager>
         bibbitInteractableObject.InteractableObjectGrabbed += DoInteractGrab;
         bibbitInteractableObject.InteractableObjectUngrabbed += DoInteractUngrab;
 
-        m_BibbitsToSpawners.Add(bibbit, spawner);
+        Debug.Assert(m_SpawnersToGroup.ContainsKey(spawner));
+        Bibbit_Group group = m_SpawnersToGroup[spawner];
+
+        Debug.Assert(!m_BibbitsToGroups.ContainsKey(bibbit));
+
+        m_BibbitsToGroups.Add(bibbit, group);
+        group.AddBibbit(bibbit.gameObject);
     }
 
     void OnBibbitUnspawned(Bibbit_LineSpawner spawner, Transform bibbit)
@@ -42,20 +74,25 @@ public class GroupManager : Singleton<GroupManager>
         bibbitInteractableObject.InteractableObjectGrabbed -= DoInteractGrab;
         bibbitInteractableObject.InteractableObjectUngrabbed -= DoInteractUngrab;
 
-        m_BibbitsToSpawners.Remove(bibbit);
+        Debug.Assert(m_SpawnersToGroup.ContainsKey(spawner));
+        Bibbit_Group group = m_SpawnersToGroup[spawner];
+
+        group.RemoveBibbit(bibbit.gameObject);
+        m_BibbitsToGroups.Remove(bibbit);
     }
 
     void DoInteractGrab(object sender, InteractableObjectEventArgs e)
     {
+        // TODO: Play sound and stop animation. clinel 2016-08-21.
+
         GameObject bibbit = e.interactingObject;
         Transform bibbitTransform = e.interactingObject.transform;
 
-        // TODO: Don't differentiate the grabbed bibbit from the additional ones. clinel 2016-08-19.
         // Note: We could grab a bibbit that is warping toward the hand.
-        if (!m_AdditionalGrabbedBibbits.Contains(bibbitTransform))
+        if (!m_GrabbedBibbits.Contains(bibbitTransform))
         {
-            Debug.Assert(m_BibbitsToSpawners.ContainsKey(bibbitTransform));
-            Bibbit_LineSpawner spawner = m_BibbitsToSpawners[bibbitTransform];
+            Debug.Assert(m_BibbitsToGroups.ContainsKey(bibbitTransform));
+            Bibbit_Group spawner = m_BibbitsToGroups[bibbitTransform];
 
             List<Transform> neighbours = new List<Transform>();
             spawner.GetNeighbouringBibbits(bibbitTransform, ref neighbours, maxNbNeighbours: 5);
@@ -63,24 +100,27 @@ public class GroupManager : Singleton<GroupManager>
             Debug.Assert(!neighbours.Contains(bibbitTransform));
 
             spawner.RemoveBibbit(bibbit);
-            m_BibbitsToSpawners.Remove(bibbitTransform);
+            m_BibbitsToGroups.Remove(bibbitTransform);
+            m_GrabbedBibbits.Add(bibbitTransform);
 
             int nbNeighbours = neighbours.Count;
             for (int i = 0; i < nbNeighbours; ++i)
             {
                 Transform neighbourBibbit = neighbours[i];
                 spawner.RemoveBibbit(neighbourBibbit.gameObject);
-                m_BibbitsToSpawners.Remove(neighbourBibbit);
+                m_BibbitsToGroups.Remove(neighbourBibbit);
 
-                m_AdditionalGrabbedBibbits.Add(neighbourBibbit);
+                m_GrabbedBibbits.Add(neighbourBibbit);
             }
 
-            m_WarpToHandAndParentCoroutine = StartCoroutine(WarpGrabbedBibbitsToHandAndParent(m_AdditionalGrabbedBibbits, GameObject.Find("AdditionalBibbitHolder").transform));
+            m_WarpToHandAndParentCoroutine = StartCoroutine(WarpGrabbedBibbitsToHandAndParent(m_GrabbedBibbits, GameObject.Find("BibbitHolder").transform));
         }
     }
 
     void DoInteractUngrab(object sender, InteractableObjectEventArgs e)
     {
+        // TODO: Play sound and restart animation. clinel 2016-08-21.
+
         // Find closest spawner and add bibbit to it.
         // TODO: Use something else than distance to the spawner as it could be in some weird locations (pipe above, etc.). clinel 2016-08-13.
 
@@ -90,40 +130,38 @@ public class GroupManager : Singleton<GroupManager>
 
         GameObject bibbit = e.interactingObject;
         Transform bibbitTransform = e.interactingObject.transform;
+        Debug.Assert(m_GrabbedBibbits.Contains(bibbitTransform));
 
         // Find closest spawner
-        Bibbit_LineSpawner closestSpawner = null;
+        Bibbit_Group closestGroup = null;
         float closestDistance = float.MaxValue;
 
-        int nbSpawners = m_Spawners.Count;
+        int nbSpawners = m_Groups.Count;
         for (int i = 0; i < nbSpawners; ++i)
         {
-            Bibbit_LineSpawner currentSpawner = m_Spawners[i];
+            Bibbit_Group currentSpawner = m_Groups[i];
             float distance = Vector3.Distance(bibbitTransform.position, currentSpawner.transform.position);
             if (distance < closestDistance)
             {
                 closestDistance = distance;
-                closestSpawner = currentSpawner;
+                closestGroup = currentSpawner;
             }
         }
-        Debug.Assert(closestSpawner != null);
+        Debug.Assert(closestGroup != null);
 
-        // Release ungrabbed and additional bibbits
-        Debug.Assert(!m_BibbitsToSpawners.ContainsKey(bibbitTransform));
-        m_BibbitsToSpawners[bibbitTransform] = closestSpawner;
-        closestSpawner.AddBibbit(bibbit);
-
-        int nbGrabbedBibbits = m_AdditionalGrabbedBibbits.Count;
+        // Release ungrabbed bibbits
+        int nbGrabbedBibbits = m_GrabbedBibbits.Count;
         for (int i = 0; i < nbGrabbedBibbits; ++i)
         {
-            Transform grabbedBibbit = m_AdditionalGrabbedBibbits[i];
+            Transform grabbedBibbit = m_GrabbedBibbits[i];
 
             grabbedBibbit.SetParent(null);
-            Debug.Assert(!m_BibbitsToSpawners.ContainsKey(grabbedBibbit));
-            m_BibbitsToSpawners[grabbedBibbit] = closestSpawner;
-            closestSpawner.AddBibbit(grabbedBibbit.gameObject);
+            grabbedBibbit.transform.rotation = Quaternion.Euler(Vector3.zero);
+            Debug.Assert(!m_BibbitsToGroups.ContainsKey(grabbedBibbit));
+            m_BibbitsToGroups[grabbedBibbit] = closestGroup;
+            closestGroup.AddBibbit(grabbedBibbit.gameObject);
         }
-        m_AdditionalGrabbedBibbits.Clear();
+        m_GrabbedBibbits.Clear();
     }
 
     IEnumerator WarpGrabbedBibbitsToHandAndParent(List<Transform> bibbitsToWarp, Transform hand)
@@ -148,12 +186,19 @@ public class GroupManager : Singleton<GroupManager>
                 if (bibbitsToInitialPosition.TryGetValue(bibbit, out initialPosition))
                 {
                     float totalDistance = Vector3.Distance(initialPosition, hand.position);
-                    float ratio = Vector3.Distance(initialPosition, bibbit.position) / totalDistance;
-                    float duration = totalDistance / GrabWarpSpeed;
-                    ratio += Time.deltaTime / duration;
-                    bibbit.transform.position = Vector3.Lerp(initialPosition, hand.position, ratio);
-
-                    if (ratio >= 1f)
+                    if (totalDistance > 0f)
+                    {
+                        float ratio = Vector3.Distance(initialPosition, bibbit.position) / totalDistance;
+                        float duration = totalDistance / GrabWarpSpeed;
+                        ratio += Time.deltaTime / duration;
+                        bibbit.transform.position = Vector3.Lerp(initialPosition, hand.position, ratio);
+                        if (ratio >= 1f)
+                        {
+                            bibbit.SetParent(hand);
+                            bibbitsToInitialPosition.Remove(bibbit);
+                        }
+                    }
+                    else
                     {
                         bibbit.SetParent(hand);
                         bibbitsToInitialPosition.Remove(bibbit);

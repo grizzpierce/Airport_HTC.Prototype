@@ -14,7 +14,7 @@ public class PathNode : MonoBehaviour
 		}
 		else
 		{
-			Gizmos.DrawCube(transform.position, Vector3.one);
+			Gizmos.DrawCube(transform.position, 0.2f * Vector3.one);
 		}
 	}
 }

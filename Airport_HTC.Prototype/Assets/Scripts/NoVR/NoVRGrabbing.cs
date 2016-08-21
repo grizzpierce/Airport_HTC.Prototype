@@ -28,9 +28,6 @@ public class NoVRGrabbing : MonoBehaviour
                     InteractableObjectEventArgs args = new InteractableObjectEventArgs();
                     args.interactingObject = result.transform.gameObject;
                     interactableObject.OnInteractableObjectGrabbed(args);
-
-                    result.transform.localPosition = Vector3.zero;
-                    result.transform.SetParent(BibbitHolder, worldPositionStays: false);
                 }
             }
         }
@@ -43,17 +40,15 @@ public class NoVRGrabbing : MonoBehaviour
                 Transform holderChild = BibbitHolder.GetChild(i);
                 if (holderChild.CompareTag("Bibbit"))
                 {
-                    holderChild.SetParent(null);
-
                     VRTK_InteractableObject interactableObject = holderChild.GetComponent<VRTK_InteractableObject>();
                     Debug.Assert(interactableObject != null);
                     InteractableObjectEventArgs args = new InteractableObjectEventArgs();
                     args.interactingObject = holderChild.gameObject;
 
                     interactableObject.OnInteractableObjectUngrabbed(args);
+                    break;
                 }
             }
-
         }
     }
 }

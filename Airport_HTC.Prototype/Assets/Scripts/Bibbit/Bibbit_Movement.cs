@@ -48,7 +48,7 @@ public class Bibbit_Movement : MonoBehaviour {
         ReverseStoredPath();
         m_IsPlaying = true;
     }
-	
+
 
 
 	void Update ()
@@ -89,7 +89,7 @@ public class Bibbit_Movement : MonoBehaviour {
                 ++m_FlagCount;
                 m_StartTime = Time.time;
 
-                
+
                 if (m_FlagCount != m_PathNodes.Count - 1)
                     m_JourneyLength = Vector3.Distance(m_PathNodes[m_FlagCount].transform.position, m_PathNodes[m_FlagCount + 1].transform.position);
 
@@ -159,7 +159,7 @@ public class Bibbit_Movement : MonoBehaviour {
     OCCURENCE: Whenever the object is active and there is an available path
 
     PROCESS:
-                
+
    -------------------------------------------------------------------------------------*/
 
     private void Travel(Transform _start, Transform _end)
@@ -191,7 +191,8 @@ public class Bibbit_Movement : MonoBehaviour {
             if (collider.GetComponent<Bibbit_ControllerContainer>().RoomForMoreBibbits())
             {
                 collider.GetComponent<Bibbit_ControllerContainer>().AddBibbit(gameObject);
-                m_Spawner.GetComponent<Bibbit_LineSpawner>().RemoveBibbit(gameObject);
+                // Note: Removed as the Spawner doesn't keep track of the bibbits anymore.
+                //m_Spawner.GetComponent<Bibbit_LineSpawner>().RemoveBibbit(gameObject);
 
                 gameObject.AddComponent<Bibbit_Stick>();
                 gameObject.GetComponent<Bibbit_Stick>().SetStuckObject(collider.gameObject);

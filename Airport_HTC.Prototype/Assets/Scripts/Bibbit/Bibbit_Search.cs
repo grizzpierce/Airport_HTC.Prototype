@@ -37,7 +37,7 @@ public class Bibbit_Search : MonoBehaviour {
 
         m_StartTime = Time.time;
     }
-	
+
     void CheckSpawners()
     {
         m_Pos = gameObject.transform.position;
@@ -71,7 +71,7 @@ public class Bibbit_Search : MonoBehaviour {
                 b. If a spawner is closest:
                     i. Move the bibbit to the spawner and set it on the path
                 c. If nothing available or open:
-                    i. Bibbit flees and disappears forever     
+                    i. Bibbit flees and disappears forever
     */
 
     // Update is called once per frame
@@ -159,7 +159,8 @@ public class Bibbit_Search : MonoBehaviour {
                 GetComponent<SphereCollider>().isTrigger = true;
 
                 gameObject.AddComponent<Bibbit_Movement>();
-                m_ClosestSpawner.GetComponent<Bibbit_LineSpawner>().AddBibbit(gameObject);
+                // Note: Removed as the Spawner doesn't keep track of the bibbits anymore.
+                // m_ClosestSpawner.GetComponent<Bibbit_LineSpawner>().AddBibbit(gameObject);
                 Destroy(gameObject.GetComponent<Bibbit_Search>());
             }
 

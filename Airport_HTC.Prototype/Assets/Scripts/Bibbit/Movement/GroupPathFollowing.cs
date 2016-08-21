@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class GroupPathFollowing : MonoBehaviour
 {
+    public delegate void OnTransformAtDestinationDelegate(Transform transform);
+    public event OnTransformAtDestinationDelegate OnTransformAtDestination;
+
+    public float MinDistanceOnPath = 0.5f;
     public float GroupSpeed = 1.0f;
     public PathNode PathToFollow;
 
@@ -13,6 +17,8 @@ public class GroupPathFollowing : MonoBehaviour
         public PathNode TargetNode;
         public float Ratio;
         public Vector3 movementOrigin;
+        public float SpeedModifier;
+        public float DistanceOnPathToLastNode;
 
         public GroupMember(Transform transform, PathNode targetNode)
         {
@@ -20,10 +26,12 @@ public class GroupPathFollowing : MonoBehaviour
             TargetNode = targetNode;
             Ratio = 0.0f;
             movementOrigin = transform.position;
+            SpeedModifier = 1.0f;
+            DistanceOnPathToLastNode = 0.0f;
         }
     }
 
-    // Note: Group members are sorted from their distance to the last node. This way it's easier to find the closest neighbours on the path.
+    // Note: Group members are sorted from their distance to the last node (first members are closest to the last node). This way it's easier to find the closest neighbours on the path.
     // TODO: Space out members so they always keep a min distance between each other. clinel 2016-08-19.
     private LinkedList<GroupMember> m_GroupMembers = new LinkedList<GroupMember>();
 
@@ -45,54 +53,153 @@ public class GroupPathFollowing : MonoBehaviour
     {
         PathNode lastNodeOnPath = m_CachedPath[m_CachedPath.Count - 1];
 
-        List<GroupMember> membersToResetPosition = new List<GroupMember>();
-
-        LinkedListNode<GroupMember> currentMemberIterator = m_GroupMembers.First;
-        while (currentMemberIterator != null)
+        // Adjust speed to keep minimal distance between members
         {
-            GroupMember currentMember = currentMemberIterator.Value;
-
-            if (currentMember.TargetNode != null)
+            if (m_GroupMembers.Count == 1)
             {
-                Vector3 origin = currentMember.movementOrigin;
-                Vector3 destination = currentMember.TargetNode.transform.position;
-
-                float duration = Vector3.Distance(origin, destination) / GroupSpeed;
-
-                currentMember.Ratio += Time.deltaTime / duration;
-                currentMember.Transform.position = Vector3.Lerp(origin, destination, currentMember.Ratio);
-
-                if (currentMember.Ratio >= 1.0f)
+                m_GroupMembers.First.Value.SpeedModifier = 1.0f;
+            }
+            if (m_GroupMembers.Count > 1)
+            {
+                    m_GroupMembers.First.Value.SpeedModifier = 1.0f;
+                GroupMember previousGroupMember = m_GroupMembers.First.Value;
+                LinkedListNode<GroupMember> currentMemberIterator = m_GroupMembers.First.Next;
+                while (currentMemberIterator != null)
                 {
-                    if (currentMember.TargetNode == lastNodeOnPath && currentMember.TargetNode.NextNode != null)
+                    GroupMember currentMember = currentMemberIterator.Value;
+
+                    if (currentMember.TargetNode != null && currentMember.TargetNode.NextNode != null)
                     {
-                        membersToResetPosition.Add(currentMember);
+                        float distanceOnPathToPreviousMember = currentMember.DistanceOnPathToLastNode - previousGroupMember.DistanceOnPathToLastNode;
+                        if (distanceOnPathToPreviousMember < MinDistanceOnPath)
+                        {
+                            currentMember.SpeedModifier = MinDistanceOnPath > Mathf.Epsilon ? distanceOnPathToPreviousMember / MinDistanceOnPath : 0.0f;
+                        }
+                        else
+                        {
+                            currentMember.SpeedModifier = 1.0f;
+                        }
                     }
-                    currentMember.TargetNode = currentMember.TargetNode.NextNode;
-                    currentMember.movementOrigin = currentMember.Transform.position;
-                    currentMember.Ratio = 0.0f;
+                    else
+                    {
+                        currentMember.SpeedModifier = 1.0f;
+                    }
+
+                    previousGroupMember = currentMember;
+                    currentMemberIterator = currentMemberIterator.Next;
                 }
             }
-            currentMemberIterator = currentMemberIterator.Next;
+        }
+
+        // Move group members
+        List<GroupMember> membersToResetPosition = new List<GroupMember>();
+        List<GroupMember> membersAtDestination = new List<GroupMember>();
+        {
+            LinkedListNode<GroupMember> currentMemberIterator = m_GroupMembers.First;
+            while (currentMemberIterator != null)
+            {
+                GroupMember currentMember = currentMemberIterator.Value;
+
+                if (currentMember.TargetNode != null)
+                {
+                    Vector3 origin = currentMember.movementOrigin;
+                    Vector3 destination = currentMember.TargetNode.transform.position;
+
+                    float currentSpeed = GroupSpeed * currentMember.SpeedModifier;
+                    if (currentSpeed > Mathf.Epsilon)
+                    {
+                        float duration = Vector3.Distance(origin, destination) / currentSpeed;
+                        currentMember.Ratio += Time.deltaTime / duration;
+                    }
+
+                    currentMember.Transform.position = Vector3.Lerp(origin, destination, currentMember.Ratio);
+
+                    if (currentMember.Ratio >= 1.0f)
+                    {
+                        if (currentMember.TargetNode == lastNodeOnPath && currentMember.TargetNode.NextNode != null)
+                        {
+                            membersToResetPosition.Add(currentMember);
+                        }
+                        currentMember.TargetNode = currentMember.TargetNode.NextNode;
+                        currentMember.movementOrigin = currentMember.Transform.position;
+                        currentMember.Ratio = 0.0f;
+
+                        if (currentMember.TargetNode == null)
+                        {
+                            membersAtDestination.Add(currentMember);
+                        }
+                    }
+                }
+                currentMemberIterator = currentMemberIterator.Next;
+            }
+        }
+
+        // Members at destination.
+        {
+            int nbMembersAtDestination = membersAtDestination.Count;
+            for (int i = 0; i < nbMembersAtDestination; ++i)
+            {
+                if (OnTransformAtDestination != null)
+                {
+                    OnTransformAtDestination(membersAtDestination[i].Transform);
+                }
+            }
+        }
+
+        // Update distance to last node on path
+        {
+            LinkedListNode<GroupMember> currentMemberIterator = m_GroupMembers.First;
+            while (currentMemberIterator != null)
+            {
+                GroupMember currentMember = currentMemberIterator.Value;
+
+                if (currentMember.TargetNode != null)
+                {
+                    float distanceOnPathToLastNode = Vector3.Distance(currentMember.Transform.position, currentMember.TargetNode.transform.position);
+                    distanceOnPathToLastNode += DistanceOnPathToNode(currentMember.TargetNode, lastNodeOnPath);
+                    currentMember.DistanceOnPathToLastNode = distanceOnPathToLastNode;
+                }
+                else
+                {
+                    currentMember.DistanceOnPathToLastNode = 0.0f;
+                }
+                currentMemberIterator = currentMemberIterator.Next;
+            }
         }
 
         // Reset positons in the group.
-        int nbMembersToReset = membersToResetPosition.Count;
-        for (int i = 0; i < nbMembersToReset; ++i)
         {
-            GroupMember memberToReset = membersToResetPosition[i];
-            m_GroupMembers.Remove(memberToReset);
-            InsertInGroup(memberToReset);
+            int nbMembersToReset = membersToResetPosition.Count;
+            for (int i = 0; i < nbMembersToReset; ++i)
+            {
+                GroupMember memberToReset = membersToResetPosition[i];
+                m_GroupMembers.Remove(memberToReset);
+            }
+            for (int i = 0; i < nbMembersToReset; ++i)
+            {
+                GroupMember memberToReset = membersToResetPosition[i];
+                InsertInGroup(memberToReset);
+            }
         }
 
-        currentMemberIterator = m_GroupMembers.First;
-        int count = 0;
-        while (currentMemberIterator != null)
+        // Debug
         {
-            GroupMember currentMember = currentMemberIterator.Value;
-            currentMember.Transform.GetComponent<TextMesh>().text = count.ToString();
-            ++count;
-            currentMemberIterator = currentMemberIterator.Next;
+            LinkedListNode<GroupMember> currentMemberIterator = m_GroupMembers.First;
+            int count = 0;
+            while (currentMemberIterator != null)
+            {
+                GroupMember currentMember = currentMemberIterator.Value;
+                if (currentMember.TargetNode == m_CachedPath[m_CachedPath.Count - 1])
+                {
+                    currentMember.Transform.GetComponent<TextMesh>().text = "X" + count.ToString() + " " + currentMember.DistanceOnPathToLastNode.ToString("F2");//count.ToString();
+                }
+                else
+                {
+                    currentMember.Transform.GetComponent<TextMesh>().text = count.ToString() + " " + currentMember.DistanceOnPathToLastNode.ToString("F2");//count.ToString();
+                }
+                ++count;
+                currentMemberIterator = currentMemberIterator.Next;
+            }
         }
     }
 
@@ -145,14 +252,10 @@ public class GroupPathFollowing : MonoBehaviour
                 maxNbNeighbours > 0)
         {
             GroupMember backwardGroupMember = backwardNextMemberIterator.Value;
-            float backwardMemberDistanceOnPathToReference = Vector3.Distance(backwardGroupMember.Transform.position, backwardGroupMember.TargetNode.transform.position);
-            backwardMemberDistanceOnPathToReference += DistanceOnPathToNode(backwardGroupMember.TargetNode, lastNodeOnPath);
-            backwardMemberDistanceOnPathToReference = Mathf.Abs(backwardMemberDistanceOnPathToReference - referenceMemberDistanceToLastNode);
+            float backwardMemberDistanceOnPathToReference = Mathf.Abs(backwardGroupMember.DistanceOnPathToLastNode - referenceMemberDistanceToLastNode);
 
             GroupMember forwardGroupMember = forwardNextMemberIterator.Value;
-            float forwardMemberDistanceOnPathToReference = Vector3.Distance(forwardGroupMember.Transform.position, forwardGroupMember.TargetNode.transform.position);
-            forwardMemberDistanceOnPathToReference += DistanceOnPathToNode(forwardGroupMember.TargetNode, lastNodeOnPath);
-            forwardMemberDistanceOnPathToReference = Mathf.Abs(forwardMemberDistanceOnPathToReference - referenceMemberDistanceToLastNode);
+            float forwardMemberDistanceOnPathToReference = Mathf.Abs(forwardGroupMember.DistanceOnPathToLastNode - referenceMemberDistanceToLastNode);
 
             if (backwardMemberDistanceOnPathToReference < forwardMemberDistanceOnPathToReference)
             {
@@ -209,30 +312,25 @@ public class GroupPathFollowing : MonoBehaviour
 
         Debug.Assert(closestPathNode != null);
         GroupMember newGroupMember = new GroupMember(transformToMove, closestPathNode);
+
+        PathNode lastNodeOnPath = m_CachedPath[m_CachedPath.Count - 1];
+        float newMemberDistanceToLastNode = Vector3.Distance(newGroupMember.Transform.position, newGroupMember.TargetNode.transform.position);
+        newMemberDistanceToLastNode += DistanceOnPathToNode(newGroupMember.TargetNode, lastNodeOnPath);
+        newGroupMember.DistanceOnPathToLastNode = newMemberDistanceToLastNode;
+
         InsertInGroup(newGroupMember);
     }
 
-    /// Inserts at the correct location in the group. Group being sorted with the first member being the furthest from the last node.
+    /// Inserts at the correct location in the group. Group being sorted with the first member being the closest from the last node.
     private void InsertInGroup(GroupMember newGroupMember)
     {
-        PathNode lastNodeOnPath = m_CachedPath[m_CachedPath.Count - 1];
-
         LinkedListNode<GroupMember> currentMemberIterator = m_GroupMembers.First;
-        float newMemberDistanceToLastNode = Vector3.Distance(newGroupMember.Transform.position, newGroupMember.TargetNode.transform.position);
-        newMemberDistanceToLastNode += DistanceOnPathToNode(newGroupMember.TargetNode, lastNodeOnPath);
 
         while (currentMemberIterator != null)
         {
             GroupMember currentMember = currentMemberIterator.Value;
 
-            float distanceToLastNode = 0f;
-            if (currentMember.TargetNode != null)
-            {
-                distanceToLastNode = Vector3.Distance(currentMember.Transform.position, currentMember.TargetNode.transform.position);
-                distanceToLastNode += DistanceOnPathToNode(currentMember.TargetNode, lastNodeOnPath);
-            }
-
-            if (newMemberDistanceToLastNode > distanceToLastNode)
+            if (newGroupMember.DistanceOnPathToLastNode < currentMember.DistanceOnPathToLastNode)
             {
                 break;
             }
@@ -246,7 +344,7 @@ public class GroupPathFollowing : MonoBehaviour
         }
         else
         {
-            m_GroupMembers.AddFirst(newGroupMember);
+            m_GroupMembers.AddLast(newGroupMember);
         }
     }
 
@@ -254,18 +352,20 @@ public class GroupPathFollowing : MonoBehaviour
     {
         float result = 0.0f;
 
-        PathNode currentNodeInitialValue = currentNode;
-
-        do
+        if (currentNode != destinationNode)
         {
-            if (currentNode.NextNode != null)
+            PathNode currentNodeInitialValue = currentNode;
+
+            do
             {
-                result += Vector3.Distance(currentNode.transform.position, currentNode.NextNode.transform.position);
-            }
-            currentNode = currentNode.NextNode;
+                if (currentNode.NextNode != null)
+                {
+                    result += Vector3.Distance(currentNode.transform.position, currentNode.NextNode.transform.position);
+                }
+                currentNode = currentNode.NextNode;
 
-        } while (currentNode != null && currentNode != destinationNode && currentNode != currentNodeInitialValue);
-
+            } while (currentNode != null && currentNode != destinationNode && currentNode != currentNodeInitialValue);
+        }
         return result;
     }
 
