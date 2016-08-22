@@ -121,7 +121,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012506722918}
-  - 114: {fileID: 114000010608741304}
   m_Layer: 0
   m_Name: Black Room
   m_TagString: Untagged
@@ -660,25 +659,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &114000010608741304
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013400633546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9eecead49b3d368489374013e7a65287, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _player: {fileID: 0}
-  _spawnPoint: {fileID: 1000010163105304}
-  _text: {fileID: 0}
-  _initialText: Thank you for playing
-  _textFadeDuration: 2
-  _logoFadeDuration: 2
-  _waitDuration: 3
-  _logo: {fileID: 0}
 --- !u!212 &212000010339752590
 SpriteRenderer:
   m_ObjectHideFlags: 1
