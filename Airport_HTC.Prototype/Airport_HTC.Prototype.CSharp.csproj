@@ -109,6 +109,8 @@
     <Compile Include="Assets\Scripts\Bibbit\CLEANERS\BibbitCleaner_Search.cs" />
     <Compile Include="Assets\Scripts\Bibbit\CLEANERS\BibbitCleaner_Spawner.cs" />
     <Compile Include="Assets\Scripts\Bibbit\Flag_Data.cs" />
+    <Compile Include="Assets\Scripts\DemoEnd.cs" />
+    <Compile Include="Assets\Scripts\DemoStart.cs" />
     <Compile Include="Assets\Scripts\Ignore_Physics.cs" />
     <Compile Include="Assets\Scripts\Oil and Dirt\Dirt_Blocking.cs" />
     <Compile Include="Assets\Scripts\Oil and Dirt\OilAlternating.cs" />
@@ -217,6 +219,7 @@
     <None Include="Assets\Art\Stykized Vegetation Pack Free\Readme.txt" />
     <None Include="Assets\ObjectNotes\readme.txt" />
     <None Include="Assets\ProCore\ProBuilder\Shader\pb_StandardVertexColor.shader" />
+    <None Include="Assets\Shaders\3DText.shader" />
     <None Include="Assets\Shaders\OutlineShader.shader" />
     <None Include="Assets\Shaders\Standard.shader" />
     <None Include="Assets\SteamVR\Resources\SteamVR_AlphaOut.shader" />
