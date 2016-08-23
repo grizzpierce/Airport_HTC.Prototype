@@ -11,7 +11,7 @@ public class Boarding_Slot : MonoBehaviour {
     public float m_FadeDelay = 1f;
     public float m_FadeRate = 1f;
     private bool m_Fading = false;
-    
+    [SerializeField] DemoEnd _demoEnd;
 	// Update is called once per frame
 	void Update ()
     {
@@ -29,7 +29,12 @@ public class Boarding_Slot : MonoBehaviour {
 
             if (elapsed >= m_FadeDelay && !m_Fading)
             {
-                SteamVR_Fade.View(Color.black, m_FadeRate);
+                //NEIL uncomment this to go back to previous behavior
+                //SteamVR_Fade.View(Color.black, m_FadeRate);
+                //NEIL comment this to go back to previous behavior
+                _demoEnd.EndDemo();
+
+
                 m_CameraRig.GetComponent<TeleportToObject>().enabled = false;
                 m_Fading = true;
             }
