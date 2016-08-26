@@ -9,6 +9,11 @@ public class Bibbits_PointOfInterest : MonoBehaviour
     public float Duration = 1.0f;
     public bool ShouldCoolDown = false;
     public float CoolDownDuration = 2.0f;
+    public float ActivationDuration = 1f;
+    public float DeactivationDuration = 1f;
+    public AnimationCurve ActivationScaleCurve = new AnimationCurve();
+    public AnimationCurve DeactivationScaleCurve = new AnimationCurve();
+
 
     public delegate void OnPOIActivatedDelegate(Bibbits_PointOfInterest poi);
     public delegate void OnPOIDeactivatedDelegate(Bibbits_PointOfInterest poi);
@@ -23,11 +28,13 @@ public class Bibbits_PointOfInterest : MonoBehaviour
 
     public IEnumerator Start()
     {
+        GetComponent<MeshRenderer>().enabled = false;
+
         PathLogic.OnTransformAtDestination += OnTransformAtDestination;
 
         yield return new WaitForSeconds(StartOffSet);
 
-        ActivatePOI();
+        StartCoroutine(ActivateCoroutine());
     }
 
     public void OnDisable()
@@ -43,6 +50,22 @@ public class Bibbits_PointOfInterest : MonoBehaviour
         }
     }
 
+    IEnumerator ActivateCoroutine()
+    {
+        GetComponent<MeshRenderer>().enabled = true;
+
+        float duration = ActivationDuration;
+        Vector3 initialLocalScale = transform.localScale;
+        while (duration > 0)
+        {
+            transform.localScale = ActivationScaleCurve.Evaluate((ActivationDuration - duration)/ ActivationDuration) * initialLocalScale;
+            duration -= Time.deltaTime;
+            yield return null;
+        }
+        transform.localScale = initialLocalScale;
+        ActivatePOI();
+    }
+
     private void DeactivatePOI()
     {
         if (OnPOIDeactivated != null)
@@ -56,10 +79,29 @@ public class Bibbits_PointOfInterest : MonoBehaviour
         }
     }
 
+    public IEnumerator DeactivationCoroutine()
+    {
+        yield return new WaitForSeconds(Duration);
+
+        float duration = DeactivationDuration;
+        Vector3 initialLocalScale = transform.localScale;
+        while (duration > 0)
+        {
+            transform.localScale = DeactivationScaleCurve.Evaluate((DeactivationDuration - duration) / DeactivationDuration) * initialLocalScale;
+            duration -= Time.deltaTime;
+            yield return null;
+        }
+        transform.localScale = initialLocalScale;
+
+        GetComponent<MeshRenderer>().enabled = false;
+
+        DeactivatePOI();
+    }
+
     IEnumerator CoolDownCoroutine()
     {
         yield return new WaitForSeconds(CoolDownDuration);
-        ActivatePOI();
+        StartCoroutine(ActivateCoroutine());
     }
 
     public void AddTransformToPOI(Transform transformToPOI)
@@ -92,12 +134,6 @@ public class Bibbits_PointOfInterest : MonoBehaviour
         {
             StartCoroutine(DeactivationCoroutine());
         }
-    }
-
-    public IEnumerator DeactivationCoroutine()
-    {
-        yield return new WaitForSeconds(Duration);
-        DeactivatePOI();
     }
 
     public void GetNeighbouringMembers(Transform referenceBibbit, ref List<Transform> neighbours, int maxNbNeighbours)
