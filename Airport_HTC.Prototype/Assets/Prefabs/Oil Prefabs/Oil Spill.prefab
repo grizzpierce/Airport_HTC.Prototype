@@ -97,9 +97,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014287002278}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 20.801369, z: -0.81}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -19.86, y: 19.81, z: -76.055}
+  m_LocalScale: {x: 0.7350231, y: 0.3303476, z: 0.7350234}
   m_Children:
   - {fileID: 4000013860162748}
   m_Father: {fileID: 0}
@@ -144,8 +144,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6af1997e2bfcf4abdbda02ec939131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SpillLocation: {fileID: 0}
   m_SpillPrefab: {fileID: 1000013412260234, guid: 442a33325eb0cfb4ea4c3ebf1c426b05,
     type: 2}
+  newSpill: {fileID: 0}
+  m_ContinueDrip: 1
 --- !u!198 &198000012557248080
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1861,7 +1864,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 1024
     maxCollisionShapes: 256
     quality: 2
     voxelSize: 0.5
@@ -5357,7 +5360,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 1024
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
