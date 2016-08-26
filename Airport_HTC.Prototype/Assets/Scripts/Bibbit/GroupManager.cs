@@ -84,36 +84,46 @@ public class GroupManager : Singleton<GroupManager>
     void DoInteractGrab(object sender, InteractableObjectEventArgs e)
     {
         // TODO: Play sound and stop animation. clinel 2016-08-21.
-
-        GameObject bibbit = e.interactingObject;
-        Transform bibbitTransform = e.interactingObject.transform;
+        VRTK_InteractableObject bibbitInteractableObject = sender as VRTK_InteractableObject;
+        GameObject bibbit = bibbitInteractableObject.gameObject;
+        Transform bibbitTransform = bibbit.transform;
 
         // Note: We could grab a bibbit that is warping toward the hand.
         if (!m_GrabbedBibbits.Contains(bibbitTransform))
         {
-            Debug.Assert(m_BibbitsToGroups.ContainsKey(bibbitTransform));
-            Bibbit_Group spawner = m_BibbitsToGroups[bibbitTransform];
-
-            List<Transform> neighbours = new List<Transform>();
-            spawner.GetNeighbouringBibbits(bibbitTransform, ref neighbours, maxNbNeighbours: 5);
-
-            Debug.Assert(!neighbours.Contains(bibbitTransform));
-
-            spawner.RemoveBibbit(bibbit);
-            m_BibbitsToGroups.Remove(bibbitTransform);
-            m_GrabbedBibbits.Add(bibbitTransform);
-
-            int nbNeighbours = neighbours.Count;
-            for (int i = 0; i < nbNeighbours; ++i)
+            if (m_BibbitsToGroups.ContainsKey(bibbitTransform))
             {
-                Transform neighbourBibbit = neighbours[i];
-                spawner.RemoveBibbit(neighbourBibbit.gameObject);
-                m_BibbitsToGroups.Remove(neighbourBibbit);
+                Bibbit_Group spawner = m_BibbitsToGroups[bibbitTransform];
 
-                m_GrabbedBibbits.Add(neighbourBibbit);
+                List<Transform> neighbours = new List<Transform>();
+                spawner.GetNeighbouringBibbits(bibbitTransform, ref neighbours, maxNbNeighbours: 5);
+
+                Debug.Assert(!neighbours.Contains(bibbitTransform));
+
+                spawner.RemoveBibbit(bibbit);
+                bibbit.GetComponentInChildren<Animation>().Stop();
+                m_BibbitsToGroups.Remove(bibbitTransform);
+                m_GrabbedBibbits.Add(bibbitTransform);
+
+                int nbNeighbours = neighbours.Count;
+                for (int i = 0; i < nbNeighbours; ++i)
+                {
+                    Transform neighbourBibbit = neighbours[i];
+
+                    neighbourBibbit.GetComponentInChildren<Animation>().Stop();
+
+                    spawner.RemoveBibbit(neighbourBibbit.gameObject);
+                    m_BibbitsToGroups.Remove(neighbourBibbit);
+
+                    m_GrabbedBibbits.Add(neighbourBibbit);
+                }
+
+                m_WarpToHandAndParentCoroutine = StartCoroutine(WarpGrabbedBibbitsToHandAndParent(m_GrabbedBibbits, e.interactingObject.transform));
             }
-
-            m_WarpToHandAndParentCoroutine = StartCoroutine(WarpGrabbedBibbitsToHandAndParent(m_GrabbedBibbits, GameObject.Find("BibbitHolder").transform));
+            else
+            {
+                Debug.Log("Bibbit grabbed " + bibbitTransform.name, bibbitTransform);
+            }
         }
     }
 
@@ -128,8 +138,10 @@ public class GroupManager : Singleton<GroupManager>
         // Note: Stop the coroutine just in case we ungrabbed them before they reached the hand.
         StopCoroutine(m_WarpToHandAndParentCoroutine);
 
-        GameObject bibbit = e.interactingObject;
-        Transform bibbitTransform = e.interactingObject.transform;
+        VRTK_InteractableObject bibbitInteractableObject = sender as VRTK_InteractableObject;
+        GameObject bibbit = bibbitInteractableObject.gameObject;
+        Transform bibbitTransform = bibbit.transform;
+
         Debug.Assert(m_GrabbedBibbits.Contains(bibbitTransform));
 
         // Find closest spawner
@@ -139,12 +151,12 @@ public class GroupManager : Singleton<GroupManager>
         int nbSpawners = m_Groups.Count;
         for (int i = 0; i < nbSpawners; ++i)
         {
-            Bibbit_Group currentSpawner = m_Groups[i];
-            float distance = Vector3.Distance(bibbitTransform.position, currentSpawner.transform.position);
+            Bibbit_Group currentGroup = m_Groups[i];
+            float distance = Vector3.Distance(bibbitTransform.position, currentGroup.transform.position);
             if (distance < closestDistance)
             {
                 closestDistance = distance;
-                closestGroup = currentSpawner;
+                closestGroup = currentGroup;
             }
         }
         Debug.Assert(closestGroup != null);
@@ -155,7 +167,9 @@ public class GroupManager : Singleton<GroupManager>
         {
             Transform grabbedBibbit = m_GrabbedBibbits[i];
 
+            grabbedBibbit.GetComponent<Rigidbody>().isKinematic = false;
             grabbedBibbit.SetParent(null);
+            grabbedBibbit.GetChild(0).transform.localPosition = Vector3.zero;
             grabbedBibbit.transform.rotation = Quaternion.Euler(Vector3.zero);
             Debug.Assert(!m_BibbitsToGroups.ContainsKey(grabbedBibbit));
             m_BibbitsToGroups[grabbedBibbit] = closestGroup;
@@ -166,7 +180,7 @@ public class GroupManager : Singleton<GroupManager>
 
     IEnumerator WarpGrabbedBibbitsToHandAndParent(List<Transform> bibbitsToWarp, Transform hand)
     {
-        float GrabWarpSpeed = 15f;
+        float GrabWarpSpeed = 4f;
 
         Dictionary<Transform, Vector3> bibbitsToInitialPosition = new Dictionary<Transform, Vector3>();
 
@@ -174,6 +188,7 @@ public class GroupManager : Singleton<GroupManager>
         for (int i = 0; i < nbBibbitsToWarp; ++i)
         {
             Transform bibbitToWarp = bibbitsToWarp[i];
+            bibbitToWarp.transform.GetComponent<Rigidbody>().isKinematic = true;
             bibbitsToInitialPosition.Add(bibbitToWarp, bibbitToWarp.position);
         }
 
@@ -191,10 +206,11 @@ public class GroupManager : Singleton<GroupManager>
                         float ratio = Vector3.Distance(initialPosition, bibbit.position) / totalDistance;
                         float duration = totalDistance / GrabWarpSpeed;
                         ratio += Time.deltaTime / duration;
-                        bibbit.transform.position = Vector3.Lerp(initialPosition, hand.position, ratio);
+                        bibbit.transform.GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(initialPosition, hand.position, ratio));
                         if (ratio >= 1f)
                         {
                             bibbit.SetParent(hand);
+                            bibbit.GetChild(0).transform.localPosition = Vector3.zero;
                             bibbitsToInitialPosition.Remove(bibbit);
                         }
                     }

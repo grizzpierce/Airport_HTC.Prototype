@@ -11,14 +11,7 @@ public class Bibbit_Group : MonoBehaviour
     public List<Bibbits_PointOfInterest> POIs;
     public Bibbit_LineSpawner Spawner;
 
-    class DroppedBibbit
-    {
-        public Transform Transform;
-        public Vector3 Origin;
-        public Vector3 Ground;
-        public float Ratio = 0f;
-    }
-    private List<DroppedBibbit> m_BibbitsToDrop = new List<DroppedBibbit>();
+    private List<Transform> m_BibbitsToDrop = new List<Transform>();
 
     private List<GameObject> m_GroupMembers = new List<GameObject>();
 
@@ -123,36 +116,14 @@ public class Bibbit_Group : MonoBehaviour
     public void AddBibbit(GameObject _bibbit)
     {
         m_GroupMembers.Add(_bibbit);
-
-        // HACK: We simulate dropping the bibbits to the ground. Should use physics. clinel 2016-08-19.
-        bool isGrounded = false;
-        RaycastHit hit;
-        if (Physics.Raycast(_bibbit.transform.position, Vector3.down, out hit, LayerMask.GetMask("Floor")))
+        if (m_BibbitsToDrop.Count > 0)
         {
-            isGrounded = hit.distance < DistToGround;
-        }
-
-        if (isGrounded)
-        {
-            AssignBibbit(_bibbit.transform);
+            m_BibbitsToDrop.Add(_bibbit.transform);
         }
         else
         {
-            DroppedBibbit droppedBibbit = new DroppedBibbit();
-            droppedBibbit.Transform = _bibbit.transform;
-            droppedBibbit.Ratio = 0.0f;
-            droppedBibbit.Origin = _bibbit.transform.position;
-            droppedBibbit.Ground = hit.point;
-
-            if (m_BibbitsToDrop.Count > 0)
-            {
-                m_BibbitsToDrop.Add(droppedBibbit);
-            }
-            else
-            {
-                m_BibbitsToDrop.Add(droppedBibbit);
-                StartCoroutine(DropBibbits());
-            }
+            m_BibbitsToDrop.Add(_bibbit.transform);
+            StartCoroutine(DropBibbits());
         }
     }
 
@@ -162,12 +133,11 @@ public class Bibbit_Group : MonoBehaviour
         Debug.Assert(m_GroupMembers.Contains(_bibbit));
         m_GroupMembers.Remove(_bibbit);
 
-        DroppedBibbit foundDropped = m_BibbitsToDrop.Find(b => b.Transform == _bibbit.transform);
+        Transform foundDropped = m_BibbitsToDrop.Find(b => b == _bibbit.transform);
         if (foundDropped != null)
         {
             // Note: Removing a dropping bibbit. Teleport it to the ground before removing it.
             m_BibbitsToDrop.Remove(foundDropped);
-            foundDropped.Transform.position = foundDropped.Ground;
         }
         else
         {
@@ -201,17 +171,15 @@ public class Bibbit_Group : MonoBehaviour
             int nbBibbitsToDrop = m_BibbitsToDrop.Count;
             for (int i = nbBibbitsToDrop - 1; i >= 0; --i)
             {
-                DroppedBibbit bibbitToDrop = m_BibbitsToDrop[i];
+                Transform bibbitToDrop = m_BibbitsToDrop[i];
 
-                float duration = Vector3.Distance(bibbitToDrop.Origin, bibbitToDrop.Ground) / DropSpeed;
-                bibbitToDrop.Ratio += Time.deltaTime / duration;
-                // TODO: Use better than Lerp. clinel 2016-08-19.
-                bibbitToDrop.Transform.position = Vector3.Lerp(bibbitToDrop.Origin, bibbitToDrop.Ground, bibbitToDrop.Ratio);
-                if (bibbitToDrop.Ratio >= 1f)
+                if (bibbitToDrop.GetComponent<IsGroundedLogic>().IsGrounded)
                 {
+                    Debug.Log("Dropped");
                     m_BibbitsToDrop.RemoveAt(i);
-
-                    AssignBibbit(bibbitToDrop.Transform);
+                    bibbitToDrop.GetComponent<Rigidbody>().isKinematic = true;
+                    bibbitToDrop.GetComponentInChildren<Animation>().Play();
+                    AssignBibbit(bibbitToDrop);
                 }
             }
 
@@ -237,7 +205,7 @@ public class Bibbit_Group : MonoBehaviour
         {
             m_ActivePOIs[0].GetNeighbouringMembers(referenceBibbit, ref neighbours, maxNbNeighbours);
         }
-        else
+        else if (PathLogic != null)
         {
             PathLogic.GetNeighbouringMembers(referenceBibbit, ref neighbours, maxNbNeighbours);
         }

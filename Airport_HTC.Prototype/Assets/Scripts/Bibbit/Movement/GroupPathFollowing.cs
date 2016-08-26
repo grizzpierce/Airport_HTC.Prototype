@@ -112,7 +112,8 @@ public class GroupPathFollowing : MonoBehaviour
                         currentMember.Ratio += Time.deltaTime / duration;
                     }
 
-                    currentMember.Transform.position = Vector3.Lerp(origin, destination, currentMember.Ratio);
+                    currentMember.Transform.GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(origin, destination, currentMember.Ratio));
+//                    currentMember.Transform.position = Vector3.Lerp(origin, destination, currentMember.Ratio);
 
                     if (currentMember.Ratio >= 1.0f)
                     {
