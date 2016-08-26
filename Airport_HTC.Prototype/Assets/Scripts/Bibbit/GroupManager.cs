@@ -10,7 +10,8 @@ public class GroupManager : Singleton<GroupManager>
 
     private Dictionary<Bibbit_LineSpawner, Bibbit_Group> m_SpawnersToGroup = new Dictionary<Bibbit_LineSpawner, Bibbit_Group>();
 
-    private List<Transform> m_GrabbedBibbits = new List<Transform>();
+    private Dictionary<GameObject, List<Transform>> m_HandlerToGrabbedBibbits = new Dictionary<GameObject, List<Transform>>();
+    //private List<Transform> m_GrabbedBibbits = new List<Transform>();
     private Coroutine m_WarpToHandAndParentCoroutine = null;
 
     public void RegisterGroup(Bibbit_Group group)
@@ -88,8 +89,15 @@ public class GroupManager : Singleton<GroupManager>
         GameObject bibbit = bibbitInteractableObject.gameObject;
         Transform bibbitTransform = bibbit.transform;
 
+        List<Transform> grabbedBibbits;
+        if (!m_HandlerToGrabbedBibbits.TryGetValue(e.interactingObject, out grabbedBibbits))
+        {
+            grabbedBibbits = new List<Transform>();
+            m_HandlerToGrabbedBibbits.Add(e.interactingObject, grabbedBibbits);
+        }
+
         // Note: We could grab a bibbit that is warping toward the hand.
-        if (!m_GrabbedBibbits.Contains(bibbitTransform))
+        if (!grabbedBibbits.Contains(bibbitTransform))
         {
             if (m_BibbitsToGroups.ContainsKey(bibbitTransform))
             {
@@ -103,7 +111,7 @@ public class GroupManager : Singleton<GroupManager>
                 spawner.RemoveBibbit(bibbit);
                 bibbit.GetComponentInChildren<Animation>().Stop();
                 m_BibbitsToGroups.Remove(bibbitTransform);
-                m_GrabbedBibbits.Add(bibbitTransform);
+                grabbedBibbits.Add(bibbitTransform);
 
                 int nbNeighbours = neighbours.Count;
                 for (int i = 0; i < nbNeighbours; ++i)
@@ -115,10 +123,10 @@ public class GroupManager : Singleton<GroupManager>
                     spawner.RemoveBibbit(neighbourBibbit.gameObject);
                     m_BibbitsToGroups.Remove(neighbourBibbit);
 
-                    m_GrabbedBibbits.Add(neighbourBibbit);
+                    grabbedBibbits.Add(neighbourBibbit);
                 }
 
-                m_WarpToHandAndParentCoroutine = StartCoroutine(WarpGrabbedBibbitsToHandAndParent(m_GrabbedBibbits, e.interactingObject.transform));
+                m_WarpToHandAndParentCoroutine = StartCoroutine(WarpGrabbedBibbitsToHandAndParent(grabbedBibbits, e.interactingObject.transform));
             }
             else
             {
@@ -142,7 +150,9 @@ public class GroupManager : Singleton<GroupManager>
         GameObject bibbit = bibbitInteractableObject.gameObject;
         Transform bibbitTransform = bibbit.transform;
 
-        Debug.Assert(m_GrabbedBibbits.Contains(bibbitTransform));
+        Debug.Assert(m_HandlerToGrabbedBibbits.ContainsKey(e.interactingObject));
+        List<Transform> grabbedBibbits = m_HandlerToGrabbedBibbits[e.interactingObject];
+        Debug.Assert(grabbedBibbits.Contains(bibbitTransform));
 
         // Find closest spawner
         Bibbit_Group closestGroup = null;
@@ -162,10 +172,10 @@ public class GroupManager : Singleton<GroupManager>
         Debug.Assert(closestGroup != null);
 
         // Release ungrabbed bibbits
-        int nbGrabbedBibbits = m_GrabbedBibbits.Count;
+        int nbGrabbedBibbits = grabbedBibbits.Count;
         for (int i = 0; i < nbGrabbedBibbits; ++i)
         {
-            Transform grabbedBibbit = m_GrabbedBibbits[i];
+            Transform grabbedBibbit = grabbedBibbits[i];
 
             grabbedBibbit.GetComponent<Rigidbody>().isKinematic = false;
             grabbedBibbit.SetParent(null);
@@ -175,7 +185,7 @@ public class GroupManager : Singleton<GroupManager>
             m_BibbitsToGroups[grabbedBibbit] = closestGroup;
             closestGroup.AddBibbit(grabbedBibbit.gameObject);
         }
-        m_GrabbedBibbits.Clear();
+        grabbedBibbits.Clear();
     }
 
     IEnumerator WarpGrabbedBibbitsToHandAndParent(List<Transform> bibbitsToWarp, Transform hand)
