@@ -5,14 +5,14 @@ public class Pop_Opener : MonoBehaviour {
 
     AudioSource m_Audio;
     VRTK_InteractableObject m_IntObj;
-    ParticleSystem m_PS;
+    public ParticleSystem m_PS;
     bool m_Opened = false;
 
     // Use this for initialization
     void Start () {
         m_Audio = GetComponent<AudioSource>();
         m_IntObj = GetComponent<VRTK_InteractableObject>();
-        m_PS = transform.FindChild("soda_bubbles").GetComponent<ParticleSystem>();
+		Debug.Assert (m_PS != null, gameObject);
 	}
 	
 	// Update is called once per frame

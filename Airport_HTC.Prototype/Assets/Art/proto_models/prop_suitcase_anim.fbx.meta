@@ -9,19 +9,28 @@ ModelImporter:
     100002: casing_cover
     100004: clip1
     100006: //RootNode
+    100008: clips
+    100010: cover
+    100012: suitcase_ending
     400000: casing
     400002: casing_cover
     400004: clip1
     400006: //RootNode
+    400008: clips
+    400010: cover
+    400012: suitcase_ending
     2300000: casing
     2300002: casing_cover
     2300004: clip1
+    2300006: clips
     3300000: casing
     3300002: casing_cover
     3300004: clip1
+    3300006: clips
     4300000: casing_cover
     4300002: clip1
     4300004: casing
+    4300006: clips
     7400000: suitcase_coverOpens
     7400002: suitcase_clipOpens
     9500000: //RootNode
