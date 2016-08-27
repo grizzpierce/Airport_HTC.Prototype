@@ -218,7 +218,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013057042712}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.86, y: 10.045, z: -76.055}
+  m_LocalPosition: {x: -19.09, y: 10.045, z: -74.24}
   m_LocalScale: {x: 0.7794232, y: 0.3503026, z: 0.77942324}
   m_Children:
   - {fileID: 4000012924793412}
@@ -979,13 +979,13 @@ ParticleSystem:
         m_Curve:
         - time: 0
           value: 0
-          inSlope: 2
-          outSlope: 2
+          inSlope: 0.6779789
+          outSlope: 0.6779789
           tangentMode: 0
         - time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
+          value: 0.29019612
+          inSlope: 0.123629265
+          outSlope: 0.123629265
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -2311,7 +2311,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
-      scalar: 20.37
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2437,12 +2437,12 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       minMaxState: 0
     startSize:
-      scalar: 0.4
+      scalar: 0.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 1
+          value: 0.39999998
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -2453,7 +2453,7 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 0.375
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -2637,7 +2637,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     randomizeRotationDirection: 0
-    gravityModifier: 14.3
+    gravityModifier: 9
     maxNumParticles: 1000
     size3D: 0
     rotation3D: 0
@@ -2700,11 +2700,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
       minMaxState: 0
-    cnt0: 10
+    cnt0: 15
     cnt1: 30
     cnt2: 30
     cnt3: 30
-    cntmax0: 18
+    cntmax0: 25
     cntmax1: 30
     cntmax2: 30
     cntmax3: 30
@@ -3974,7 +3974,7 @@ ParticleSystem:
   serializedVersion: 2
   lengthInSec: 30
   startDelay:
-    scalar: 10
+    scalar: 30
     maxCurve:
       serializedVersion: 2
       m_Curve:
@@ -4180,7 +4180,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       minMaxState: 0
     startSize:
-      scalar: 0.5
+      scalar: 0.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
