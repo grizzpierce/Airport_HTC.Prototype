@@ -7,6 +7,8 @@ public class Bibbits_PointOfInterest : MonoBehaviour
     public SkinnedMeshRenderer POIMeshRenderer;
     public Animation POIAnimation;
 
+	public bool FadeOnDeactivate = true;
+
     public float Duration = 1.0f;
     public float DeactivationDuration = 1f;
     public AnimationCurve ActivationScaleCurve = new AnimationCurve();
@@ -26,7 +28,8 @@ public class Bibbits_PointOfInterest : MonoBehaviour
 
     public void Start()
     {
-        POIMeshRenderer.enabled = false;
+		if (POIMeshRenderer != null)
+			POIMeshRenderer.enabled = false;
 
         PathLogic.OnTransformAtDestination += OnTransformAtDestination;
     }
@@ -46,8 +49,10 @@ public class Bibbits_PointOfInterest : MonoBehaviour
 
     public void DoActivation()
     {
-        POIMeshRenderer.enabled = true;
-        POIAnimation.Play();
+		if (POIMeshRenderer != null)
+			POIMeshRenderer.enabled = true;
+		if (POIAnimation != null)
+			POIAnimation.Play();
         ActivatePOI();
     }
 
@@ -63,21 +68,22 @@ public class Bibbits_PointOfInterest : MonoBehaviour
     {
         yield return new WaitForSeconds(Duration);
 
-        float duration = DeactivationDuration;
-        Color initialColor = POIMeshRenderer.material.color;
-        Color tmpColor = initialColor;
+		if (FadeOnDeactivate) {
+			float duration = DeactivationDuration;
+			Color initialColor = POIMeshRenderer.material.color;
+			Color tmpColor = initialColor;
 
-        while (duration > 0)
-        {
-            tmpColor.a = DeactivationScaleCurve.Evaluate((DeactivationDuration - duration) / DeactivationDuration);
-            POIMeshRenderer.material.color = tmpColor;
-            duration -= Time.deltaTime;
-            yield return null;
-        }
+			while (duration > 0) {
+				tmpColor.a = DeactivationScaleCurve.Evaluate ((DeactivationDuration - duration) / DeactivationDuration);
+				POIMeshRenderer.material.color = tmpColor;
+				duration -= Time.deltaTime;
+				yield return null;
+			}
 
-        POIMeshRenderer.enabled = false;
-        POIMeshRenderer.material.color = initialColor;
-        POIAnimation.Stop();
+			POIMeshRenderer.enabled = false;
+			POIMeshRenderer.material.color = initialColor;
+			POIAnimation.Stop ();
+		}
 
         DeactivatePOI();
     }
@@ -89,7 +95,7 @@ public class Bibbits_PointOfInterest : MonoBehaviour
         PathLogic.AddTransformToMove(transformToPOI);
     }
 
-    public void RemoveTransformFromPOI(Transform transformToPOI)
+	public void RemoveTransformFromPOI(Transform transformToPOI)
     {
         Debug.Assert(m_MembersInPOI.Contains(transformToPOI));
         m_MembersInPOI.Remove(transformToPOI);
