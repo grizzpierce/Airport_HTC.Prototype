@@ -67,11 +67,6 @@ public class Bibbit_LineSpawner : MonoBehaviour
         }
     }
 
-    public void OnDisable()
-    {
-        GroupManager.Instance.UnregisterSpawner(this);
-    }
-
     public void SpawnAdditionalBibbits(int nbNewBibbits)
     {
         // TODO: Fix that readding bibbits to the group doesn't stop from adding additional bibbits. clinel . 2016-08-21.
