@@ -6,8 +6,9 @@ public class Bibbits_PointOfInterest : MonoBehaviour
 {
     public SkinnedMeshRenderer POIMeshRenderer;
     public Animation POIAnimation;
+    public AudioSource POIAudio;
 
-	public bool FadeOnDeactivate = true;
+    public bool FadeOnDeactivate = true;
 
     public float Duration = 1.0f;
     public float DeactivationDuration = 1f;
@@ -53,6 +54,8 @@ public class Bibbits_PointOfInterest : MonoBehaviour
 			POIMeshRenderer.enabled = true;
 		if (POIAnimation != null)
 			POIAnimation.Play();
+        if (POIAudio != null)
+            POIAudio.Play();
         ActivatePOI();
     }
 

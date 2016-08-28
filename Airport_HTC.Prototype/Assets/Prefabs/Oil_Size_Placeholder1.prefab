@@ -346,6 +346,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   POIMeshRenderer: {fileID: 137000010236484280}
   POIAnimation: {fileID: 111000011315564036}
+  POIAudio: {fileID: 82000012848253240}
+  FadeOnDeactivate: 1
   Duration: 2
   DeactivationDuration: 1
   ActivationScaleCurve:

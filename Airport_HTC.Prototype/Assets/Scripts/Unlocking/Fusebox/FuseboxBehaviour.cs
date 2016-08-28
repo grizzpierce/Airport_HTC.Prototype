@@ -23,7 +23,6 @@ public class FuseboxBehaviour : MonoBehaviour {
     public void SetActive(bool _isActive)
     {
         m_Active = _isActive;
-
         if (m_AllFuseSwitches != null)
         {
             if (m_AllLocked)
