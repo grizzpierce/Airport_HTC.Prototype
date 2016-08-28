@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Vending_Behaviour : MonoBehaviour {
+
+    public List<Transform> AllCans;
+    int CanIndex;
 
     public GameObject m_CanPref;
     private GameObject m_DroppedCan;
@@ -55,7 +58,11 @@ public class Vending_Behaviour : MonoBehaviour {
 
                     if (!m_VendingAnim.isPlaying)
                     {
-                        m_DroppedCan = (GameObject)Instantiate(m_CanPref, m_CanPosition, Quaternion.Euler(m_CanRotation));
+                        Transform can = AllCans[CanIndex];
+                        CanIndex = (CanIndex + 1) % AllCans.Count;
+                        can.GetComponent<Rigidbody>().MovePosition(m_CanPosition);
+                        can.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(m_CanRotation));
+                        m_DroppedCan = can.gameObject;//(GameObject)Instantiate(m_CanPref, m_CanPosition, Quaternion.Euler(m_CanRotation));
                         Destroy(transform.GetChild(0).FindChild("CAN_anim").gameObject);
                         m_CanDropped = true;
                     }

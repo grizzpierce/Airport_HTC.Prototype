@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Bibbit_SingleSpawn : MonoBehaviour {
 
     public GameObject m_BibbitPrefab;
     public GameObject m_CurrentBibbit;
+
+    public List<Transform> Bibbits_Pool = new List<Transform>();
+    int m_PoolIndex = 0;
 
     public bool m_SpawningStarted = false;
     public float m_SpawnTimer;
@@ -24,7 +27,7 @@ public class Bibbit_SingleSpawn : MonoBehaviour {
                 if (m_CurrentBibbit.GetComponent<VRTK_InteractableObject>().IsGrabbed())
                     m_CurrentBibbit = null;
             }
-            else if(m_CurrentBibbit.tag == "Boarding Pass")
+             else if(m_CurrentBibbit.tag == "Boarding Pass")
                 if (m_CurrentBibbit.transform.GetChild(0).GetComponent<VRTK_InteractableObject>().IsGrabbed())
                     m_CurrentBibbit = null;
         }
@@ -47,7 +50,17 @@ public class Bibbit_SingleSpawn : MonoBehaviour {
 
     void Spawn()
     {
-        m_CurrentBibbit = (GameObject)Instantiate(m_BibbitPrefab, transform.position, Quaternion.identity);
+        Transform newBibbit = Bibbits_Pool[m_PoolIndex];
+        m_PoolIndex = (m_PoolIndex + 1) % Bibbits_Pool.Count;
+        m_CurrentBibbit = newBibbit.gameObject;
+        if (newBibbit.GetComponent<Rigidbody>() != null)
+        {
+            newBibbit.GetComponent<Rigidbody>().MovePosition(transform.position);
+        }
+        else
+        {
+            newBibbit.transform.position = transform.position;
+        }
         m_SpawningStarted = false;
     }
 }
