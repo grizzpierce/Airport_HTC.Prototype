@@ -78,8 +78,10 @@ public class Bibbit_Group : MonoBehaviour
                     GameObject groupMember = m_GroupMembers[i];
                     Transform groupMemberTransform = groupMember.transform;
 
-                    poi.RemoveTransformFromPOI(groupMemberTransform);
-                    newPOI.AddTransformToPOI(groupMemberTransform);
+					if (!m_BibbitsToDrop.Contains (groupMemberTransform)) {
+						poi.RemoveTransformFromPOI (groupMemberTransform);
+						newPOI.AddTransformToPOI (groupMemberTransform);
+					}
                 }
             }
         }
@@ -94,8 +96,10 @@ public class Bibbit_Group : MonoBehaviour
                     GameObject groupMember = m_GroupMembers[i];
                     Transform groupMemberTransform = groupMember.transform;
 
-                    poi.RemoveTransformFromPOI(groupMemberTransform);
-                    PathLogic.AddTransformToMove(groupMemberTransform);
+					if (!m_BibbitsToDrop.Contains (groupMemberTransform)) {
+						poi.RemoveTransformFromPOI (groupMemberTransform);
+						PathLogic.AddTransformToMove (groupMemberTransform);
+					}
                 }
             }
             else
@@ -106,7 +110,9 @@ public class Bibbit_Group : MonoBehaviour
                     GameObject groupMember = m_GroupMembers[i];
                     Transform groupMemberTransform = groupMember.transform;
 
-                    poi.RemoveTransformFromPOI(groupMemberTransform);
+					if (!m_BibbitsToDrop.Contains (groupMemberTransform)) {
+						poi.RemoveTransformFromPOI (groupMemberTransform);
+					}
                 }
             }
         }
@@ -175,7 +181,6 @@ public class Bibbit_Group : MonoBehaviour
 
                 if (bibbitToDrop.GetComponent<IsGroundedLogic>().IsGrounded)
                 {
-                    Debug.Log("Dropped");
                     m_BibbitsToDrop.RemoveAt(i);
                     bibbitToDrop.GetComponent<Rigidbody>().isKinematic = true;
                     bibbitToDrop.GetComponentInChildren<Animation>().Play();
