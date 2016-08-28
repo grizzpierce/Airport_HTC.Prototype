@@ -26,6 +26,13 @@ public class DemoEnd : MonoBehaviour {
         _textMaterial = _text.GetComponent<MeshRenderer>().material;
     }
 
+    // Use this for initialization
+    void Start()
+    {
+        _textMaterial.color = new Color(_textMaterial.color.r, _textMaterial.color.g, _textMaterial.color.b, 0);
+        _logo.material.color = new Color(_logo.material.color.r, _logo.material.color.g, _logo.material.color.b, 0);
+    }
+
     public void EndDemo()
     {
         StartCoroutine(EndDemo_Coroutine());

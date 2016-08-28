@@ -24,8 +24,7 @@ public class Bibbit_SingleSpawn : MonoBehaviour {
                 if (m_CurrentBibbit.GetComponent<VRTK_InteractableObject>().IsGrabbed())
                     m_CurrentBibbit = null;
             }
-
-            if(m_CurrentBibbit.tag == "Boarding Pass")
+            else if(m_CurrentBibbit.tag == "Boarding Pass")
                 if (m_CurrentBibbit.transform.GetChild(0).GetComponent<VRTK_InteractableObject>().IsGrabbed())
                     m_CurrentBibbit = null;
         }
