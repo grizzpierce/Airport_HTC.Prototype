@@ -106,7 +106,7 @@ public class TeleportShellBehaviour : MonoBehaviour
             m_TeleportShaft.GetComponent<BoxCollider>().enabled = false;
             m_LightShaft.GetComponent<MeshRenderer>().enabled = false;
             m_LightShaft.GetComponent<MeshCollider>().enabled = false;
-            m_Light.enabled = false;
+            //m_Light.enabled = false;
 
             for (int i = 0; i < m_Particles.Length; ++i)
             {
